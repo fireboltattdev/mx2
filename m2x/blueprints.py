@@ -2,13 +2,13 @@ from .resource import Collection, Item
 
 
 class Blueprint(Item):
-    path = 'blueprints/{id}'
+    PATH = 'blueprints/{id}'
 
     def create_batch(self, **attrs):
-        return self.post(self._path(self.path + '/batches'), data=attrs)
+        return self.post(self.path(self.PATH + '/batches'), data=attrs)
 
 
 class Blueprints(Collection):
-    path = 'blueprints'
-    items_key = 'blueprints'
-    item_class = Blueprint
+    PATH = 'blueprints'
+    ITEMS_KEY = 'blueprints'
+    ITEM_CLASS = Blueprint

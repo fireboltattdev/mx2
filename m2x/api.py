@@ -11,14 +11,14 @@ USERAGENT = 'python-m2x/{0}'.format(version)
 
 
 class APIBase(object):
-    path = '/'
+    PATH = '/'
 
     def __init__(self, key, client):
         self.key = key
         self.client = client
         self.session = self._session()
-        self.batches = Batches(self)
         self.blueprints = Blueprints(self)
+        self.batches = Batches(self)
         self.datasources = DataSources(self)
         self.feeds = Feeds(self)
 
@@ -32,8 +32,8 @@ class APIBase(object):
         return sess
 
     def url(self, *parts):
-        return self.client.url(self.path, *parts)
+        return self.client.url(self.PATH, *parts)
 
 
 class APIVersion1(APIBase):
-    path = '/v1'
+    PATH = '/v1'

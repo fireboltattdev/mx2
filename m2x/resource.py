@@ -2,6 +2,8 @@ import json
 
 
 class Resource(object):
+    PATH = ''
+
     def __init__(self, api, data=None):
         self.api = api
         self.data = data or {}
@@ -29,38 +31,35 @@ class Resource(object):
     def delete(self, path, *args, **kwargs):
         return self.request(path, method='DELETE', **kwargs)
 
-    def _path(self, path=None, data=None):
-        return (path or self.path).format(**(data or self.data or {}))
+    def path(self, path=None, data=None):
+        return (path or self.PATH).format(**(data or self.data or {}))
 
 
 class Item(Resource):
-    path = ''
-
     def update(self, **attrs):
-        return self.put(self._path(), data=attrs)
+        return self.put(self.path(), data=attrs)
 
     def remove(self):
-        return self.delete(self._path())
+        return self.delete(self.path())
 
 
 class Collection(Item):
-    path = ''
-    item_class = None
-    items_key = None
+    ITEMS_KEY = None
+    ITEM_CLASS = None
 
     def list(self):
-        return self.itemize(self.get(self._path()))
+        return self.itemize(self.get(self.path()))
 
     def create(self, **attrs):
-        return self.post(self._path(), data=attrs)
+        return self.post(self.path(), data=attrs)
 
     def details(self, id):
-        return self.item(self.get(self.item_class.path.format(id=id)))
+        return self.item(self.get(self.ITEM_CLASS.PATH.format(id=id)))
 
     def item(self, entry):
-        return self.item_class(self.api, entry)
+        return self.ITEM_CLASS(self.api, entry)
 
     def itemize(self, entries):
-        if self.items_key and self.item_class:
-            entries = [self.item(entry) for entry in entries[self.items_key]]
+        if self.ITEMS_KEY and self.ITEM_CLASS:
+            entries = [self.item(entry) for entry in entries[self.ITEMS_KEY]]
         return entries

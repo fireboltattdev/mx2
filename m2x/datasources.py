@@ -2,10 +2,10 @@ from .resource import Collection, Item
 
 
 class DataSource(Item):
-    path = 'datasources/{id}'
+    PATH = 'datasources/{id}'
 
 
 class DataSources(Collection):
-    path = 'datasources'
-    items_key = 'datasources'
-    item_class = DataSource
+    PATH = 'datasources'
+    ITEMS_KEY = 'datasources'
+    ITEM_CLASS = DataSource
