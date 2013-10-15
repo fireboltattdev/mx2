@@ -1,4 +1,4 @@
-from .resource import Collection, Item
+from m2x.resource import Collection, Item
 
 
 class Blueprint(Item):

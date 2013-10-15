@@ -1,5 +1,5 @@
-from .resource import Collection, Item
-from .streams import Stream
+from m2x.resource import Collection, Item
+from m2x.streams import Stream
 
 
 class Feed(Item):

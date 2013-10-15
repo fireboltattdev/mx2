@@ -1,5 +1,5 @@
-from .resource import Collection
-from .values import Value
+from m2x.resource import Collection
+from m2x.values import Value
 
 
 class Stream(Collection):

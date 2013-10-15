@@ -1,10 +1,6 @@
 from requests import session
 
-from . import version
-from .batches import Batches
-from .blueprints import Blueprints
-from .datasources import DataSources
-from .feeds import Feeds
+from m2x import version
 
 
 USERAGENT = 'python-m2x/{0}'.format(version)
@@ -17,10 +13,6 @@ class APIBase(object):
         self.key = key
         self.client = client
         self.session = self._session()
-        self.blueprints = Blueprints(self)
-        self.batches = Batches(self)
-        self.datasources = DataSources(self)
-        self.feeds = Feeds(self)
 
     def request(self, *args, **kwargs):
         return self.session.request(*args, **kwargs)
