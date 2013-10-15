@@ -20,6 +20,7 @@ class APIBase(object):
     def _session(self):
         sess = session()
         sess.headers.update({'X-M2X-KEY': self.key,
+                             'Content-type': 'application/json',
                              'User-Agent': USERAGENT})
         return sess
 
