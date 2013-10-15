@@ -51,10 +51,10 @@ class Collection(Item):
         return self.itemize(self.get(self.path()))
 
     def create(self, **attrs):
-        return self.post(self.path(), data=attrs)
+        return self.item(self.post(self.path(), data=attrs))
 
     def details(self, id):
-        return self.item(self.get(self.ITEM_CLASS.PATH.format(id=id)))
+        return self.item(self.get(self.item_path(id)))
 
     def item(self, entry):
         return self.ITEM_CLASS(self.api, entry)
@@ -63,3 +63,6 @@ class Collection(Item):
         if self.ITEMS_KEY and self.ITEM_CLASS:
             entries = [self.item(entry) for entry in entries[self.ITEMS_KEY]]
         return entries
+
+    def item_path(self, id):
+        return self.ITEM_CLASS.PATH.format(id=id)
