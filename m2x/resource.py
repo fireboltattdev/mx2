@@ -37,7 +37,9 @@ class Resource(object):
 
 class Item(Resource):
     def update(self, **attrs):
-        return self.put(self.path(), data=attrs)
+        response = self.put(self.path(), data=attrs)
+        self.data.update(attrs)
+        return response
 
     def remove(self):
         return self.delete(self.path())
