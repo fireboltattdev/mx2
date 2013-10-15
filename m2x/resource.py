@@ -1,4 +1,9 @@
+import re
 import json
+from datetime import datetime
+
+
+TIME_FORMAT_RE = re.compile(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z')
 
 
 class Resource(object):
@@ -6,7 +11,8 @@ class Resource(object):
 
     def __init__(self, api, data=None):
         self.api = api
-        self.data = data or {}
+        self.raw_data = data
+        self.data = self.process_data(data or {})
 
     def request(self, path, **kwargs):
         url = self.api.url(path)
@@ -34,11 +40,26 @@ class Resource(object):
     def path(self, path=None, data=None):
         return (path or self.PATH).format(**(data or self.data or {}))
 
+    def process_data(self, data):
+        data_processed = {}
+        for name, value in data.items():
+            if name in ('created', 'updated') or TIME_FORMAT_RE.match(value):
+                value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%SZ')
+            data_processed[name] = value
+        return data_processed
+
+    def __getattr__(self, name):
+        try:
+            return self.data[name]
+        except KeyError as e:
+            raise AttributeError('{0}'.format(e))
+
 
 class Item(Resource):
     def update(self, **attrs):
         response = self.put(self.path(), data=attrs)
-        self.data.update(attrs)
+        self.raw_data.update(attrs)
+        self.data.update(self.process_data(attrs))
         return response
 
     def remove(self):
