@@ -1,11 +1,10 @@
 import json
-import unittest
 from requests import HTTPError
 
 from sure import expect
 from httpretty import HTTPretty
 
-from m2x.client import M2XClient
+from m2x.tests.base import TestCase
 
 
 BLUEPRINTS = {
@@ -48,19 +47,6 @@ BLUEPRINT = {
     'created': '2013-10-14T22:47:16Z',
     'updated': '2013-10-14T22:47:16Z'
 }
-
-
-class TestCase(unittest.TestCase):
-    def setUp(self):
-        self.client = M2XClient(key='foobar', endpoint='http://foobar.com')
-        HTTPretty.enable()
-
-    def tearDown(self):
-        self.client = None
-        HTTPretty.disable()
-
-    def _url(self, path):
-        return self.client.api.url(path)
 
 
 class TestBlueprints(TestCase):
