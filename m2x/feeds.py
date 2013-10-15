@@ -5,16 +5,17 @@ from m2x.streams import Stream
 class Feed(Item):
     PATH = 'feeds/{id}'
 
-    def location(self):
-        return self.get(self.path(self.PATH + '/location'))
+    def get_location(self):
+        return getattr(self, 'location', None) or \
+               self.get(self.path(self.PATH + '/location'))
 
-    def key(self):
+    def get_key(self):
         return self.get('keys', params={'feed': self.data['id']})
 
-    def log(self):
+    def get_log(self):
         return self.get(self.path(self.PATH + '/log'))
 
-    def streams(self):
+    def get_streams(self):
         entries = self.get(self.path(self.PATH + '/streams'))
         return [Stream(self.data['id'], api=self.api, data=entry)
                         for entry in entries['streams']]
