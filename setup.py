@@ -23,7 +23,10 @@ setup(
         'm2x.tests'
     ],
     long_description=LONG_DESCRIPTION,
-    install_requires=['requests==2.0.0'],
+    install_requires=[
+        'requests==2.0.0',
+        'six==1.4.1'
+    ],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Topic :: Internet',

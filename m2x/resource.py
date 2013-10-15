@@ -2,8 +2,11 @@ import re
 import json
 from datetime import datetime
 
+from six import string_types, text_type
+
 
 TIME_FORMAT_RE = re.compile(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z')
+STRING_TYPES = string_types + (text_type,)
 
 
 class Resource(object):
@@ -43,7 +46,8 @@ class Resource(object):
     def process_data(self, data):
         data_processed = {}
         for name, value in data.items():
-            if name in ('created', 'updated') or TIME_FORMAT_RE.match(value):
+            if name in ('created', 'updated') or \
+               isinstance(value, STRING_TYPES) and TIME_FORMAT_RE.match(value):
                 value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%SZ')
             data_processed[name] = value
         return data_processed
