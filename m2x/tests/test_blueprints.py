@@ -83,8 +83,11 @@ class TestBlueprints(TestCase):
             visibility='public'
         )
         expect(blueprint.data['name']).to.equal('Foobar')
+        expect(blueprint.name).to.equal('Foobar')
         expect(blueprint.data['description']).to.equal('Foobar description')
+        expect(blueprint.description).to.equal('Foobar description')
         expect(blueprint.data['visibility']).to.equal('public')
+        expect(blueprint.visibility).to.equal('public')
 
     def test_details(self):
         url = self._url(self.client.blueprints.item_path(
@@ -97,8 +100,11 @@ class TestBlueprints(TestCase):
             '4bd637331de35c6a8344522a1aed317b'
         )
         expect(blueprint.data['name']).to.equal('Foobar')
+        expect(blueprint.name).to.equal('Foobar')
         expect(blueprint.data['description']).to.equal('Foobar description')
+        expect(blueprint.description).to.equal('Foobar description')
         expect(blueprint.data['visibility']).to.equal('public')
+        expect(blueprint.visibility).to.equal('public')
 
 
 class TestBlueprint(TestCase):
@@ -115,7 +121,9 @@ class TestBlueprint(TestCase):
         )
         blueprint.update(name='Foobar updated', visibility='private')
         expect(blueprint.data['name']).to.equal('Foobar updated')
+        expect(blueprint.name).to.equal('Foobar updated')
         expect(blueprint.data['visibility']).to.equal('private')
+        expect(blueprint.visibility).to.equal('private')
 
     def test_remove(self):
         url = self._url(self.client.blueprints.item_path(
