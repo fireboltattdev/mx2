@@ -19,7 +19,8 @@ setup(
     keywords='m2x, api',
     url='https://github.com/attm2x/m2x-python',
     packages=[
-        'm2x'
+        'm2x',
+        'm2x.tests'
     ],
     long_description=LONG_DESCRIPTION,
     install_requires=['requests==2.0.0'],
@@ -34,5 +35,6 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3'
     ],
+    test_suite='social.tests',
     zip_safe=False
 )
