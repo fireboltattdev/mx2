@@ -19,8 +19,8 @@ BLUEPRINTS = {
             'feed': '/feeds/d803c3faf29cfee82bebbebacbf7c504',
             'url': '/blueprints/d803c3faf29cfee82bebbebacbf7c504',
             'key': '81b269f6418b483689bdafe5d55a3a98',
-            'created': '2013-10-11T05: 24: 52Z',
-            'updated': '2013-10-11T05: 24: 52Z'
+            'created': '2013-10-11T05:24:52Z',
+            'updated': '2013-10-11T05:24:52Z'
         }, {
             'id': 'a045742f5dc2d779177847c5df0d358e',
             'name': 'Foobar2',
@@ -30,8 +30,8 @@ BLUEPRINTS = {
             'feed': '/feeds/a045742f5dc2d779177847c5df0d358e',
             'url': '/blueprints/a045742f5dc2d779177847c5df0d358e',
             'key': '6f79c31d186e76722f697b663f921cfb',
-            'created': '2013-10-11T05: 24: 23Z',
-            'updated': '2013-10-11T05: 24: 23Z'
+            'created': '2013-10-11T05:24:23Z',
+            'updated': '2013-10-11T05:24:23Z'
         }
     ]
 }
@@ -45,8 +45,8 @@ BLUEPRINT = {
     'feed': '/feeds/4bd637331de35c6a8344522a1aed317b',
     'url': '/blueprints/4bd637331de35c6a8344522a1aed317b',
     'key': '96a77accb547dcc6e8216070f4072d5a',
-    'created': '2013-10-14T22: 47: 16Z',
-    'updated': '2013-10-14T22: 47: 16Z'
+    'created': '2013-10-14T22:47:16Z',
+    'updated': '2013-10-14T22:47:16Z'
 }
 
 
