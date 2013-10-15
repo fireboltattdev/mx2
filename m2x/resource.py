@@ -14,8 +14,8 @@ class Resource(object):
 
     def __init__(self, api, data=None):
         self.api = api
-        self.raw_data = data
-        self.data = self.process_data(data or {})
+        self.raw_data = data or {}
+        self.data = self.process_data(self.raw_data)
 
     def request(self, path, **kwargs):
         url = self.api.url(path)
