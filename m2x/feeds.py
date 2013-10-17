@@ -2,12 +2,22 @@ from m2x.resource import Collection, Item
 from m2x.streams import Stream
 
 
+class Location(Item):
+    PATH = 'feeds/{feed_id}/location'
+
+    def __init__(self, api, feed, data=None):
+        super(Location, self).__init__(api, data)
+        self.feed = feed
+        self.data['feed_id'] = feed.id
+
+
 class Feed(Item):
     PATH = 'feeds/{id}'
 
     def get_location(self):
-        return getattr(self, 'location', None) or \
-               self.get(self.path(self.PATH + '/location'))
+        location = getattr(self, 'location', None) or \
+                   self.get(self.path(Location.PATH.format(feed_id=self.id)))
+        return Location(self.api, self, location)
 
     def get_key(self):
         return self.get('keys', params={'feed': self.data['id']})

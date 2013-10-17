@@ -2,7 +2,10 @@ import re
 import json
 from datetime import datetime
 
+from requests import HTTPError
 from six import string_types, text_type
+
+from m2x.errors import APIError
 
 
 TIME_FORMAT_RE = re.compile(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z')
@@ -22,11 +25,18 @@ class Resource(object):
         if kwargs.get('method') in ('PUT', 'POST'):
             kwargs['data'] = json.dumps(kwargs['data'])
         response = self.api.request(url=url, **kwargs)
-        response.raise_for_status()
         try:
-            return response.json()
-        except ValueError:
-            return None
+            response.raise_for_status()
+        except HTTPError as err:
+            if err.response.status_code == 422:
+                raise APIError(response)
+            else:
+                raise
+        else:
+            try:
+                return response.json()
+            except ValueError:
+                return None
 
     def get(self, path, **kwargs):
         return self.request(path, method='GET', **kwargs)
