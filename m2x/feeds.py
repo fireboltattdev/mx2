@@ -20,6 +20,12 @@ class Feed(Item):
         return [Stream(self.data['id'], api=self.api, data=entry)
                         for entry in entries['streams']]
 
+    def remove(self):
+        raise NotImplementedError('API not implemented')
+
+    def update(self, **attrs):
+        raise NotImplementedError('API not implemented')
+
 
 class Feeds(Collection):
     PATH = 'feeds'
@@ -27,4 +33,5 @@ class Feeds(Collection):
     ITEM_CLASS = Feed
 
     def create(self, **attrs):
-        return self.put(self.path(), data=attrs)
+        raise NotImplementedError('API not implemented, create a feed '
+                                  'using Blueprint API')
