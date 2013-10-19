@@ -77,7 +77,7 @@ class TestFeeds(FeedsTestCase):
 
     def test_details(self):
         url = self._url(self.client.feeds.item_path(
-            '93e16394d432a43ab5c06cfc96fdf399'
+            id='93e16394d432a43ab5c06cfc96fdf399'
         ))
         HTTPretty.register_uri(HTTPretty.GET, url, status=200,
                                body=json.dumps(FEED),
@@ -96,7 +96,7 @@ class TestFeeds(FeedsTestCase):
 class TestFeed(FeedsTestCase):
     def test_update(self):
         url = self._url(self.client.feeds.item_path(
-            '93e16394d432a43ab5c06cfc96fdf399'
+            id='93e16394d432a43ab5c06cfc96fdf399'
         ))
         HTTPretty.register_uri(HTTPretty.GET, url, status=200,
                                body=json.dumps(FEED),
@@ -110,7 +110,7 @@ class TestFeed(FeedsTestCase):
 
     def test_remove(self):
         url = self._url(self.client.feeds.item_path(
-            '93e16394d432a43ab5c06cfc96fdf399'
+            id='93e16394d432a43ab5c06cfc96fdf399'
         ))
         HTTPretty.register_uri(HTTPretty.GET, url, status=200,
                                body=json.dumps(FEED),

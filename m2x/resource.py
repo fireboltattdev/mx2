@@ -108,7 +108,7 @@ class Collection(Resource, list):
         return self.item(self.post(self.path(), data=attrs))
 
     def details(self, id):
-        return self.item(self.get(self.item_path(id)))
+        return self.item(self.get(self.item_path(id=id)))
 
     def item(self, entry):
         return self.ITEM_CLASS(self.api, **entry)
@@ -118,5 +118,5 @@ class Collection(Resource, list):
             entries = [self.item(entry) for entry in entries[self.ITEMS_KEY]]
         return entries
 
-    def item_path(self, id):
-        return self.ITEM_CLASS.PATH.format(id=id)
+    def item_path(self, **params):
+        return self.ITEM_CLASS.PATH.format(**params)

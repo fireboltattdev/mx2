@@ -80,7 +80,7 @@ class TestDatasources(DatasourcesTestCase):
 
     def test_details(self):
         url = self._url(self.client.datasources.item_path(
-            '22a250190e33aea711196ff3f80d7a98'
+            id='22a250190e33aea711196ff3f80d7a98'
         ))
         HTTPretty.register_uri(HTTPretty.GET, url, status=200,
                                body=json.dumps(DATASOURCE),
@@ -99,7 +99,7 @@ class TestDatasources(DatasourcesTestCase):
 class TestDatasource(DatasourcesTestCase):
     def test_update(self):
         url = self._url(self.client.datasources.item_path(
-            '22a250190e33aea711196ff3f80d7a98'
+            id='22a250190e33aea711196ff3f80d7a98'
         ))
         HTTPretty.register_uri(HTTPretty.GET, url, status=200,
                                body=json.dumps(DATASOURCE),
@@ -116,7 +116,7 @@ class TestDatasource(DatasourcesTestCase):
 
     def test_remove(self):
         url = self._url(self.client.datasources.item_path(
-            '22a250190e33aea711196ff3f80d7a98'
+            id='22a250190e33aea711196ff3f80d7a98'
         ))
         HTTPretty.register_uri(HTTPretty.GET, url, status=200,
                                body=json.dumps(DATASOURCE),

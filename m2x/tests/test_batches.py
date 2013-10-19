@@ -95,7 +95,7 @@ class TestBatches(BatchesTestCase):
 
     def test_details(self):
         url = self._url(self.client.batches.item_path(
-            'd20588a555a1a3c5404c278154af624a'
+            id='d20588a555a1a3c5404c278154af624a'
         ))
         HTTPretty.register_uri(HTTPretty.GET, url, status=200,
                                body=json.dumps(BATCH),
@@ -112,7 +112,7 @@ class TestBatches(BatchesTestCase):
 class TestBatch(BatchesTestCase):
     def test_update(self):
         url = self._url(self.client.batches.item_path(
-            'd20588a555a1a3c5404c278154af624a'
+            id='d20588a555a1a3c5404c278154af624a'
         ))
         HTTPretty.register_uri(HTTPretty.GET, url, status=200,
                                body=json.dumps(BATCH),
@@ -127,7 +127,7 @@ class TestBatch(BatchesTestCase):
 
     def test_remove(self):
         url = self._url(self.client.batches.item_path(
-            'd20588a555a1a3c5404c278154af624a'
+            id='d20588a555a1a3c5404c278154af624a'
         ))
         HTTPretty.register_uri(HTTPretty.GET, url, status=200,
                                body=json.dumps(BATCH),

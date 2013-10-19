@@ -82,7 +82,7 @@ class TestBlueprints(BlueprintsTestCase):
 
     def test_details(self):
         url = self._url(self.client.blueprints.item_path(
-            '4bd637331de35c6a8344522a1aed317b'
+            id='4bd637331de35c6a8344522a1aed317b'
         ))
         HTTPretty.register_uri(HTTPretty.GET, url, status=200,
                                body=json.dumps(BLUEPRINT),
@@ -101,7 +101,7 @@ class TestBlueprints(BlueprintsTestCase):
 class TestBlueprint(BlueprintsTestCase):
     def test_update(self):
         url = self._url(self.client.blueprints.item_path(
-            '4bd637331de35c6a8344522a1aed317b'
+            id='4bd637331de35c6a8344522a1aed317b'
         ))
         HTTPretty.register_uri(HTTPretty.GET, url, status=200,
                                body=json.dumps(BLUEPRINT),
@@ -118,7 +118,7 @@ class TestBlueprint(BlueprintsTestCase):
 
     def test_remove(self):
         url = self._url(self.client.blueprints.item_path(
-            '4bd637331de35c6a8344522a1aed317b'
+            id='4bd637331de35c6a8344522a1aed317b'
         ))
         HTTPretty.register_uri(HTTPretty.GET, url, status=200,
                                body=json.dumps(BLUEPRINT),
