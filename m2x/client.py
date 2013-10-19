@@ -1,23 +1,10 @@
-from functools import wraps
-
 from m2x.api import APIVersion1
 from m2x.batches import Batches
 from m2x.blueprints import Blueprints
 from m2x.datasources import DataSources
 from m2x.feeds import Feeds
 from m2x.keys import Keys
-
-
-def memoize(func):
-    @wraps(func)
-    def wrapper(self, *args, **kwargs):
-        name = '_{0}'.format(func.func_name)
-        if not hasattr(self, name):
-            result = func(self, *args, **kwargs)
-            setattr(self, name, result)
-            return result
-        return getattr(self, name)
-    return wrapper
+from m2x.utils import memoize
 
 
 class M2XClient(object):

@@ -1,6 +1,7 @@
 from m2x.resource import Collection, Item
 from m2x.streams import Streams
 from m2x.keys import FeedKeys
+from m2x.utils import memoize
 
 
 class Location(Item):
@@ -20,24 +21,32 @@ class Logs(Collection):
 class Feed(Item):
     PATH = 'feeds/{id}'
 
-    def get_location(self):
-        location = self.get(self.path(self.PATH + '/location'))
-        return Location(self.api, feed_id=self.id, **location)
-
-    def get_keys(self):
-        return FeedKeys(self.api, feed_id=self.id)
-
-    def get_logs(self):
-        return Logs(self.api, feed_id=self.id)
-
-    def get_streams(self):
-        return Streams(self.api, feed_id=self.id)
-
     def remove(self):
         raise NotImplementedError('API not implemented')
 
     def update(self, **attrs):
         raise NotImplementedError('API not implemented')
+
+    @property
+    @memoize
+    def location(self):
+        location = self.get(self.path(self.PATH + '/location'))
+        return Location(self.api, feed_id=self.id, **location)
+
+    @property
+    @memoize
+    def keys(self):
+        return FeedKeys(self.api, feed_id=self.id)
+
+    @property
+    @memoize
+    def logs(self):
+        return Logs(self.api, feed_id=self.id)
+
+    @property
+    @memoize
+    def streams(self):
+        return Streams(self.api, feed_id=self.id)
 
 
 class Feeds(Collection):
