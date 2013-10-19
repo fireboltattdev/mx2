@@ -7,11 +7,6 @@ class Stream(Collection):
     ITEMS_KEY = 'values'
     ITEM_CLASS = Value
 
-    def __init__(self, feed_id, *args, **kwargs):
-        super(Stream, self).__init__(*args, **kwargs)
-        self.feed_id = feed_id
-        self.data['feed_id'] = feed_id
-
     def values(self):
         return self.itemize(self.get(self.path(self.PATH + '/values')))
 
@@ -23,14 +18,6 @@ class Streams(Collection):
     PATH = 'feeds/{feed_id}/streams'
     ITEMS_KEY = 'streams'
     ITEM_CLASS = Stream
-
-    def __init__(self, feed_id, *args, **kwargs):
-        super(Streams, self).__init__(*args, **kwargs)
-        self.feed_id = feed_id
-        self.data['feed_id'] = feed_id
-
-    def list(self):
-        return self.itemize(self.get(self.path()))
 
     def create(self, name, **attrs):
         return self.post(Stream.PATH.format(feed_id=self.feed_id, name=name),

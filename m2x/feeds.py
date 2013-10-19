@@ -1,34 +1,37 @@
 from m2x.resource import Collection, Item
-from m2x.streams import Stream
+from m2x.streams import Streams
+from m2x.keys import FeedKeys
 
 
 class Location(Item):
     PATH = 'feeds/{feed_id}/location'
 
-    def __init__(self, api, feed, data=None):
-        super(Location, self).__init__(api, data)
-        self.feed = feed
-        self.data['feed_id'] = feed.id
+
+class Log(Item):
+    pass
+
+
+class Logs(Collection):
+    PATH = 'feeds/{feed_id}/log'
+    ITEMS_KEY = 'requests'
+    ITEM_CLASS = Log
 
 
 class Feed(Item):
     PATH = 'feeds/{id}'
 
     def get_location(self):
-        location = getattr(self, 'location', None) or \
-                   self.get(self.path(Location.PATH.format(feed_id=self.id)))
-        return Location(self.api, self, location)
+        location = self.get(self.path(self.PATH + '/location'))
+        return Location(self.api, feed_id=self.id, **location)
 
-    def get_key(self):
-        return self.get('keys', params={'feed': self.data['id']})
+    def get_keys(self):
+        return FeedKeys(self.api, feed_id=self.id)
 
-    def get_log(self):
-        return self.get(self.path(self.PATH + '/log'))
+    def get_logs(self):
+        return Logs(self.api, feed_id=self.id)
 
     def get_streams(self):
-        entries = self.get(self.path(self.PATH + '/streams'))
-        return [Stream(self.data['id'], api=self.api, data=entry)
-                        for entry in entries['streams']]
+        return Streams(self.api, feed_id=self.id)
 
     def remove(self):
         raise NotImplementedError('API not implemented')
