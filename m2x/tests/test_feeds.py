@@ -3,6 +3,7 @@ import json
 from sure import expect
 from httpretty import HTTPretty
 
+from m2x.feeds import Feeds
 from m2x.tests.base import TestCase
 
 
@@ -53,12 +54,16 @@ FEEDS = {
 }
 
 
-class TestFeeds(TestCase):
+class FeedsTestCase(TestCase):
+    def setUp(self):
+        super(FeedsTestCase, self).setUp()
+        HTTPretty.register_uri(HTTPretty.GET, self._url(Feeds.PATH),
+                               status=200, body=json.dumps(FEEDS))
+
+
+class TestFeeds(FeedsTestCase):
     def test_list(self):
-        url = self._url(self.client.feeds.path())
-        HTTPretty.register_uri(HTTPretty.GET, url, status=200,
-                               body=json.dumps(FEEDS))
-        feeds = self.client.feeds.list()
+        feeds = self.client.feeds
         expect(len(feeds)).to.equal(2)
         expect(feeds[0].data['name']).to.equal('Foobar1')
         expect(feeds[1].data['name']).to.equal('Foobar2')
@@ -88,7 +93,7 @@ class TestFeeds(TestCase):
         expect(feed.visibility).to.equal('public')
 
 
-class TestFeed(TestCase):
+class TestFeed(FeedsTestCase):
     def test_update(self):
         url = self._url(self.client.feeds.item_path(
             '93e16394d432a43ab5c06cfc96fdf399'

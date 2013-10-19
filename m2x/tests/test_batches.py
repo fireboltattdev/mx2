@@ -4,6 +4,7 @@ from requests import HTTPError
 from sure import expect
 from httpretty import HTTPretty
 
+from m2x.batches import Batches
 from m2x.tests.base import TestCase
 
 
@@ -62,12 +63,16 @@ BATCH = {
 }
 
 
-class TestBatches(TestCase):
+class BatchesTestCase(TestCase):
+    def setUp(self):
+        super(BatchesTestCase, self).setUp()
+        HTTPretty.register_uri(HTTPretty.GET, self._url(Batches.PATH),
+                               status=200, body=json.dumps(BATCHES))
+
+
+class TestBatches(BatchesTestCase):
     def test_list(self):
-        url = self._url(self.client.batches.path())
-        HTTPretty.register_uri(HTTPretty.GET, url, status=200,
-                               body=json.dumps(BATCHES))
-        batches = self.client.batches.list()
+        batches = self.client.batches
         expect(len(batches)).to.equal(2)
         expect(batches[0].data['name']).to.equal('Foobar1')
         expect(batches[1].data['name']).to.equal('Foobar2')
@@ -104,7 +109,7 @@ class TestBatches(TestCase):
         expect(batch.visibility).to.equal('public')
 
 
-class TestBatch(TestCase):
+class TestBatch(BatchesTestCase):
     def test_update(self):
         url = self._url(self.client.batches.item_path(
             'd20588a555a1a3c5404c278154af624a'

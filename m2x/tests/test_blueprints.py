@@ -4,6 +4,7 @@ from requests import HTTPError
 from sure import expect
 from httpretty import HTTPretty
 
+from m2x.blueprints import Blueprints
 from m2x.tests.base import TestCase
 
 
@@ -49,12 +50,16 @@ BLUEPRINT = {
 }
 
 
-class TestBlueprints(TestCase):
+class BlueprintsTestCase(TestCase):
+    def setUp(self):
+        super(BlueprintsTestCase, self).setUp()
+        HTTPretty.register_uri(HTTPretty.GET, self._url(Blueprints.PATH),
+                               status=200, body=json.dumps(BLUEPRINTS))
+
+
+class TestBlueprints(BlueprintsTestCase):
     def test_list(self):
-        url = self._url(self.client.blueprints.path())
-        HTTPretty.register_uri(HTTPretty.GET, url, status=200,
-                               body=json.dumps(BLUEPRINTS))
-        blueprints = self.client.blueprints.list()
+        blueprints = self.client.blueprints
         expect(len(blueprints)).to.equal(2)
         expect(blueprints[0].data['name']).to.equal('Foobar1')
         expect(blueprints[1].data['name']).to.equal('Foobar2')
@@ -93,7 +98,7 @@ class TestBlueprints(TestCase):
         expect(blueprint.visibility).to.equal('public')
 
 
-class TestBlueprint(TestCase):
+class TestBlueprint(BlueprintsTestCase):
     def test_update(self):
         url = self._url(self.client.blueprints.item_path(
             '4bd637331de35c6a8344522a1aed317b'

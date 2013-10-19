@@ -4,6 +4,7 @@ from requests import HTTPError
 from sure import expect
 from httpretty import HTTPretty
 
+from m2x.datasources import DataSources
 from m2x.tests.base import TestCase
 
 
@@ -47,12 +48,16 @@ DATASOURCES = {
 }
 
 
-class TestDatasources(TestCase):
+class DatasourcesTestCase(TestCase):
+    def setUp(self):
+        super(DatasourcesTestCase, self).setUp()
+        HTTPretty.register_uri(HTTPretty.GET, self._url(DataSources.PATH),
+                               status=200, body=json.dumps(DATASOURCES))
+
+
+class TestDatasources(DatasourcesTestCase):
     def test_list(self):
-        url = self._url(self.client.datasources.path())
-        HTTPretty.register_uri(HTTPretty.GET, url, status=200,
-                               body=json.dumps(DATASOURCES))
-        datasources = self.client.datasources.list()
+        datasources = self.client.datasources
         expect(len(datasources)).to.equal(2)
         expect(datasources[0].data['name']).to.equal('Foobar1')
         expect(datasources[1].data['name']).to.equal('Foobar2')
@@ -91,7 +96,7 @@ class TestDatasources(TestCase):
         expect(datasource.visibility).to.equal('public')
 
 
-class TestDatasource(TestCase):
+class TestDatasource(DatasourcesTestCase):
     def test_update(self):
         url = self._url(self.client.datasources.item_path(
             '22a250190e33aea711196ff3f80d7a98'
