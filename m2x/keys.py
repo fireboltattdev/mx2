@@ -5,7 +5,13 @@ class Key(Item):
     PATH = 'keys/{key}'
 
     def regenerate(self):
-        return self.post(self.path(self.PATH + '/regenerate'))
+        url = self.api.url(self.path(self.PATH + '/regenerate'))
+        response = self.api.request(url=url, method='POST',
+                                    allow_redirects=False)
+        if response.status_code == 303:
+            key = response.headers['location'].rsplit('/', 1)[-1]
+            details = self.get(self.PATH.format(key=key))
+            self.set_data(details)
 
 
 class Keys(Collection):
