@@ -14,8 +14,12 @@ class APIBase(object):
         self.client = client
         self.session = self._session()
 
-    def request(self, *args, **kwargs):
-        return self.session.request(*args, **kwargs)
+    def request(self, **kwargs):
+        apikey = kwargs.pop('apikey', None)
+        if apikey:
+            kwargs.setdefault('headers', {})
+            kwargs['headers']['X-M2X-KEY'] = apikey
+        return self.session.request(**kwargs)
 
     def _session(self):
         sess = session()
