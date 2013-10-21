@@ -5,7 +5,7 @@ class Key(Item):
     PATH = 'keys/{key}'
 
     def regenerate(self):
-        return self.post(self.path('regenerate'))
+        return self.post(self.path(self.PATH + '/regenerate'))
 
 
 class Keys(Collection):
