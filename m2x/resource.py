@@ -18,8 +18,9 @@ class Resource(object):
 
     def __init__(self, api, **data):
         self.api = api
-        self.raw_data = data
-        self.data = self.process_data(self.raw_data)
+        self.raw_data = {}
+        self.data = {}
+        self.set_data(data)
 
     def request(self, path, **kwargs):
         url = self.api.url(path)
@@ -33,11 +34,10 @@ class Resource(object):
                 raise APIError(response)
             else:
                 raise
-        else:
-            try:
-                return response.json()
-            except ValueError:
-                return None
+        try:
+            return response.json()
+        except ValueError:
+            pass
 
     def get(self, path, **kwargs):
         return self.request(path, method='GET', **kwargs)
@@ -62,6 +62,10 @@ class Resource(object):
             data_processed[name] = value
         return data_processed
 
+    def set_data(self, value):
+        self.raw_data.update(value)
+        self.data.update(self.process_data(value))
+
     def is_time(self, name, value):
         return name in TIME_ATTRIBUTES or \
                isinstance(value, STRING_TYPES) and \
@@ -77,8 +81,7 @@ class Resource(object):
 class Item(Resource):
     def update(self, **attrs):
         response = self.put(self.path(), data=attrs)
-        self.raw_data.update(attrs)
-        self.data.update(self.process_data(attrs))
+        self.set_data(attrs)
         return response
 
     def remove(self):
