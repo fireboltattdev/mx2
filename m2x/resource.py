@@ -98,7 +98,7 @@ class Collection(Resource, list):
         self.load()
 
     def clean(self):
-        for entry in self:
+        for entry in self[:]:
             self.remove(entry)
 
     def load(self):
