@@ -241,14 +241,55 @@ DataSources_, Feeds_, Keys_.
 
     The parameter to ``.details()`` is the DataSource_ ID.
 
+
+* Keys
+
+  ``Keys`` is accessible by the ``keys`` property in a ``M2XClient`` instance.
+  The property is an iterable type where each entry is a Key_ instance.
+
+  - Iteration::
+
+        >>> for key in client.keys
+        >>>    ...
+
+  - Creation::
+
+        >>> key = client.keys.create(
+        ...     name='Key',
+        ...     permissions=['DELETE', 'GET', 'POST', 'PUT']
+        ... )
+        <m2x.keys.Key at 0x365c500>
+
+  - Update (following the previous code)::
+
+        >>> key.update(
+        ...     name='Key2',
+        ...     permissions=['GET', 'POST', 'PUT']
+        ... )
+
+    The parameters ``name`` and ``permissions`` **must** be provided, otherwise
+    a validation error is returned by the service (response status code ``422``).
+
+  - Removal (following the previous code)::
+
+        >>> key.remove()
+
+  - Single item retrieval::
+
+        >>> key = client.keys.details(
+        ...     '61179472a42583cffc889478010a092a'
+        ... )
+        <m2x.keys.Key at 0x1652fd0>
+
+    The parameter to ``.details()`` is the Key_ ``key``.
+
+  Feed keys are documented below.
+
+
 * Feeds
 
   **TODO**
 
-
-* Keys
-
-  **TODO**
 
 
 .. _M2X API: https://m2x.att.com/developer/documentation/overview
@@ -268,6 +309,7 @@ DataSources_, Feeds_, Keys_.
 .. _DataSource: https://github.com/attm2x/m2x-python/blob/master/m2x/datasources.py#L4
 .. _Feeds: https://m2x.att.com/developer/documentation/feed
 .. _Keys: https://m2x.att.com/developer/documentation/keys
+.. _Key: https://github.com/attm2x/m2x-python/blob/master/m2x/keys.py#L4
 .. _Collection: https://github.com/attm2x/m2x-python/blob/master/m2x/resource.py#L91
 .. _Collections: https://github.com/attm2x/m2x-python/blob/master/m2x/resource.py#L91
 .. _Item: https://github.com/attm2x/m2x-python/blob/master/m2x/resource.py#L81
