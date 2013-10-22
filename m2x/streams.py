@@ -29,12 +29,12 @@ class Streams(Collection):
 
     def create(self, name, **attrs):
         url = Stream.PATH.format(feed_id=self.feed_id, name=name)
-        stream = self.item(self.put(url, data=attrs))
+        stream = self.item(self.api.put(url, data=attrs))
         self.append(stream)
         return stream
 
     def details(self, name):
-        return self.item(self.get(self.item_path(name=name)))
+        return self.item(self.api.get(self.item_path(name=name)))
 
     def item(self, entry):
         return self.ITEM_CLASS(self.api, feed_id=self.feed_id, **entry)

@@ -1,11 +1,7 @@
 import re
-import json
 from datetime import datetime
 
-from requests import HTTPError
 from six import string_types, text_type
-
-from m2x.errors import APIError
 
 
 TIME_FORMAT_RE = re.compile(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z')
@@ -21,35 +17,6 @@ class Resource(object):
         self.raw_data = {}
         self.data = {}
         self.set_data(data)
-
-    def request(self, path, **kwargs):
-        url = self.api.url(path)
-        if kwargs.get('method') in ('PUT', 'POST') and kwargs.get('data'):
-            kwargs['data'] = json.dumps(kwargs['data'])
-        response = self.api.request(url=url, **kwargs)
-        try:
-            response.raise_for_status()
-        except HTTPError as err:
-            if err.response.status_code == 422:
-                raise APIError(response)
-            else:
-                raise
-        try:
-            return response.json()
-        except ValueError:
-            pass
-
-    def get(self, path, **kwargs):
-        return self.request(path, method='GET', **kwargs)
-
-    def post(self, path, *args, **kwargs):
-        return self.request(path, method='POST', **kwargs)
-
-    def put(self, path, *args, **kwargs):
-        return self.request(path, method='PUT', **kwargs)
-
-    def delete(self, path, *args, **kwargs):
-        return self.request(path, method='DELETE', **kwargs)
 
     def path(self, path=None):
         return (path or self.PATH).format(**self.data)
@@ -80,12 +47,12 @@ class Resource(object):
 
 class Item(Resource):
     def update(self, **attrs):
-        response = self.put(self.path(), data=attrs)
+        response = self.api.put(self.path(), data=attrs)
         self.set_data(attrs)
         return response
 
     def remove(self):
-        return self.delete(self.path())
+        return self.api.delete(self.path())
 
 
 class Collection(Resource, list):
@@ -105,13 +72,13 @@ class Collection(Resource, list):
             self.remove(entry)
 
     def load(self):
-        self.extend(self.itemize(self.get(self.path())))
+        self.extend(self.itemize(self.api.get(self.path())))
 
     def create(self, **attrs):
-        return self.item(self.post(self.path(), data=attrs))
+        return self.item(self.api.post(self.path(), data=attrs))
 
     def details(self, id):
-        return self.item(self.get(self.item_path(id=id)))
+        return self.item(self.api.get(self.item_path(id=id)))
 
     def item(self, entry):
         return self.ITEM_CLASS(self.api, **entry)

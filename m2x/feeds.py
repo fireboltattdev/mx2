@@ -30,7 +30,7 @@ class Feed(Item):
     @property
     @memoize
     def location(self):
-        location = self.get(self.path(self.PATH + '/location'))
+        location = self.api.get(self.path(self.PATH + '/location'))
         return Location(self.api, feed_id=self.id, **location)
 
     @property

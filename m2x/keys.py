@@ -10,7 +10,7 @@ class Key(Item):
                                     allow_redirects=False)
         if response.status_code == 303:
             key = response.headers['location'].rsplit('/', 1)[-1]
-            details = self.get(self.PATH.format(key=key))
+            details = self.api.get(self.PATH.format(key=key))
             self.set_data(details)
 
 

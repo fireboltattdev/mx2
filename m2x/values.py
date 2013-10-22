@@ -12,4 +12,4 @@ class Values(Collection):
 
     def add_value(self, **attrs):
         path = self.path().rsplit('/', 1)[0]
-        return self.put(path, data=attrs)
+        return self.api.put(path, data=attrs)
