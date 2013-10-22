@@ -103,7 +103,7 @@ DataSources_, Feeds_, Keys_.
 
 * Blueprints
 
-  Blueprints is accessible by the ``blueprints`` property in a ``M2XClient``
+  ``Blueprints`` is accessible by the ``blueprints`` property in a ``M2XClient``
   instance. The property is an iterable type where each entry is a Blueprint_
   instance.
 
@@ -150,7 +150,7 @@ DataSources_, Feeds_, Keys_.
 
 * Batches
 
-  Batches is accessible by the ``batches`` property in a ``M2XClient``
+  ``Batches`` is accessible by the ``batches`` property in a ``M2XClient``
   instance. The property is an iterable type where each entry is a Batch_
   instance.
 
@@ -197,8 +197,49 @@ DataSources_, Feeds_, Keys_.
 
 * DataSources
 
-  **TODO**
+  ``DataSources`` is accessible by the ``datasources`` property in a
+  ``M2XClient`` instance. The property is an iterable type where each entry is
+  a DataSource_ instance.
 
+  - Iteration::
+
+        >>> for datasource in client.datasources:
+        >>>    ...
+
+  - Creation::
+
+        >>> datasource = client.datasources.create(
+        ...     name='Datasource',
+        ...     description='Datasource description',
+        ...     visibility='public',
+        ... )
+        <m2x.datasources.DataSource at 0x365c500>
+
+  - Update (following the previous code)::
+
+        >>> datasource.update(
+        ...     name='Datasource2',
+        ...     description='Datasource2 description',
+        ...     visibility='private',
+        ...     status='enabled'
+        ... )
+
+    The parameters ``name``, ``description`` and ``visibility`` **must** be
+    provided, otherwise a validation error is returned by the service (response
+    status code ``422``).
+
+  - Removal (following the previous code)::
+
+        >>> datasource.remove()
+
+  - Single item retrieval::
+
+        >>> datasource = client.datasources.details(
+        ...     '61179472a42583cffc889478010a092a'
+        ... )
+        <m2x.datasources.DataSource at 0x1652fd0>
+
+    The parameter to ``.details()`` is the DataSource_ ID.
 
 * Feeds
 
@@ -224,6 +265,7 @@ DataSources_, Feeds_, Keys_.
 .. _Batches: https://m2x.att.com/developer/documentation/datasource#List-Batches
 .. _Batch: https://github.com/attm2x/m2x-python/blob/master/m2x/batches.py#L4
 .. _DataSources: https://m2x.att.com/developer/documentation/datasource#List-Data-Sources
+.. _DataSource: https://github.com/attm2x/m2x-python/blob/master/m2x/datasources.py#L4
 .. _Feeds: https://m2x.att.com/developer/documentation/feed
 .. _Keys: https://m2x.att.com/developer/documentation/keys
 .. _Collection: https://github.com/attm2x/m2x-python/blob/master/m2x/resource.py#L91
