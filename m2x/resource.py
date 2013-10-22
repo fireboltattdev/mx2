@@ -75,7 +75,9 @@ class Collection(Resource, list):
         self.extend(self.itemize(self.api.get(self.path())))
 
     def create(self, **attrs):
-        return self.item(self.api.post(self.path(), data=attrs))
+        item = self.item(self.api.post(self.path(), data=attrs))
+        self.append(item)
+        return item
 
     def details(self, id):
         return self.item(self.api.get(self.item_path(id=id)))
