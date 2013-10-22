@@ -12,7 +12,7 @@ devices values into `AT&T M2X storage service`_, while supporting Python 2 and
 Dependencies list is really small:
 
 * requests_ (version ``2.0.0``)
-* six_ (version ``1.4.1``)
+* iso8601_ (version ``0.1.8``)
 
 
 Installation
@@ -288,15 +288,93 @@ DataSources_, Feeds_, Keys_.
 
 * Feeds
 
+  ``Feeds`` is accessible by the ``feeds`` property in a ``M2XClient`` instance.
+  The property is an iterable type where each entry is a Feed_ instance.
+
+  Feeds creation is done when creating a DataSource_, Blueprint_ or Batch_.
+  Update and removal is not supported by the cloud API.
+
+  - Iteration::
+
+        >>> for feed in client.feeds
+        >>>    ...
+
+  - Single item retrieval::
+
+        >>> key = client.keys.details(
+        ...     '61179472a42583cffc889478010a092a'
+        ... )
+        <m2x.keys.Key at 0x1652fd0>
+
+    The parameter to ``.details()`` is the Feed_ ``id``.
+
+  - Feed location
+
+    Location information can be retrieved by doing::
+
+        >>> feed.location
+        <m2x.feeds.Location at 0x18f86d0>
+
+    Location can be updated by doing::
+
+        >>> feed.location.update(
+        ...     elevation=0,
+        ...     longitude=-56.0,
+        ...     latitude=-34.0
+        ... )
+        <m2x.feeds.Location at 0x18f86d0>
+
+    Location removal is not supported.
+
+  - Feed keys
+
+    The keys related to the current feed can be retrieved with::
+
+        >>> feed.keys
+        [<m2x.keys.Key at 0x1cbac10>]
+
+    Key methods documented above apply to these keys too.
+
+  - Feed logs
+
+    Get feed logs with::
+
+        >>> feed.logs
+        [<m2x.feeds.Log at 0x1bb1d50>, <m2x.feeds.Log at 0x1b94b10>, ...]
+
+    Logs access is just read-only.
+
+  - Feed streams
+
+    Streams are accessible by the ``streams`` property in the Feed_, to get
+    them::
+
+        >>> feed.streams
+        [<m2x.streams.Stream at 0x2c39a90>, <m2x.streams.Stream at 0x2c39a10>]
+
+    New streams can be created, the only required argument is the stream name::
+
+        >>> stream = feed.streams.create('Stream')
+        <m2x.streams.Stream at 0x2c39a90>
+
+    An stream can be removed too::
+
+        >>> stream.remove()
+
+    Or updated::
+
+        >>> stream.update(unit={'label': 'Celsius', 'symbol': 'C'})
+
+
+* Values
+
   **TODO**
-
-
 
 .. _M2X API: https://m2x.att.com/developer/documentation/overview
 .. _AT&T M2X storage service: https://m2x.att.com/
 .. _M2X API Documentation: https://m2x.att.com/developer/documentation/overview
 .. _requests: http://www.python-requests.org
-.. _six: https://bitbucket.org/gutworth/six
+.. _is8601: https://pypi.python.org/pypi/iso8601
 .. _Client: https://github.com/attm2x/m2x-python/blob/master/m2x/client.py#L10
 .. _API: https://github.com/attm2x/m2x-python/blob/master/m2x/api.py#L9
 .. _M2XClient: https://github.com/attm2x/m2x-python/blob/master/m2x/client.py#L10
@@ -308,6 +386,7 @@ DataSources_, Feeds_, Keys_.
 .. _DataSources: https://m2x.att.com/developer/documentation/datasource#List-Data-Sources
 .. _DataSource: https://github.com/attm2x/m2x-python/blob/master/m2x/datasources.py#L4
 .. _Feeds: https://m2x.att.com/developer/documentation/feed
+.. _Feed: https://github.com/attm2x/m2x-python/blob/master/m2x/feeds.py#L21
 .. _Keys: https://m2x.att.com/developer/documentation/keys
 .. _Key: https://github.com/attm2x/m2x-python/blob/master/m2x/keys.py#L4
 .. _Collection: https://github.com/attm2x/m2x-python/blob/master/m2x/resource.py#L91

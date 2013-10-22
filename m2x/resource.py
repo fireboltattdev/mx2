@@ -1,12 +1,4 @@
-import re
-from datetime import datetime
-
-from six import string_types, text_type
-
-
-TIME_FORMAT_RE = re.compile(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z')
-STRING_TYPES = string_types + (text_type,)
-TIME_ATTRIBUTES = ('created', 'updated', 'expired_at', 'at')
+import iso8601
 
 
 class Resource(object):
@@ -24,8 +16,7 @@ class Resource(object):
     def process_data(self, data):
         data_processed = {}
         for name, value in data.items():
-            if self.is_time(name, value):
-                value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%SZ')
+            value = self.is_time(name, value)
             data_processed[name] = value
         return data_processed
 
@@ -34,9 +25,10 @@ class Resource(object):
         self.data.update(self.process_data(value))
 
     def is_time(self, name, value):
-        return name in TIME_ATTRIBUTES or \
-               isinstance(value, STRING_TYPES) and \
-               TIME_FORMAT_RE.match(value)
+        try:
+            return iso8601.parse_date(value)
+        except iso8601.ParseError:
+            return value
 
     def __getattr__(self, name):
         try:

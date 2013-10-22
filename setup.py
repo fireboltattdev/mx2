@@ -25,7 +25,7 @@ setup(
     long_description=LONG_DESCRIPTION,
     install_requires=[
         'requests==2.0.0',
-        'six==1.4.1'
+        'iso8601==0.1.8'
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
