@@ -105,10 +105,12 @@ DataSources_, Feeds_, Keys_.
 
   Blueprints is accessible by the ``blueprints`` property in a ``M2XClient``
   instance. The property is an iterable type where each entry is a Blueprint_
-  instance. To iterate over them::
+  instance.
 
-    >>> for blueprint in client.blueprints:
-    >>>    ...
+  - Iteration::
+
+        >>> for blueprint in client.blueprints:
+        >>>    ...
 
   - Creation::
 
