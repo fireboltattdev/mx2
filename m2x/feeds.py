@@ -7,15 +7,25 @@ from m2x.utils import memoize
 class Location(Item):
     PATH = 'feeds/{feed_id}/location'
 
+    def remove(self):
+        raise NotImplementedError('API not implemented')
+
 
 class Log(Item):
-    pass
+    def update(self, **attrs):
+        raise NotImplementedError('API not implemented')
+
+    def remove(self):
+        raise NotImplementedError('API not implemented')
 
 
 class Logs(Collection):
     PATH = 'feeds/{feed_id}/log'
     ITEMS_KEY = 'requests'
     ITEM_CLASS = Log
+
+    def create(self, **attrs):
+        raise NotImplementedError('API not implemented')
 
 
 class Feed(Item):
@@ -30,7 +40,7 @@ class Feed(Item):
     @property
     @memoize
     def location(self):
-        location = self.api.get(self.path(self.PATH + '/location'))
+        location = self.api.get(self.path(self.PATH + '/location')) or {}
         return Location(self.api, feed_id=self.id, **location)
 
     @property
