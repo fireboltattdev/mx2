@@ -114,12 +114,14 @@ DataSources_, Feeds_, Keys_.
 
   - Creation::
 
+        ```python
         >>> blueprint = client.blueprints.create(
         ...     name='Blueprint',
         ...     description='Blueprint description',
         ...     visibility='public'
         ... )
         <m2x.blueprints.Blueprint at 0x365c590>
+        ```
 
   - Update (following the previous code)::
 
