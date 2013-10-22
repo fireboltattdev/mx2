@@ -23,6 +23,5 @@ class Keys(Collection):
 class FeedKeys(Keys):
     PATH = Keys.PATH + '?feed={feed_id}'
 
-    def make_key(self, **attrs):
-        attrs['feed'] = self.feed_id
-        return super(FeedKeys, self).create(**attrs)
+    def create(self, **attrs):
+        return super(FeedKeys, self).create(feed=self.feed_id, **attrs)
