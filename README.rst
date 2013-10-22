@@ -11,8 +11,8 @@ devices values into `AT&T M2X storage service`_, while supporting Python 2 and
 
 Dependencies list is really small:
 
-    * requests_ (version ``2.0.0``)
-    * six_ (version ``1.4.1``)
+* requests_ (version ``2.0.0``)
+* six_ (version ``1.4.1``)
 
 
 Installation
@@ -58,9 +58,9 @@ Right not the client supports ``API v1``, all the API documents can be found at
   the needed interface to get all (or single) items from the service and create
   new ones. Important methods are:
 
-    - Load items (``.load()`` method)
-    - Get item details (``.details(id)`` method)
-    - Create items (``.create(**attrs)`` method)
+  - Load items (``.load()`` method)
+  - Get item details (``.details(id)`` method)
+  - Create items (``.create(**attrs)`` method)
 
   Attributes required for item creation and update aren't enforced at the
   moment, leaving it open by using ``**attrs`` allows to support future API
@@ -77,8 +77,8 @@ Right not the client supports ``API v1``, all the API documents can be found at
   storage service. They provide the needed methods to update an instance and
   remove it. Important methods are:
 
-    - Update item attributes (``.update(**attrs)`` method)
-    - Remove item from the store (``.remove()`` method)
+  - Update item attributes (``.update(**attrs)`` method)
+  - Remove item from the store (``.remove()`` method)
 
 Item_ and Collection_ instances have a ``data`` attribute (``dict`` type) which
 contains the values returned by the server, this ``data`` is processed (dates
