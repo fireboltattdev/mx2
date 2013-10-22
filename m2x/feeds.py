@@ -55,5 +55,5 @@ class Feeds(Collection):
     ITEM_CLASS = Feed
 
     def create(self, **attrs):
-        raise NotImplementedError('API not implemented, create a feed '
-                                  'using Blueprint API')
+        raise NotImplementedError('Create a feed using Blueprint or '
+                                  'DataSources API')
