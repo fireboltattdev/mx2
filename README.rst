@@ -156,7 +156,7 @@ DataSources_, Feeds_, Keys_.
 
   - Iteration::
 
-        >>> for batch in client.batches
+        >>> for batch in client.batches:
         >>>    ...
 
   - Creation::
