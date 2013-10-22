@@ -19,6 +19,9 @@ class Keys(Collection):
     ITEMS_KEY = 'keys'
     ITEM_CLASS = Key
 
+    def details(self, key):
+        return self.item(self.api.get(self.item_path(key=key)))
+
 
 class FeedKeys(Keys):
     PATH = Keys.PATH + '?feed={feed_id}'
