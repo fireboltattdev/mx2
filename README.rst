@@ -150,7 +150,49 @@ DataSources_, Feeds_, Keys_.
 
 * Batches
 
-  **TODO**
+  Batches is accessible by the ``batches`` property in a ``M2XClient``
+  instance. The property is an iterable type where each entry is a Batch_
+  instance.
+
+  - Iteration::
+
+        >>> for batch in client.batches
+        >>>    ...
+
+  - Creation::
+
+        >>> batch = client.batches.create(
+        ...     name='Batch',
+        ...     description='Batch description',
+        ...     visibility='public',
+        ... )
+        <m2x.batches.Batch at 0x365c500>
+
+  - Update (following the previous code)::
+
+        >>> batch.update(
+        ...     name='Batch2',
+        ...     description='Batch2 description',
+        ...     visibility='private',
+        ...     status='enabled'
+        ... )
+
+    The parameters ``name``, ``description`` and ``visibility`` **must** be
+    provided, otherwise a validation error is returned by the service (response
+    status code ``422``).
+
+  - Removal (following the previous code)::
+
+        >>> batch.remove()
+
+  - Single item retrieval::
+
+        >>> batch = client.batches.details(
+        ...     '7cc8f518983dd62254b98d976400a3d4'
+        ... )
+        <m2x.batches.Batch at 0x1652fd0>
+
+    The parameter to ``.details()`` is the Batch_ ID.
 
 
 * DataSources
@@ -178,11 +220,12 @@ DataSources_, Feeds_, Keys_.
 .. _M2XClient: https://github.com/attm2x/m2x-python/blob/master/m2x/client.py#L10
 .. _account: https://m2x.att.com/account
 .. _Blueprints: https://m2x.att.com/developer/documentation/datasource#List-Blueprints
+.. _Blueprint: https://github.com/attm2x/m2x-python/blob/master/m2x/blueprints.py#L4
 .. _Batches: https://m2x.att.com/developer/documentation/datasource#List-Batches
+.. _Batch: https://github.com/attm2x/m2x-python/blob/master/m2x/batches.py#L4
 .. _DataSources: https://m2x.att.com/developer/documentation/datasource#List-Data-Sources
 .. _Feeds: https://m2x.att.com/developer/documentation/feed
 .. _Keys: https://m2x.att.com/developer/documentation/keys
-.. _Blueprint: https://github.com/attm2x/m2x-python/blob/master/m2x/blueprints.py#L4
 .. _Collection: https://github.com/attm2x/m2x-python/blob/master/m2x/resource.py#L91
 .. _Collections: https://github.com/attm2x/m2x-python/blob/master/m2x/resource.py#L91
 .. _Item: https://github.com/attm2x/m2x-python/blob/master/m2x/resource.py#L81
