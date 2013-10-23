@@ -27,7 +27,15 @@ class Values(Collection):
         return values
 
     def cmp(self, left, right):
-        return cmp(left.at, right.at)
+        left_at, right_at = left.data.get('at'), right.data.get('at')
+        if left_at and right_at:
+            return cmp(left_at, right_at)
+        elif left_at:
+            return -1
+        elif right_at:
+            return 1
+        else:
+            return 0
 
     def process_values(self, *values):
         # Supported format for values:
@@ -45,7 +53,11 @@ class Values(Collection):
             elif not isinstance(val, dict):
                 val = {'value': val}
 
-            dtime = val.pop('at', None)
+            # Ensure a datetime in the value, the server will ensure local
+            # datetime if no value is passed anyway, but since the server
+            # doesn't return the value created, there's no way to get it unless
+            # all the values are requested again
+            dtime = val.pop('at', datetime.now())
             if dtime:
                 if isinstance(dtime, (date, datetime)):
                     val['at'] = dtime.replace(tzinfo=iso8601.UTC)\
