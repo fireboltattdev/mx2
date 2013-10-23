@@ -65,14 +65,23 @@ class Collection(Resource, list):
 
     def load(self):
         self.extend(self.itemize(self.api.get(self.path())))
+        self.order()
 
     def create(self, **attrs):
         item = self.item(self.api.post(self.path(), data=attrs))
         self.append(item)
+        self.order()
         return item
 
     def details(self, id):
         return self.item(self.api.get(self.item_path(id=id)))
+
+    def order(self):
+        self.sort(cmp=self.cmp)
+
+    def cmp(self, left, right):
+        # Return ordering priority of left/right items
+        return 0
 
     def item(self, entry):
         return self.ITEM_CLASS(self.api, **entry)

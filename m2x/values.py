@@ -15,14 +15,19 @@ class Values(Collection):
     ITEM_CLASS = Value
 
     def add_value(self, value, at=None):
-        return self.add_values({'value': value, 'at': at})
+        values = self.add_values({'value': value, 'at': at})
+        return values[0] if values else None
 
     def add_values(self, *values):
         values = self.process_values(*values)
         self.api.post(self.path(), data={'values': values})
         values = [self.item(val) for val in values]
         self.extend(values)
+        self.order()
         return values
+
+    def cmp(self, left, right):
+        return cmp(left.at, right.at)
 
     def process_values(self, *values):
         # Supported format for values:
