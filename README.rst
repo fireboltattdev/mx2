@@ -458,10 +458,15 @@ Create a data stream in the feed::
 
     >>> stream = feed.streams.create(name='example')
 
-And not it's time to register some values in the stream::
+And now it's time to register some values in the stream::
 
     >>> for x in range(10):
     ...    stream.values.add_value(random.randint(0, 100))
+
+Lets add some more values::
+
+    >>> stream.values.add_values(*[random.randint(0, 100) for _ in range(10)])
+    [<m2x.values.Value at 0x2cd8a90>, <m2x.values.Value at 0x2cd8ad0>, ...]
 
 Lets print the values::
 
