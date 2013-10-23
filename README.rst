@@ -474,7 +474,7 @@ Lets print the values::
 .. _AT&T M2X storage service: https://m2x.att.com/
 .. _M2X API Documentation: https://m2x.att.com/developer/documentation/overview
 .. _requests: http://www.python-requests.org
-.. _is8601: https://pypi.python.org/pypi/iso8601
+.. _iso8601: https://pypi.python.org/pypi/iso8601
 .. _Client: https://github.com/attm2x/m2x-python/blob/master/m2x/client.py#L10
 .. _API: https://github.com/attm2x/m2x-python/blob/master/m2x/api.py#L9
 .. _M2XClient: https://github.com/attm2x/m2x-python/blob/master/m2x/client.py#L10
