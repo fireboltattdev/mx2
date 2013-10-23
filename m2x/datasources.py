@@ -10,3 +10,7 @@ class DataSources(Collection):
     PATH = 'datasources'
     ITEMS_KEY = 'datasources'
     ITEM_CLASS = DataSource
+
+
+class BatchDataSources(DataSources):
+    PATH = 'batches/{batch_id}/datasources'

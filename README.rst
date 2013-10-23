@@ -201,6 +201,14 @@ DataSources_, Feeds_, Keys_.
 
     The parameter to ``.details()`` is the Batch_ ID.
 
+  - To access all the datasources in this Batch_ use the ``datasources``
+    property which also provides the needed method to create new DataSource_::
+
+        >>> batch.datasources
+        [<m2x.datasources.DataSource at 0x2674b10>]
+        >>> batch.datasources.create(serial='abc123')
+        [<m2x.datasources.DataSource at 0x2674b10>, <m2x.datasources.DataSource at 0x2674d50>]
+
   - Related Feed
 
     A Batch_ has a related feed created automatically, to get the feed access
