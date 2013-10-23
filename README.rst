@@ -426,6 +426,50 @@ DataSources_, Feeds_, Keys_.
     <m2x.values.Value at 0x2c39b10>
 
 
+Lest build a RandomNumberGenerator Data Source
+----------------------------------------------
+
+Let's build a python random number generator data source using the API
+described above.
+
+First import everything::
+
+    >>> import random
+    >>> from m2x.client import M2XClient
+
+Create a client instance::
+
+    >>> client = M2XClient(key='288b375565d3402a8b6bd8c343e9fcad')
+
+Now create a batch for the values::
+
+    >>> batch = client.batches.create(
+    ...     name='RNG Batch Example',
+    ...     description='Batch for RandomNumberGenerator example',
+    ...     visibility='public'
+    ... )
+
+And add a datasource and grab the related feed::
+
+    >>> datasource = batch.datasources.create(serial='rng')
+    >>> feed = datasource.feed
+
+Create a data stream in the feed::
+
+    >>> stream = feed.streams.create(name='example')
+
+And not it's time to register some values in the stream::
+
+    >>> for x in range(10):
+    ...    stream.values.add_value(random.randint(0, 100))
+
+Lets print the values::
+
+    >>> for val in stream.values:
+    ...    print '{0} - {1}'.format(val.at.strftime('%Y-%m-%d %H:%M:%S'),
+    ...                             val.value)
+
+
 .. _M2X API: https://m2x.att.com/developer/documentation/overview
 .. _AT&T M2X storage service: https://m2x.att.com/
 .. _M2X API Documentation: https://m2x.att.com/developer/documentation/overview
