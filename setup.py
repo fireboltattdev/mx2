@@ -10,7 +10,7 @@ API. API documentation at https://m2x.att.com/developer/documentation
 """
 
 setup(
-    name='python-social-auth',
+    name='m2x',
     version=version,
     author='Citrusbyte',
     author_email='matia.saguirre@citrusbyte.com',
@@ -38,6 +38,6 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3'
     ],
-    test_suite='social.tests',
+    test_suite='m2x.tests',
     zip_safe=False
 )
