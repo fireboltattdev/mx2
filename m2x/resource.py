@@ -33,8 +33,8 @@ class Resource(object):
     def __getattr__(self, name):
         try:
             return self.data[name]
-        except KeyError as e:
-            raise AttributeError('{0}'.format(e))
+        except KeyError as err:
+            raise AttributeError('{0}'.format(err))
 
 
 class Item(Resource):
