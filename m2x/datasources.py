@@ -1,7 +1,8 @@
+from m2x.feeds import HasFeedMixin
 from m2x.resource import Collection, Item
 
 
-class DataSource(Item):
+class DataSource(Item, HasFeedMixin):
     PATH = 'datasources/{id}'
 
 

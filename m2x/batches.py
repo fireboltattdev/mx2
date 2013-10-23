@@ -1,7 +1,8 @@
+from m2x.feeds import HasFeedMixin
 from m2x.resource import Collection, Item
 
 
-class Batch(Item):
+class Batch(Item, HasFeedMixin):
     PATH = 'batches/{id}'
 
 

@@ -67,3 +67,12 @@ class Feeds(Collection):
     def create(self, **attrs):
         raise NotImplementedError('Create a feed using Blueprint or '
                                   'DataSources API')
+
+
+class HasFeedMixin(object):
+    FEED_URL_KEY = 'feed'
+
+    @property
+    @memoize
+    def feed(self):
+        return Feed(self.api, **self.api.get(self.data[self.FEED_URL_KEY]))
