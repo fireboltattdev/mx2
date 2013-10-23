@@ -147,6 +147,13 @@ DataSources_, Feeds_, Keys_.
 
     The parameter to ``.details()`` is the Blueprint_ ID.
 
+  - Related Feed
+
+    A Blueprint_ has a related feed created automatically, to get the feed
+    access the ``feed`` property::
+
+        >>> related_feed = blueprint.feed
+        <m2x.feeds.Feed at 0x1652fd0>
 
 * Batches
 
@@ -194,6 +201,13 @@ DataSources_, Feeds_, Keys_.
 
     The parameter to ``.details()`` is the Batch_ ID.
 
+  - Related Feed
+
+    A Batch_ has a related feed created automatically, to get the feed access
+    the ``feed`` property::
+
+        >>> related_feed = batch.feed
+        <m2x.feeds.Feed at 0x1652fd0>
 
 * DataSources
 
@@ -241,6 +255,13 @@ DataSources_, Feeds_, Keys_.
 
     The parameter to ``.details()`` is the DataSource_ ID.
 
+  - Related Feed
+
+    A DataSource_ has a related feed created automatically, to get the feed
+    access the ``feed`` property::
+
+        >>> related_feed = datasource.feed
+        <m2x.feeds.Feed at 0x1652fd0>
 
 * Keys
 
@@ -301,10 +322,10 @@ DataSources_, Feeds_, Keys_.
 
   - Single item retrieval::
 
-        >>> key = client.keys.details(
-        ...     '61179472a42583cffc889478010a092a'
+        >>> feed = client.feeds.details(
+        ...     '0e545075fd71aaabf5e85bfb502ea35a'
         ... )
-        <m2x.keys.Key at 0x1652fd0>
+        <m2x.feeds.Feed at 0x1652fd0>
 
     The parameter to ``.details()`` is the Feed_ ``id``.
 
