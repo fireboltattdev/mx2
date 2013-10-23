@@ -368,7 +368,34 @@ DataSources_, Feeds_, Keys_.
 
 * Values
 
-  **TODO**
+  Given an data stream, values can be inspected and new added easily using the
+  ``values`` collection in the stream instance::
+
+      >>> stream.values
+      [<m2x.values.Value at 0x2cd8e90>, <m2x.values.Value at 0x2cd8ed0>, ...]
+
+  Each entry is a Value_ instance, the ``at`` attribute contains the date-time
+  for the given value, while ``value`` contains the value itself. Entries are
+  sorted by ``at`` in ascending order.
+
+  Values cannot be updated or removed at the moment.
+
+  New values can be created in several ways using ``stream.values.add_value()``::
+
+    >>> stream.values.add_value(10)
+    <m2x.values.Value at 0x2c39b10>
+
+    >>> now = datetime.now()
+    >>> stream.values.add_value(10, now)
+    <m2x.values.Value at 0x2c39b10>
+
+  Or ``stream.values.add_values()``::
+
+    >>> now = datetime.now()
+    >>> stream.values.add_values(10, (20,), (now, 30), {'value': 40},
+    ...                          {'value': 50, 'at': now})
+    <m2x.values.Value at 0x2c39b10>
+
 
 .. _M2X API: https://m2x.att.com/developer/documentation/overview
 .. _AT&T M2X storage service: https://m2x.att.com/
@@ -392,3 +419,4 @@ DataSources_, Feeds_, Keys_.
 .. _Collection: https://github.com/attm2x/m2x-python/blob/master/m2x/resource.py#L91
 .. _Collections: https://github.com/attm2x/m2x-python/blob/master/m2x/resource.py#L91
 .. _Item: https://github.com/attm2x/m2x-python/blob/master/m2x/resource.py#L81
+.. _Value: https://github.com/attm2x/m2x-python/blob/master/m2x/values.py#L8
