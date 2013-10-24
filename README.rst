@@ -15,6 +15,16 @@ There are only a few dependencies:
 * iso8601_ (version ``0.1.8``)
 
 
+Getting Started
+------------
+1. Signup for an [M2X Account](https://m2x.att.com/signup).
+2. Obtain your _Master Key_ from the Master Keys tab of your [Account Settings](https://m2x.att.com/account) screen.
+2. Create your first [Data Source Blueprint](https://m2x.att.com/blueprints) and copy its _Feed ID_.
+3. Review the [M2X API Documentation](https://m2x.att.com/developer/documentation/overview).
+
+Please consult the [M2X glossary](https://m2x.att.com/developer/documentation/glossary) if you have questions about any M2X specific terms.
+
+
 Installation
 ------------
 
@@ -36,19 +46,19 @@ or cloning the repository::
 Library structure
 -----------------
 
-Currently, the client supports ``API v1``, all the API documents can be found at
+Currently, the client supports ``API v1`` and all M2X API documents can be found at
 `M2X API Documentation`_.
 
 * Client_
 
-  In order to communicate with the API you need an instance of `M2XClient`_, it
-  will provide an interface to all the structures and collections of your
+  In order to communicate with the M2X API you need an instance of `M2XClient`_ – it
+  will provide an interface to all the structures and collections in your
   project. The client will return iterable types representing the main entities
   in M2X, these iterable types are subclasses of Collection_.
 
 * API_
 
-  The API_ is just the interface that knowns how communicate with the service
+  The API_ is just the interface that knowns how to communicate with the service
   by defining the needed API base path (API version related) and sending the
   needed headers. This class is for internal use only.
 
@@ -68,12 +78,12 @@ Currently, the client supports ``API v1``, all the API documents can be found at
   attributes.
 
   A Collection_ extends ``list`` but not all the list methods have an impact on
-  the storage service, at least not right now, don't rely on them except for
+  the storage service, at least not right now — don't rely on them except for
   data access (iteration, index access, slice, etc.).
 
 * Item_
 
-  An Item_ is the directly representation of an individual instance in the
+  An Item_ is the direct representation of an individual instance in the
   storage service. They provide the needed methods to update an instance and
   remove it. Important methods are:
 
@@ -91,9 +101,9 @@ were instance attributes.
 Client usage
 ------------
 
-To create a client instance just a parameter is needed, the API Key, that can
-be found on your account_ section, or your feed API key available in your Feed
-details. To create a client instance just do::
+To create a client instance only a single parameter, the API Key, is needed. Your Master API Key can
+be found in your account_ settings, or a feed API key is available in your Data Source
+details screen. To create a client instance just do::
 
     >>> from m2x.client import M2XClient
     >>> client = M2XClient(key='your api key here')
@@ -397,7 +407,7 @@ DataSources_, Feeds_, Keys_.
 
 * Values
 
-  Given an data stream, values can be inspected and new added easily using the
+  Given a data stream, values can be inspected and new added easily using the
   ``values`` collection in the stream instance::
 
       >>> stream.values
