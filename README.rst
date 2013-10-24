@@ -436,10 +436,10 @@ DataSources_, Feeds_, Keys_.
     <m2x.values.Value at 0x2c39b10>
 
 
-Lest build a RandomNumberGenerator Data Source
+Lets build a RandomNumberGenerator Data Source
 ----------------------------------------------
 
-Let's build a python random number generator data source using the API
+Lets build a python random number generator data source using the API
 described above.
 
 First import everything::
