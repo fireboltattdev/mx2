@@ -1,12 +1,12 @@
 Python M2X API Client
 =====================
 
-The AT&T `M2X API`_ provides all the needed operations to connect your devices to the `AT&T
-M2X storage service`_. This client provides an easy to use interface for
+The AT&T `M2X API`_ provides all the needed operations to connect your devices to `AT&T's
+M2X service`_. This client provides an easy to use interface for
 your favorite language, Python.
 
 The library provides an interface to navigate and register your
-data source values with the `AT&T M2X storage service`_, while supporting Python 2 and
+data source values with the `AT&T's M2X service`_, while supporting Python 2 and
 3.
 
 There are only a few dependencies:
@@ -486,7 +486,7 @@ Lets print the values::
 
 
 .. _M2X API: https://m2x.att.com/developer/documentation/overview
-.. _AT&T M2X storage service: https://m2x.att.com/
+.. _AT&T's M2X service: https://m2x.att.com/
 .. _M2X API Documentation: https://m2x.att.com/developer/documentation/overview
 .. _requests: http://www.python-requests.org
 .. _iso8601: https://pypi.python.org/pypi/iso8601
