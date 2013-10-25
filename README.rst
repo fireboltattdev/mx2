@@ -485,6 +485,11 @@ Lets print the values::
     ...                             val.value)
 
 
+License
+=======
+
+This library is released under the MIT license. See ``LICENSE`` for the terms.
+
 .. _M2X API: https://m2x.att.com/developer/documentation/overview
 .. _AT&T's M2X service: https://m2x.att.com/
 .. _M2X API Documentation: https://m2x.att.com/developer/documentation/overview
