@@ -38,7 +38,7 @@ or::
 
 or cloning the repository::
 
-    $ git clone https://github.com/attm2x/m2x-python.git
+    $ git clone https://github.com/citrusbyte/m2x-python.git
     $ cd m2x-python
     $ python setup.py install
 
@@ -495,21 +495,21 @@ This library is released under the MIT license. See ``LICENSE`` for the terms.
 .. _M2X API Documentation: https://m2x.att.com/developer/documentation/overview
 .. _requests: http://www.python-requests.org
 .. _iso8601: https://pypi.python.org/pypi/iso8601
-.. _Client: https://github.com/attm2x/m2x-python/blob/master/m2x/client.py#L10
-.. _API: https://github.com/attm2x/m2x-python/blob/master/m2x/api.py#L9
-.. _M2XClient: https://github.com/attm2x/m2x-python/blob/master/m2x/client.py#L10
+.. _Client: https://github.com/citrusbyte/m2x-python/blob/master/m2x/client.py#L10
+.. _API: https://github.com/citrusbyte/m2x-python/blob/master/m2x/api.py#L9
+.. _M2XClient: https://github.com/citrusbyte/m2x-python/blob/master/m2x/client.py#L10
 .. _account: https://m2x.att.com/account
 .. _Blueprints: https://m2x.att.com/developer/documentation/datasource#List-Blueprints
-.. _Blueprint: https://github.com/attm2x/m2x-python/blob/master/m2x/blueprints.py#L4
+.. _Blueprint: https://github.com/citrusbyte/m2x-python/blob/master/m2x/blueprints.py#L4
 .. _Batches: https://m2x.att.com/developer/documentation/datasource#List-Batches
-.. _Batch: https://github.com/attm2x/m2x-python/blob/master/m2x/batches.py#L4
+.. _Batch: https://github.com/citrusbyte/m2x-python/blob/master/m2x/batches.py#L4
 .. _DataSources: https://m2x.att.com/developer/documentation/datasource#List-Data-Sources
-.. _DataSource: https://github.com/attm2x/m2x-python/blob/master/m2x/datasources.py#L4
+.. _DataSource: https://github.com/citrusbyte/m2x-python/blob/master/m2x/datasources.py#L4
 .. _Feeds: https://m2x.att.com/developer/documentation/feed
-.. _Feed: https://github.com/attm2x/m2x-python/blob/master/m2x/feeds.py#L21
+.. _Feed: https://github.com/citrusbyte/m2x-python/blob/master/m2x/feeds.py#L21
 .. _Keys: https://m2x.att.com/developer/documentation/keys
-.. _Key: https://github.com/attm2x/m2x-python/blob/master/m2x/keys.py#L4
-.. _Collection: https://github.com/attm2x/m2x-python/blob/master/m2x/resource.py#L91
-.. _Collections: https://github.com/attm2x/m2x-python/blob/master/m2x/resource.py#L91
-.. _Item: https://github.com/attm2x/m2x-python/blob/master/m2x/resource.py#L81
-.. _Value: https://github.com/attm2x/m2x-python/blob/master/m2x/values.py#L8
+.. _Key: https://github.com/citrusbyte/m2x-python/blob/master/m2x/keys.py#L4
+.. _Collection: https://github.com/citrusbyte/m2x-python/blob/master/m2x/resource.py#L91
+.. _Collections: https://github.com/citrusbyte/m2x-python/blob/master/m2x/resource.py#L91
+.. _Item: https://github.com/citrusbyte/m2x-python/blob/master/m2x/resource.py#L81
+.. _Value: https://github.com/citrusbyte/m2x-python/blob/master/m2x/values.py#L8
