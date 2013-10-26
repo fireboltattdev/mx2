@@ -8,7 +8,7 @@ from m2x.utils import memoize
 
 
 class M2XClient(object):
-    ENDPOINT = 'https://api-m2x.att.com'
+    ENDPOINT = 'http://api-m2x.att.com'
 
     def __init__(self, key, api=APIVersion1, endpoint=None):
         self.endpoint = endpoint or self.ENDPOINT
