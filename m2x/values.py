@@ -1,4 +1,4 @@
-from m2x.utils import process_value
+from m2x.utils import process_value, to_iso
 from m2x.resource import Collection, Item
 
 
@@ -22,6 +22,16 @@ class Values(Collection):
         self.extend(values)
         self.order()
         return values
+
+    def by_date(self, start=None, end=None, limit=None):
+        params = {}
+        if start:
+            params['start'] = to_iso(start)
+        if end:
+            params['end'] = to_iso(end)
+        if limit:
+            params['limit'] = int(limit)
+        return self.search(**params)
 
     def process_values(self, *values):
         # Supported format for values:

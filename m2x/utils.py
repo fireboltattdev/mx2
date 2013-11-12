@@ -33,13 +33,12 @@ def process_value(value):
     # datetime if no value is passed anyway, but since the server
     # doesn't return the value created, there's no way to get it unless
     # all the values are requested again
-    dtime = value.pop('at', datetime.now())
-    if dtime:
-        if not isinstance(dtime, (date, datetime)):
-            try:
-                dtime = iso8601.parse_date(dtime)
-            except iso8601.ParseError:
-                dtime = datetime.now()
-        value['at'] = dtime.replace(tzinfo=iso8601.UTC)\
-                           .strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+    value['at'] = to_iso(value.get('at', datetime.now()))
     return value
+
+
+def to_iso(dtime):
+    if not isinstance(dtime, (date, datetime)):
+        dtime = iso8601.parse_date(dtime)
+    return dtime.replace(tzinfo=iso8601.UTC)\
+                .strftime('%Y-%m-%dT%H:%M:%S.%fZ')
