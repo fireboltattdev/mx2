@@ -53,6 +53,7 @@ class APIBase(object):
         sess = session()
         sess.headers.update({'X-M2X-KEY': self.key,
                              'Content-type': 'application/json',
+                             'Accept-Encoding': 'gzip, deflate',
                              'User-Agent': USERAGENT})
         return sess
 
