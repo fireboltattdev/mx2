@@ -79,10 +79,12 @@ class Feeds(Collection):
         raise NotImplementedError('Create a feed using Blueprint or '
                                   'DataSources API')
 
-    def search(self, type=None, latitude=None, longitude=None, distance=None,
-               distance_unit=None, **criteria):
+    def search(self, type=None, serial=None, latitude=None, longitude=None,
+               distance=None, distance_unit=None, **criteria):
         if type and type in ('blueprint', 'batch', 'datasource'):
             criteria['type'] = type
+        if serial:
+            criteria['serial'] = serial
         if latitude:
             criteria['latitude'] = latitude
         if longitude:
