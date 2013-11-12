@@ -47,25 +47,28 @@ class Item(Resource):
         return self.api.delete(self.path())
 
 
-class Collection(Resource, list):
+class Collection(Resource):
     ITEMS_KEY = None
     ITEM_CLASS = None
 
     def __init__(self, api, **data):
+        self._items = []
+        self._loaded = False
         super(Collection, self).__init__(api, **data)
-        self.load()
 
     def reload(self):
         self.clean()
         self.load()
 
     def clean(self):
-        for entry in self[:]:
-            self.remove(entry)
+        self._items = []
+        self._loaded = False
 
     def load(self):
-        self.extend(self.itemize(self.api.get(self.path())))
-        self.order()
+        if not self._loaded:
+            self._loaded = True
+            self.extend(self.itemize(self.api.get(self.path())))
+            self.order()
 
     def create(self, **attrs):
         item = self.item(self.api.post(self.path(), data=attrs))
@@ -76,8 +79,11 @@ class Collection(Resource, list):
     def details(self, id):
         return self.item(self.api.get(self.item_path(id=id)))
 
+    def search(self, **criteria):
+        return self.itemize(self.api.get(self.path(), params=criteria))
+
     def order(self):
-        self.sort(cmp=self.cmp)
+        self._items.sort(cmp=self.cmp)
 
     def cmp(self, left, right):
         # Return ordering priority of left/right items
@@ -93,3 +99,44 @@ class Collection(Resource, list):
 
     def item_path(self, **params):
         return self.ITEM_CLASS.PATH.format(**params)
+
+    ### List methods
+
+    def extend(self, values):
+        self.load()
+        self._items.extend(values)
+
+    def append(self, value):
+        self.load()
+        self._items.append(value)
+
+    def index(self, value):
+        return self._items.index(value)
+
+    def __contains__(self, value):
+        self.load()
+        return self._items.__contains__(value)
+
+    def __reduce__(self, *args, **kwargs):
+        self.load()
+        return self._items.__reduce__(*args, **kwargs)
+
+    def __len__(self):
+        self.load()
+        return self._items.__len__()
+
+    def __iter__(self):
+        self.load()
+        return self._items.__iter__()
+
+    def __getslice__(self, *args, **kwargs):
+        self.load()
+        return self._items.__getslice__(*args, **kwargs)
+
+    def __getitem__(self, idx):
+        self.load()
+        return self._items.__getitem__(idx)
+
+    def __repr__(self):
+        self.load()
+        return self._items.__repr__()
