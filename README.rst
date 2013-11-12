@@ -71,15 +71,16 @@ Currently, the client supports ``API v1`` and all M2X API documents can be found
   - Load items (``.load()`` method)
   - Get item details (``.details(id)`` method)
   - Create items (``.create(**attrs)`` method)
+  - Search items (``.search(...)`` method)
 
   Attributes required for item creation and update aren't enforced at the
   moment, leaving it open by using ``**attrs`` allows to support future API
   improvements removing future code updates dependency to support new
   attributes.
 
-  A Collection_ extends ``list`` but not all the list methods have an impact on
-  the storage service, at least not right now — don't rely on them except for
-  data access (iteration, index access, slice, etc.).
+  A Collection_ implements ``list`` methods needed to simplify data access like
+  iteration, index access, slice, etc. ``extend`` and others are implemented
+  too, but they don't have any impact in the server at the moment.
 
 * Item_
 
@@ -98,12 +99,39 @@ define ``__getattr__`` to access any value in the ``data`` attribute as if they
 were instance attributes.
 
 
+Collections searching
+---------------------
+
+All Collection_ subclasses are searchable. The result of calling ``.search(...)``
+is a list (not a Collection_). While searching there are a few common
+parameters that can be passed:
+
+* ``query``
+  A query criteria that usually gets applied to the name attribute.
+
+* ``tags``
+  Filter by a given tag list, it must be a ``list`` or ``tuple`` of strings
+  (it's sent joined by ``,`` to the server).
+
+* ``page``
+  Pagination page
+
+* ``limit``
+  Limit the number of items to return
+
+* Collection-related criteria
+  Any option related to the collection (check the related API documentation for
+  details on supported options). For instance, Feeds_ can be filtered by
+  ``type`` as described in the `Feeds Search section`_
+
+
 Client usage
 ------------
 
-To create a client instance only a single parameter, the API Key, is needed. Your Master API Key can
-be found in your account_ settings, or a feed API key is available in your Data Source
-details screen. To create a client instance just do::
+To create a client instance only a single parameter, the API Key, is needed.
+Your Master API Key can be found in your account_ settings, or a feed API key
+is available in your Data Source details screen. To create a client instance
+just do::
 
     >>> from m2x.client import M2XClient
     >>> client = M2XClient(key='your api key here')
@@ -130,6 +158,10 @@ DataSources_, Feeds_, Keys_.
         ...     visibility='public'
         ... )
         <m2x.blueprints.Blueprint at 0x365c590>
+
+  - Search::
+
+        >>> blueprints = client.blueprints.search(...)
 
   - Update (following the previous code)::
 
@@ -184,6 +216,10 @@ DataSources_, Feeds_, Keys_.
         ...     visibility='public',
         ... )
         <m2x.batches.Batch at 0x365c500>
+
+  - Search::
+
+        >>> batches = client.batches.search(...)
 
   - Update (following the previous code)::
 
@@ -247,6 +283,10 @@ DataSources_, Feeds_, Keys_.
         ... )
         <m2x.datasources.DataSource at 0x365c500>
 
+  - Search::
+
+        >>> datasources = client.datasources.search(...)
+
   - Update (following the previous code)::
 
         >>> datasource.update(
@@ -299,6 +339,11 @@ DataSources_, Feeds_, Keys_.
         ... )
         <m2x.keys.Key at 0x365c500>
 
+  - Search:
+
+    Keys_ don't support searching, but the method is left implemented in
+    case it's supported in the future. Calling search will return all the keys.
+
   - Update (following the previous code)::
 
         >>> key.update(
@@ -346,6 +391,19 @@ DataSources_, Feeds_, Keys_.
         <m2x.feeds.Feed at 0x1652fd0>
 
     The parameter to ``.details()`` is the Feed_ ``id``.
+
+  - Search::
+
+        >>> feeds = client.feeds.search(...)
+
+    Feeds_ can be filtered by ``type`` by doing::
+
+        >>> feeds = client.feeds.search(type='blueprint')
+
+    The available options are ``blueprint``, ``batch`` and ``datasource``.
+
+    It's also possible to filter by ``latitude``, ``longitude``, ``distance``
+    specified in ``distance_unit`` (either ``mi``, ``miles`` or ``km``).
 
   - Feed location
 
@@ -449,6 +507,15 @@ DataSources_, Feeds_, Keys_.
     ...                          {'value': 50, 'at': now})
     <m2x.values.Value at 0x2c39b10>
 
+  Also searched by date, but there's a helper for that already::
+
+    >>> stream.values.by_date(start=..., end=..., limit=...)
+
+  All parameters are optional. ``start`` and ``end`` must be a ``date`` or
+  ``datetime`` instance (any string format supported by iso8601_ module also
+  work). ``limit`` must be an ``int`` and it will limit the result count to
+  that value.
+
 
 Lets build a RandomNumberGenerator Data Source
 ----------------------------------------------
@@ -533,3 +600,4 @@ This library is released under the MIT license. See ``LICENSE`` for the terms.
 .. _Collections: https://github.com/citrusbyte/m2x-python/blob/master/m2x/resource.py#L91
 .. _Item: https://github.com/citrusbyte/m2x-python/blob/master/m2x/resource.py#L81
 .. _Value: https://github.com/citrusbyte/m2x-python/blob/master/m2x/values.py#L8
+.. _Feeds Search section: http://m2x.att.citrusbyte.com/developer/documentation/feed#List-Search-Feeds
