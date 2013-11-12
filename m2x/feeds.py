@@ -1,5 +1,6 @@
-from m2x.resource import Collection, Item
+from m2x.resource import Collection, Item, Resource
 from m2x.streams import Streams
+from m2x.values import ValuesMixin
 from m2x.keys import FeedKeys
 from m2x.utils import memoize
 
@@ -26,6 +27,16 @@ class Logs(Collection):
 
     def create(self, **attrs):
         raise NotImplementedError('API not implemented')
+
+
+class FeedValues(Resource, ValuesMixin):
+    PATH = 'feeds/{feed_id}'
+
+    def process_values(self, values):
+        return dict(
+            (stream, super(FeedValues, self).process_values(stream_values))
+                for stream, stream_values in values.items()
+        )
 
 
 class Feed(Item):
@@ -57,6 +68,11 @@ class Feed(Item):
     @memoize
     def streams(self):
         return Streams(self.api, feed_id=self.id)
+
+    @property
+    @memoize
+    def values(self):
+        return FeedValues(self.api, feed_id=self.id)
 
 
 class Feeds(Collection):
