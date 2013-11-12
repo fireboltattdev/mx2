@@ -40,7 +40,15 @@ class Resource(object):
 
 
 class Item(Resource):
+    REQUIRED_ON_UPDATE = None
+
     def update(self, **attrs):
+        # Fill required values with current values to avoid repeating them when
+        # using the API
+        for name in self.REQUIRED_ON_UPDATE or []:
+            if name not in attrs:
+                attrs[name] = self.data.get(name)
+
         tags = attrs.get('tags')
         if tags:
             attrs['tags'] = tags_to_server(tags)

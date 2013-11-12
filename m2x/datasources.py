@@ -4,6 +4,7 @@ from m2x.resource import Collection, Item
 
 class DataSource(Item, HasFeedMixin):
     PATH = 'datasources/{id}'
+    REQUIRED_ON_UPDATE = ['name', 'visibility']
 
 
 class DataSources(Collection):

@@ -4,6 +4,7 @@ from m2x.resource import Collection, Item
 
 class Blueprint(Item, HasFeedMixin):
     PATH = 'blueprints/{id}'
+    REQUIRED_ON_UPDATE = ['name', 'visibility']
 
 
 class Blueprints(Collection):

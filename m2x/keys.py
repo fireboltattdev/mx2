@@ -3,6 +3,7 @@ from m2x.resource import Collection, Item
 
 class Key(Item):
     PATH = 'keys/{key}'
+    REQUIRED_ON_UPDATE = ['permissions']
 
     def regenerate(self):
         url = self.api.url(self.path(self.PATH + '/regenerate'))

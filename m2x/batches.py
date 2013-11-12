@@ -6,6 +6,7 @@ from m2x.datasources import BatchDataSources
 
 class Batch(Item, HasFeedMixin):
     PATH = 'batches/{id}'
+    REQUIRED_ON_UPDATE = ['name', 'visibility']
 
     @property
     @memoize
