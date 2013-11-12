@@ -79,7 +79,17 @@ class Collection(Resource):
     def details(self, id):
         return self.item(self.api.get(self.item_path(id=id)))
 
-    def search(self, **criteria):
+    def search(self, query=None, tags=None, page=None, limit=None, **criteria):
+        if query:
+            criteria['query'] = query
+        if tags:
+            if isinstance(tags, (list, tuple)):
+                tags = ','.join(tags)
+            criteria['tags'] = tags
+        if page:
+            criteria['page'] = int(page)
+        if limit:
+            criteria['limit'] = int(limit)
         return self.itemize(self.api.get(self.path(), params=criteria))
 
     def order(self):

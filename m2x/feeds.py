@@ -79,6 +79,19 @@ class Feeds(Collection):
         raise NotImplementedError('Create a feed using Blueprint or '
                                   'DataSources API')
 
+    def search(self, type=None, latitude=None, longitude=None, distance=None,
+               distance_unit=None, **criteria):
+        if type and type in ('blueprint', 'batch', 'datasource'):
+            criteria['type'] = type
+        if latitude:
+            criteria['latitude'] = latitude
+        if longitude:
+            criteria['longitude'] = longitude
+        if distance and distance_unit in ('mi', 'miles', 'km'):
+            criteria['distance'] = distance
+            criteria['distance_unit'] = distance_unit
+        return super(Feeds, self).search(self, **criteria)
+
 
 class HasFeedMixin(object):
     FEED_URL_KEY = 'feed'
