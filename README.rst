@@ -411,8 +411,8 @@ DataSources_, Feeds_, Keys_.
 
         >>> feed.streams.create('foo')
         >>> feed.streams.create('bar')
-        >>> feed.values.add_values({'foo': [{'value': 10}, {'value': 20}],
-                                    'bar': [{'value': 100}, {'value': 200}]})
+        >>> feed.add_values({'foo': [{'value': 10}, {'value': 20}],
+                             'bar': [{'value': 100}, {'value': 200}]})
 
     As the example shows, the parameter needed is a ``dict`` where the keys are
     the stream names and the values are the desired values to store in M2X. The
@@ -494,7 +494,7 @@ Lets add some more values::
 
 Lest add even more values::
 
-    >>> feed.values.add_values({
+    >>> feed.add_values({
     ...    'example': [random.randint(0, 100) for _ in range(10)]
     ... })
 
