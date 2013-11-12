@@ -24,7 +24,7 @@ setup(
     ],
     long_description=LONG_DESCRIPTION,
     install_requires=[
-        'requests==2.0.0',
+        'requests==2.0.1',
         'iso8601==0.1.8'
     ],
     classifiers=[
