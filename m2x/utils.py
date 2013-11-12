@@ -42,3 +42,9 @@ def to_iso(dtime):
         dtime = iso8601.parse_date(dtime)
     return dtime.replace(tzinfo=iso8601.UTC)\
                 .strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+
+
+def tags_to_server(tags):
+    if not isinstance(tags, (list, tuple)):
+        tags = [tags]
+    return ','.join(tags)

@@ -1,5 +1,7 @@
 import iso8601
 
+from m2x.utils import tags_to_server
+
 
 class Resource(object):
     PATH = ''
@@ -39,7 +41,12 @@ class Resource(object):
 
 class Item(Resource):
     def update(self, **attrs):
+        tags = attrs.get('tags')
+        if tags:
+            attrs['tags'] = tags_to_server(tags)
         response = self.api.put(self.path(), data=attrs)
+        if tags:  # restore original value
+            attrs['tags'] = tags
         self.set_data(attrs)
         return response
 
@@ -71,6 +78,8 @@ class Collection(Resource):
             self.order()
 
     def create(self, **attrs):
+        if 'tags' in attrs:
+            attrs['tags'] = tags_to_server(attrs['tags'])
         item = self.item(self.api.post(self.path(), data=attrs))
         self.append(item)
         self.order()
