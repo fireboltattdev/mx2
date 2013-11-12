@@ -110,11 +110,10 @@ class Collection(Resource):
         return self.itemize(self.api.get(self.path(), params=criteria))
 
     def order(self):
-        self._items.sort(cmp=self.cmp)
+        self._items.sort(key=self.order_key)
 
-    def cmp(self, left, right):
-        # Return ordering priority of left/right items
-        return 0
+    def order_key(self, val):
+        return val.data.get('updated')
 
     def item(self, entry):
         return self.ITEM_CLASS(self.api, **entry)

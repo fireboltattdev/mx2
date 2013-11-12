@@ -41,13 +41,5 @@ class Values(Collection):
         #     {'at': at, 'value': value} ]
         return [process_value(value) for value in values]
 
-    def cmp(self, left, right):
-        left_at, right_at = left.data.get('at'), right.data.get('at')
-        if left_at and right_at:
-            return cmp(left_at, right_at)
-        elif left_at:
-            return -1
-        elif right_at:
-            return 1
-        else:
-            return 0
+    def order_key(self, val):
+        return val.data.get('at')

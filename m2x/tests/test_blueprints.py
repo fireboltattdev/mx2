@@ -19,8 +19,8 @@ BLUEPRINTS = {
             'feed': '/feeds/d803c3faf29cfee82bebbebacbf7c504',
             'url': '/blueprints/d803c3faf29cfee82bebbebacbf7c504',
             'key': '81b269f6418b483689bdafe5d55a3a98',
-            'created': '2013-10-11T05:24:52Z',
-            'updated': '2013-10-11T05:24:52Z'
+            'created': '2013-10-11T05:20:52Z',
+            'updated': '2013-10-11T05:20:52Z'
         }, {
             'id': 'a045742f5dc2d779177847c5df0d358e',
             'name': 'Foobar2',
