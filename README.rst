@@ -404,6 +404,20 @@ DataSources_, Feeds_, Keys_.
 
         >>> stream.update(unit={'label': 'Celsius', 'symbol': 'C'})
 
+  - Feed values
+
+    It's possible to register a multiple values in multiple streams directly
+    from the feed::
+
+        >>> feed.streams.create('foo')
+        >>> feed.streams.create('bar')
+        >>> feed.values.add_values({'foo': [{'value': 10}, {'value': 20}],
+                                    'bar': [{'value': 100}, {'value': 200}]})
+
+    As the example shows, the parameter needed is a ``dict`` where the keys are
+    the stream names and the values are the desired values to store in M2X. The
+    values list can follow the same syntax defined below in
+    ``stream.values.add_values()``.
 
 * Values
 
@@ -477,6 +491,12 @@ Lets add some more values::
 
     >>> stream.values.add_values(*[random.randint(0, 100) for _ in range(10)])
     [<m2x.values.Value at 0x2cd8a90>, <m2x.values.Value at 0x2cd8ad0>, ...]
+
+Lest add even more values::
+
+    >>> feed.values.add_values({
+    ...    'example': [random.randint(0, 100) for _ in range(10)]
+    ... })
 
 Lets print the values::
 
