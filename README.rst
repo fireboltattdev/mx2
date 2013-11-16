@@ -38,7 +38,7 @@ or::
 
 or cloning the repository::
 
-    $ git clone https://github.com/citrusbyte/m2x-python.git
+    $ git clone https://github.com/attm2x/m2x-python.git
     $ cd m2x-python
     $ python setup.py install
 
