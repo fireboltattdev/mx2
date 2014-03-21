@@ -496,13 +496,13 @@ DataSources_, Feeds_, Keys_.
     >>> stream.values.add_value(10)
     <m2x.values.Value at 0x2c39b10>
 
-    >>> now = datetime.now()
+    >>> now = datetime.datetime.now()
     >>> stream.values.add_value(10, now)
     <m2x.values.Value at 0x2c39b10>
 
   Or ``stream.values.add_values()``::
 
-    >>> now = datetime.now()
+    >>> now = datetime.datetime.now()
     >>> stream.values.add_values(10, (20,), (now, 30), {'value': 40},
     ...                          {'value': 50, 'at': now})
     <m2x.values.Value at 0x2c39b10>
