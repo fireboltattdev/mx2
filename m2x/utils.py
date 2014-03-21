@@ -33,7 +33,7 @@ def process_value(value):
     # datetime if no value is passed anyway, but since the server
     # doesn't return the value created, there's no way to get it unless
     # all the values are requested again
-    value['at'] = to_iso(value.get('at', datetime.now()))
+    value['at'] = to_iso(value.get('at') or datetime.now())
     return value
 
 

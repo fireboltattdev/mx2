@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from m2x.utils import process_value, to_iso
 from m2x.resource import Collection, Item
 
@@ -12,6 +14,8 @@ class Values(Collection):
     ITEM_CLASS = Value
 
     def add_value(self, value, at=None):
+        if at is None:
+            at = datetime.now()
         values = self.add_values({'value': value, 'at': at})
         return values[0] if values else None
 
