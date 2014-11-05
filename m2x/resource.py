@@ -126,7 +126,7 @@ class Collection(Resource):
     def item_path(self, **params):
         return self.ITEM_CLASS.PATH.format(**params)
 
-    ### List methods
+    # List methods
 
     def extend(self, values):
         self.load()
