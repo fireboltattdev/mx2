@@ -3,7 +3,7 @@ import json
 from sure import expect
 from httpretty import HTTPretty
 
-from m2x.feeds import Feeds
+from m2x.v1.feeds import Feeds
 from m2x.tests.base import TestCase
 
 

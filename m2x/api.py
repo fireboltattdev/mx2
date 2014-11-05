@@ -59,7 +59,3 @@ class APIBase(object):
 
     def url(self, *parts):
         return self.client.url(self.PATH, *parts)
-
-
-class APIVersion1(APIBase):
-    PATH = '/v1'

@@ -4,7 +4,7 @@ from requests import HTTPError
 from sure import expect
 from httpretty import HTTPretty
 
-from m2x.batches import Batches
+from m2x.v1.batches import Batches
 from m2x.tests.base import TestCase
 
 

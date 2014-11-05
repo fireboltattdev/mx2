@@ -1,6 +1,6 @@
 from m2x.resource import Collection, Item
-from m2x.values import Values
 from m2x.utils import memoize
+from m2x.v1.values import Values
 
 
 class Stream(Item):
