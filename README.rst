@@ -7,13 +7,14 @@ your favorite language, Python.
 
 The library provides an interface to navigate and register your
 data source values with the `AT&T's M2X service`_, while supporting Python 2 and
-3.
+3. 
 
 There are only a few dependencies:
 
 * requests_ (version ``2.0.0``)
 * iso8601_ (version ``0.1.8``)
 
+To use Python on your local machine, you'll need to first install Python-setuptools_. 
 
 Getting Started
 ------------
@@ -601,3 +602,4 @@ This library is released under the MIT license. See ``LICENSE`` for the terms.
 .. _Item: https://github.com/citrusbyte/m2x-python/blob/master/m2x/resource.py#L81
 .. _Value: https://github.com/citrusbyte/m2x-python/blob/master/m2x/values.py#L8
 .. _Feeds Search section: http://m2x.att.citrusbyte.com/developer/documentation/feed#List-Search-Feeds
+.. _Python-setuptools: https://pypi.python.org/pypi/setuptools#installation-instructions
