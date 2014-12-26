@@ -1,5 +1,5 @@
-from m2x.resource import Collection, Item
 from m2x.utils import memoize
+from m2x.resource import Collection, Item
 from m2x.v2.values import Values
 
 
