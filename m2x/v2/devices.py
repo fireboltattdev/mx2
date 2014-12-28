@@ -4,6 +4,10 @@ from m2x.v2.streams import Streams
 from m2x.v2.triggers import Triggers
 
 
+class Location(Item):
+    PATH = 'devices/{device_id}/location'
+
+
 class Device(Item):
     PATH = 'devices/{id}'
     REQUIRED_ON_UPDATE = ['name', 'visibility']
@@ -14,18 +18,12 @@ class Device(Item):
 
     @pmemoize
     def location(self, **location):
-        if not self.data.get('location'):
-            self.data['location'] = self.api.get(
-                self.path(self.PATH + '/location')
-            )
-        return self.data['location']
-
-    @pmemoize
-    def update_location(self, **location):
-        self.api.post(self.path(self.PATH + '/location'),
-                      data=location)
-        self.data['location'] = location
-        return location
+        if 'location' in self.data:
+            data = self.data
+        else:
+            data = self.api.get(self.path(self.PATH + '/location')) or {}
+        return Location(self.api, device_id=self.id,
+                        **data.get('location', {}))
 
     @pmemoize
     def triggers(self):
