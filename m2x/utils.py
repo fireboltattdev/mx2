@@ -16,6 +16,10 @@ def memoize(func):
     return wrapper
 
 
+def pmemoize(func):
+    return property(memoize(func))
+
+
 def process_values(values):
     return list(map(process_value, values))
 
@@ -48,3 +52,30 @@ def tags_to_server(tags):
     if not isinstance(tags, (list, tuple)):
         tags = [tags]
     return ','.join(tags)
+
+
+def from_server(name, value):
+    if name == 'tags':
+        value = value.split(',')
+    else:
+        try:
+            value = iso8601.parse_date(value)
+        except iso8601.ParseError:
+            pass
+    return value
+
+
+def to_server(name, value):
+    if name == 'tags':
+        value = tags_to_server(value)
+    return value
+
+
+def attrs_from_server(attrs):
+    return dict((name, from_server(name, value))
+                    for name, value in attrs.items())
+
+
+def attrs_to_server(attrs):
+    return dict((name, to_server(name, value))
+                    for name, value in attrs.items())

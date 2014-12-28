@@ -1,26 +1,27 @@
-from m2x.utils import memoize
+from m2x.utils import pmemoize
 from m2x.resource import Collection, Item
 from m2x.v2.values import Values
+
+
+class Sampling(Values):
+    PATH = 'devices/{device_id}/streams/{stream_name}/sampling'
 
 
 class Stream(Item):
     PATH = 'devices/{device_id}/streams/{name}'
 
-    @property
-    @memoize
+    @pmemoize
     def values(self):
         return Values(self.api, device_id=self.device_id,
                       stream_name=self.name)
 
-    def update(self, **attrs):
-        out = super(Stream, self).update(**attrs)
-        if attrs.get('unit_label'):
-            self.data['unit']['label'] = attrs['unit_label']
-            self.raw_data['unit']['label'] = attrs['unit_label']
-        if attrs.get('unit_symbol'):
-            self.data['unit']['symbol'] = attrs['unit_symbol']
-            self.raw_data['unit']['symbol'] = attrs['unit_symbol']
-        return out
+    @pmemoize
+    def sampling(self):
+        return Sampling(self.api, device_id=self.device_id,
+                        stream_name=self.name)
+
+    def stats(self, **attrs):
+        return self.api.get(self.path(self.PATH + '/stats'), data=attrs)
 
 
 class Streams(Collection):
@@ -29,8 +30,8 @@ class Streams(Collection):
     ITEM_CLASS = Stream
 
     def create(self, name, **attrs):
-        url = Stream.PATH.format(device_id=self.device_id, name=name)
-        stream = self.item(self.api.put(url, data=attrs))
+        stream = self.ITEM_CLASS(self.api, name=name, **self.data)
+        stream.update(**attrs)
         self.append(stream)
         return stream
 

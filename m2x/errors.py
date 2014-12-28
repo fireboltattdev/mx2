@@ -10,3 +10,7 @@ class APIError(Exception):
             return self.errors[name]
         except KeyError as e:
             raise AttributeError('{0}'.format(e))
+
+
+class InactiveAccountError(APIError):
+    pass

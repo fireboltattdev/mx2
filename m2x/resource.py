@@ -1,6 +1,4 @@
-import iso8601
-
-from m2x.utils import tags_to_server
+from m2x.utils import attrs_to_server, attrs_from_server
 
 
 class Resource(object):
@@ -15,22 +13,9 @@ class Resource(object):
     def path(self, path=None):
         return (path or self.PATH).format(**self.data)
 
-    def process_data(self, data):
-        data_processed = {}
-        for name, value in data.items():
-            value = self.is_time(name, value)
-            data_processed[name] = value
-        return data_processed
-
     def set_data(self, value):
         self.raw_data.update(value)
-        self.data.update(self.process_data(value))
-
-    def is_time(self, name, value):
-        try:
-            return iso8601.parse_date(value)
-        except iso8601.ParseError:
-            return value
+        self.data.update(attrs_from_server(value))
 
     def __getattr__(self, name):
         try:
@@ -49,52 +34,43 @@ class Item(Resource):
             if name not in attrs:
                 attrs[name] = self.data.get(name)
 
-        tags = attrs.get('tags')
-        if tags:
-            attrs['tags'] = tags_to_server(tags)
+        attrs = attrs_to_server(attrs)
         response = self.api.put(self.path(), data=attrs)
-        if tags:  # restore original value
-            attrs['tags'] = tags
-        self.set_data(attrs)
+        self.set_data(attrs_from_server(response or attrs))
         return response
 
     def remove(self):
         return self.api.delete(self.path())
 
 
-class Collection(Resource):
+class Collection(Resource, list):
     ITEMS_KEY = None
     ITEM_CLASS = None
+    SORT_KEY = 'updated'
 
     def __init__(self, api, **data):
-        self._items = []
-        self._loaded = False
         super(Collection, self).__init__(api, **data)
-
-    def reload(self):
-        self.clean()
         self.load()
 
-    def clean(self):
-        self._items = []
-        self._loaded = False
+    def reload(self):
+        self[:] = []
+        self.load()
 
     def load(self):
-        if not self._loaded:
-            self._loaded = True
-            self.extend(self.itemize(self.api.get(self.path())))
-            self.order()
+        if len(self) == 0:
+            self[:] = self.itemize(self.api.get(self.path()))
+            self.sort(key=self.sort_key)
 
     def create(self, **attrs):
-        if 'tags' in attrs:
-            attrs['tags'] = tags_to_server(attrs['tags'])
+        attrs = attrs_to_server(attrs)
         item = self.item(self.api.post(self.path(), data=attrs))
         self.append(item)
-        self.order()
+        self.sort(key=self.sort_key)
         return item
 
-    def details(self, id):
+    def get(self, id):
         return self.item(self.api.get(self.item_path(id=id)))
+    details = get
 
     def search(self, query=None, tags=None, page=None, limit=None, **criteria):
         if query:
@@ -109,11 +85,8 @@ class Collection(Resource):
             criteria['limit'] = int(limit)
         return self.itemize(self.api.get(self.path(), params=criteria))
 
-    def order(self):
-        self._items.sort(key=self.order_key)
-
-    def order_key(self, val):
-        return val.data.get('updated')
+    def sort_key(self, value):
+        return value.data.get(self.SORT_KEY)
 
     def item(self, entry):
         return self.ITEM_CLASS(self.api, **entry)
@@ -125,44 +98,3 @@ class Collection(Resource):
 
     def item_path(self, **params):
         return self.ITEM_CLASS.PATH.format(**params)
-
-    # List methods
-
-    def extend(self, values):
-        self.load()
-        self._items.extend(values)
-
-    def append(self, value):
-        self.load()
-        self._items.append(value)
-
-    def index(self, value):
-        return self._items.index(value)
-
-    def __contains__(self, value):
-        self.load()
-        return self._items.__contains__(value)
-
-    def __reduce__(self, *args, **kwargs):
-        self.load()
-        return self._items.__reduce__(*args, **kwargs)
-
-    def __len__(self):
-        self.load()
-        return self._items.__len__()
-
-    def __iter__(self):
-        self.load()
-        return self._items.__iter__()
-
-    def __getslice__(self, *args, **kwargs):
-        self.load()
-        return self._items.__getslice__(*args, **kwargs)
-
-    def __getitem__(self, idx):
-        self.load()
-        return self._items.__getitem__(idx)
-
-    def __repr__(self):
-        self.load()
-        return self._items.__repr__()
