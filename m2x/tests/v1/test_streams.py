@@ -4,8 +4,8 @@ from requests import HTTPError
 from sure import expect
 from httpretty import HTTPretty
 
-from m2x.streams import Streams
-from m2x.tests.base import TestCase
+from m2x.v1.streams import Streams
+from m2x.tests.v1.base import V1TestCase
 
 
 STREAM = {
@@ -56,7 +56,7 @@ STREAMS = {
 FEED_ID = '93e16394d432a43ab5c06cfc96fdf399'
 
 
-class StreamsTestCase(TestCase):
+class StreamsTestCase(V1TestCase):
     def setUp(self):
         super(StreamsTestCase, self).setUp()
         HTTPretty.register_uri(HTTPretty.GET, self.streams_url(),

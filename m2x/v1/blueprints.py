@@ -1,5 +1,5 @@
-from m2x.feeds import HasFeedMixin
 from m2x.resource import Collection, Item
+from m2x.v1.feeds import HasFeedMixin
 
 
 class Blueprint(Item, HasFeedMixin):

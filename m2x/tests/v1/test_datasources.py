@@ -4,8 +4,8 @@ from requests import HTTPError
 from sure import expect
 from httpretty import HTTPretty
 
-from m2x.datasources import DataSources
-from m2x.tests.base import TestCase
+from m2x.v1.datasources import DataSources
+from m2x.tests.v1.base import V1TestCase
 
 
 DATASOURCE = {
@@ -48,7 +48,7 @@ DATASOURCES = {
 }
 
 
-class DatasourcesTestCase(TestCase):
+class DatasourcesTestCase(V1TestCase):
     def setUp(self):
         super(DatasourcesTestCase, self).setUp()
         HTTPretty.register_uri(HTTPretty.GET, self._url(DataSources.PATH),

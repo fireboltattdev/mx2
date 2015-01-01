@@ -3,8 +3,8 @@ import json
 from sure import expect
 from httpretty import HTTPretty
 
-from m2x.feeds import Feeds
-from m2x.tests.base import TestCase
+from m2x.v1.feeds import Feeds
+from m2x.tests.v1.base import V1TestCase
 
 
 FEED = {
@@ -54,7 +54,7 @@ FEEDS = {
 }
 
 
-class FeedsTestCase(TestCase):
+class FeedsTestCase(V1TestCase):
     def setUp(self):
         super(FeedsTestCase, self).setUp()
         HTTPretty.register_uri(HTTPretty.GET, self._url(Feeds.PATH),

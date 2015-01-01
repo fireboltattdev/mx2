@@ -1,7 +1,7 @@
 from m2x.utils import memoize
-from m2x.feeds import HasFeedMixin
 from m2x.resource import Collection, Item
-from m2x.datasources import BatchDataSources
+from m2x.v1.feeds import HasFeedMixin
+from m2x.v1.datasources import BatchDataSources
 
 
 class Batch(Item, HasFeedMixin):

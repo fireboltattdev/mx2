@@ -3,7 +3,7 @@ import json
 from requests import session
 
 from m2x import version
-from m2x.errors import APIError
+from m2x.errors import APIError, InactiveAccountError
 
 
 USERAGENT = 'python-m2x/{0}'.format(version)
@@ -30,6 +30,8 @@ class APIBase(object):
         response = self.session.request(method, url, **kwargs)
         if response.status_code == 422:
             raise APIError(response)
+        elif response.status_code == 403:
+            raise InactiveAccountError(response)
         response.raise_for_status()
 
         try:
@@ -59,7 +61,3 @@ class APIBase(object):
 
     def url(self, *parts):
         return self.client.url(self.PATH, *parts)
-
-
-class APIVersion1(APIBase):
-    PATH = '/v1'

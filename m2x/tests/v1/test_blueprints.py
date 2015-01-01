@@ -4,8 +4,8 @@ from requests import HTTPError
 from sure import expect
 from httpretty import HTTPretty
 
-from m2x.blueprints import Blueprints
-from m2x.tests.base import TestCase
+from m2x.v1.blueprints import Blueprints
+from m2x.tests.v1.base import V1TestCase
 
 
 BLUEPRINTS = {
@@ -50,7 +50,7 @@ BLUEPRINT = {
 }
 
 
-class BlueprintsTestCase(TestCase):
+class BlueprintsTestCase(V1TestCase):
     def setUp(self):
         super(BlueprintsTestCase, self).setUp()
         HTTPretty.register_uri(HTTPretty.GET, self._url(Blueprints.PATH),

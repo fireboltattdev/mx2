@@ -1,7 +1,8 @@
-from m2x.resource import Collection, Item
-from m2x.streams import Streams
-from m2x.keys import FeedKeys
 from m2x.utils import memoize, process_values
+from m2x.resource import Collection, Item
+
+from m2x.v1.streams import Streams
+from m2x.v1.keys import FeedKeys
 
 
 class Location(Item):

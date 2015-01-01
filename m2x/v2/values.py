@@ -9,13 +9,13 @@ class Value(Item):
 
 
 class Values(Collection):
-    PATH = 'feeds/{feed_id}/streams/{stream_name}/values'
+    PATH = 'devices/{device_id}/streams/{stream_name}/values'
     ITEMS_KEY = 'values'
     ITEM_CLASS = Value
+    SORT_KEY = 'at'
 
     def add_value(self, value, at=None):
-        if at is None:
-            at = datetime.now()
+        at = datetime.now() if at is None else at
         values = self.add_values({'value': value, 'at': at})
         return values[0] if values else None
 
@@ -44,6 +44,3 @@ class Values(Collection):
         #     {'value': value}
         #     {'at': at, 'value': value} ]
         return [process_value(value) for value in values]
-
-    def order_key(self, val):
-        return val.data.get('at')
