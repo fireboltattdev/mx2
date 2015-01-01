@@ -14,7 +14,4 @@ class M2XClient(object):
                             if part])
 
     def __getattr__(self, name):
-        if hasattr(self.api, name):
-            return getattr(self.api, name)
-        else:
-            return super(M2XClient, self).__getattr__(name)
+        return getattr(self.api, name)

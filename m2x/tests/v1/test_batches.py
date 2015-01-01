@@ -5,7 +5,7 @@ from sure import expect
 from httpretty import HTTPretty
 
 from m2x.v1.batches import Batches
-from m2x.tests.base import TestCase
+from m2x.tests.v1.base import V1TestCase
 
 
 BATCHES = {
@@ -63,7 +63,7 @@ BATCH = {
 }
 
 
-class BatchesTestCase(TestCase):
+class BatchesTestCase(V1TestCase):
     def setUp(self):
         super(BatchesTestCase, self).setUp()
         HTTPretty.register_uri(HTTPretty.GET, self._url(Batches.PATH),

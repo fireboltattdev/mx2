@@ -12,3 +12,6 @@ class Triggers(Collection):
     PATH = 'devices/{device_id}/triggers'
     ITEMS_KEY = 'triggers'
     ITEM_CLASS = Trigger
+
+    def item(self, entry):
+        return self.ITEM_CLASS(self.api, device_id=self.device_id, **entry)

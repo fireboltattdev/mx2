@@ -1,9 +1,12 @@
 class APIError(Exception):
     def __init__(self, response):
-        json = response.json()
+        self.json = response.json()
         self.response = response
-        self.errors = json['errors']
-        super(APIError, self).__init__(json['message'])
+        super(APIError, self).__init__(self.json.get('message'))
+
+    @property
+    def errors(self):
+        return self.json.get('error') or []
 
     def __getattr__(self, name):
         try:
@@ -13,4 +16,6 @@ class APIError(Exception):
 
 
 class InactiveAccountError(APIError):
-    pass
+    @property
+    def errors(self):
+        return ['Account is inactive']

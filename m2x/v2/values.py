@@ -15,8 +15,7 @@ class Values(Collection):
     SORT_KEY = 'at'
 
     def add_value(self, value, at=None):
-        if at is None:
-            at = datetime.now()
+        at = datetime.now() if at is None else at
         values = self.add_values({'value': value, 'at': at})
         return values[0] if values else None
 

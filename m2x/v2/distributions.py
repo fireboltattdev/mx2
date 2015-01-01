@@ -29,7 +29,6 @@ class DistributionTriggers(Triggers):
 
 class Distribution(Item):
     PATH = 'distributions/{id}'
-    REQUIRED_ON_UPDATE = ['name', 'visibility']
 
     @pmemoize
     def devices(self):
