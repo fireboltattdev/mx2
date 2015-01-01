@@ -5,16 +5,15 @@ The AT&T `M2X API`_ provides all the needed operations to connect your devices t
 M2X service`_. This client provides an easy to use interface for
 your favorite language, `Python`_.
 
-The library provides an interface to navigate and register your
-data source values with the `AT&T's M2X service`_, while supporting Python 2 and
-3. 
+The library provides an interface to navigate and register your data source
+values with the `AT&T's M2X service`_, while supporting Python 2 and 3.
 
 There are only a few dependencies:
 
 * requests_ (version ``2.0.0``)
 * iso8601_ (version ``0.1.8``)
 
-To use Python on your local machine, you'll need to first install Python-setuptools_. 
+To use Python on your local machine, you'll need to first install Python-setuptools_.
 
 Getting Started
 ------------
@@ -47,8 +46,8 @@ or cloning the repository::
 Library structure
 -----------------
 
-Currently, the client supports ``API v1`` and all M2X API documents can be found at
-`M2X API Documentation`_.
+Currently, the client supports ``API v1`` and ``API v2`` (defaulting to ``v2``)
+and all M2X API documents can be found at `M2X API Documentation`_.
 
 * Client_
 
@@ -70,7 +69,7 @@ Currently, the client supports ``API v1`` and all M2X API documents can be found
   new ones. Important methods are:
 
   - Load items (``.load()`` method)
-  - Get item details (``.details(id)`` method)
+  - Get item details (``.get(id)`` method)
   - Create items (``.create(**attrs)`` method)
   - Search items (``.search(...)`` method)
 
@@ -126,16 +125,337 @@ parameters that can be passed:
   ``type`` as described in the `Feeds Search section`_
 
 
-Client usage
-------------
+V2 Client usage
+---------------
 
 To create a client instance only a single parameter, the API Key, is needed.
-Your Master API Key can be found in your account_ settings, or a feed API key
-is available in your Data Source details screen. To create a client instance
-just do::
+Your API Keys can be found in your account_ settings. To create a client
+instance just do::
 
     >>> from m2x.client import M2XClient
     >>> client = M2XClient(key='your api key here')
+
+The client provides an interface to access your Devices_ (and Catalog_),
+Distributions_ and Keys_.
+
+* Devices_
+
+  ``Devices`` is accessible by the ``devices`` property in a ``M2XClient``
+  instance. The property is an iterable type where each entry is a Device_
+  instance.
+
+  - Iteration::
+
+        >>> for device in client.devices:
+        >>>    ...
+
+  - Creation::
+
+        >>> device = client.devices.create(
+        ...     name='Devices',
+        ...     description='Device description',
+        ...     visibility='public'
+        ... )
+        <m2x.v2.devices.Device at 0x365c590>
+
+  - Search::
+
+        >>> devices = client.devices.search(...)
+
+  - Update (following the previous code)::
+
+        >>> device.update(
+        ...     name='Device2',
+        ...     description='Device2 description',
+        ...     visibility='private',
+        ...     status='enabled'
+        ... )
+
+    The parameters ``name``, ``visibility`` **must** be provided, otherwise
+    a validation error is returned by the service (response status code
+    ``422``).
+
+  - Removal (following the previous code)::
+
+        >>> device.remove()
+
+  - Single item retrieval::
+
+        >>> device = client.devices.get(
+        ...     '188a0afb3adc379706e780a4eafbd153'
+        ... )
+        <m2x.v2.devices.Device at 0x1652fd0>
+
+    The parameter to ``.get()`` is the Device_ ID.
+
+  - Devices groups::
+
+        >>> client.devices.groups()
+        {"groups": [{"group #1": 2}, {"group #2": 3}]}
+
+  - Device streams::
+
+        >>> device = client.devices.get('188a0afb3adc379706e780a4eafbd153')
+        <m2x.v2.devices.Device at 0x1652fd0>
+        >>> device.streams
+        [<m2x.v2.streams.Stream at 0x7f6791d12290>]
+
+  - Device location::
+
+        >>> device = client.devices.get('188a0afb3adc379706e780a4eafbd153')
+        <m2x.v2.devices.Device at 0x1652fd0>
+        >>> device.location
+        <m2x.v2.devices.Location at 0x7f6791d60e50>
+
+  - Device triggers::
+
+        >>> device = client.devices.get('188a0afb3adc379706e780a4eafbd153')
+        <m2x.v2.devices.Device at 0x1652fd0>
+        >>> device.triggers
+        [<m2x.v2.triggers.Trigger at 0x7f6791d4d690>]
+
+        >>> trigger = device.triggers[0]
+        <m2x.v2.triggers.Trigger at 0x7f6791d4d690>
+        >>> trigger.test()
+
+  - Device updates (post several values to the device in a single request)::
+
+        >>> device = client.devices.get('188a0afb3adc379706e780a4eafbd153')
+        <m2x.v2.devices.Device at 0x1652fd0>
+        >>> device.updates({'stream1': [value1, value2]})
+
+* Catalog_
+
+  The catalog is just a list of public devices accessible to everybody. To
+  access it, just use the ``catalog`` property::
+
+    >>> for device in client.catalog:
+    >>>    ...
+
+* Keys_
+
+  ``Keys`` is accessible by the ``keys`` property in a ``M2XClient`` instance.
+  The property is an iterable type where each entry is a Key_ instance.
+
+  - Iteration::
+
+        >>> for key in client.keys
+        >>>    ...
+
+  - Creation::
+
+        >>> key = client.keys.create(
+        ...     name='Key',
+        ...     permissions=['DELETE', 'GET', 'POST', 'PUT']
+        ... )
+        <m2x.v2.keys.Key at 0x365c500>
+
+  - Search:
+
+    Keys_ don't support searching, but the method is left implemented in
+    case it's supported in the future. Calling search will return all the keys.
+
+  - Update (following the previous code)::
+
+        >>> key.update(
+        ...     name='Key2',
+        ...     permissions=['GET', 'POST', 'PUT']
+        ... )
+
+    The parameters ``name`` and ``permissions`` **must** be provided, otherwise
+    a validation error is returned by the service (response status code ``422``).
+
+  - Removal (following the previous code)::
+
+        >>> key.remove()
+
+  - Single item retrieval::
+
+        >>> key = client.keys.details(
+        ...     '61179472a42583cffc889478010a092a'
+        ... )
+        <m2x.v2.keys.Key at 0x1652fd0>
+
+    The parameter to ``.details()`` is the Key_ ``key``.
+
+  Feed keys are documented below.
+
+
+* Streams
+
+  ``Streams`` can be seen as collection of values, M2X provides some useful
+  methods for streams.
+
+  - Iteration::
+
+        >>> device = client.devices.get('188a0afb3adc379706e780a4eafbd153')
+        <m2x.v2.devices.Device at 0x1652fd0>
+        >>> for stream in device.streams:
+                ...
+
+  - Values::
+
+        >>> device = client.devices.get('188a0afb3adc379706e780a4eafbd153')
+        <m2x.v2.devices.Device at 0x1652fd0>
+        >>> stream = device.streams[0]
+        <m2x.v2.streams.Stream at 0x7f6791d12290>
+        >>> stream.values
+        [<m2x.v2.values.Value at 0x7f6791d123d0>, <m2x.v2.values.Value at 0x7f6791250890>, ...]
+
+  - Sampling::
+
+        >>> device = client.devices.get('188a0afb3adc379706e780a4eafbd153')
+        <m2x.v2.devices.Device at 0x1652fd0>
+        >>> stream = device.streams[0]
+        <m2x.v2.streams.Stream at 0x7f6791d12290>
+        >>> stream.sampling
+        [<m2x.v2.values.Value at 0x7f6791d123d0>, <m2x.v2.values.Value at 0x7f6791250890>, ...]
+
+  - Stats::
+
+        >>> device = client.devices.get('188a0afb3adc379706e780a4eafbd153')
+        <m2x.v2.devices.Device at 0x1652fd0>
+        >>> stream = device.streams[0]
+        <m2x.v2.streams.Stream at 0x7f6791d12290>
+        >>> stream.stats()
+        {
+            u'end': u'2015-01-01T22:44:37.890Z',
+            u'stats': {
+                u'avg': u'0.40545455E2',
+                u'count': 11.0,
+                u'max': 82.0,
+                u'min': 8.0,
+                u'stddev': 21.266122
+            }
+        }
+
+
+* Distributions_
+
+  ``Distributions`` are accessible by the ``distributions`` property in
+  a ``M2XClient`` instance. The property is an iterable type where each entry
+  is a Distribution_ instance.
+
+  - Iteration::
+
+        >>> for distribution in client.distributions:
+        >>>    ...
+
+  - Creation::
+
+        >>> device = client.distributions.create(
+        ...     name='Distribution',
+        ...     description='Distribution description',
+        ...     visibility='public'
+        ... )
+        <m2x.v2.distributions.Distribution at 0x365c590>
+
+  - Search::
+
+        >>> distributions = client.distributions.search(...)
+
+  - Update (following the previous code)::
+
+        >>> distribution.update(
+        ...     name='Distribution2',
+        ...     description='Distribution2 description',
+        ...     visibility='private'
+        ... )
+
+    The parameters ``name``, ``visibility`` **must** be provided, otherwise
+    a validation error is returned by the service (response status code
+    ``422``).
+
+  - Removal (following the previous code)::
+
+        >>> distribution.remove()
+
+  - Single item retrieval::
+
+        >>> distribution = client.distributions.get(
+        ...     '188a0afb3adc379706e780a4eafbd153'
+        ... )
+        <m2x.v2.distributions.Distribution at 0x1652fd0>
+
+    The parameter to ``.get()`` is the Distribution_ ID.
+
+  - Devices (following previous code)::
+
+        >>> distribution.devices
+        [<m2x.v2.devices.Device at 0x7f6791d60f90>, <m2x.v2.devices.Device at 0x7f6791d60410>]
+
+  - Strems (following previous code)::
+
+        >>> distribution.streams
+        [<m2x.v2.streams.Stream at 0x7f6791d12290>]
+
+  - Triggers (following previous code)::
+
+        >>> distribution.triggers
+        [<m2x.v2.triggers.Trigger at 0x7f6791d4d690>]
+
+
+Lets build a V2 RandomNumberGenerator Data Source
+-------------------------------------------------
+
+Lets build a python random number generator data source using the API
+described above.
+
+First import everything::
+
+    >>> import random
+    >>> from m2x.client import M2XClient
+
+Create a client instance::
+
+    >>> client = M2XClient(key='288b375565d3402a8b6bd8c343e9fcad')
+
+Now create a device for the values::
+
+    >>> device = client.devices.create(
+    ...     name='RNG Device Example',
+    ...     description='Device for RandomNumberGenerator example',
+    ...     visibility='public'
+    ... )
+
+Create a data stream in the feed::
+
+    >>> stream = device.streams.create(name='values')
+
+And now it's time to register some values in the stream::
+
+    >>> for x in range(10):
+    ...    stream.values.add_value(random.randint(0, 100))
+
+Lets add some more values::
+
+    >>> stream.values.add_values(*[random.randint(0, 100) for _ in range(10)])
+    [<m2x.values.Value at 0x2cd8a90>, <m2x.values.Value at 0x2cd8ad0>, ...]
+
+Lest add even more values::
+
+    >>> device.updates({
+    ...    'values': [{'value': random.randint(0, 100)} for _ in range(10)]
+    ... })
+
+Lets print the values::
+
+    >>> for val in stream.values:
+    ...    print '{0} - {1}'.format(val.at.strftime('%Y-%m-%d %H:%M:%S'),
+    ...                             val.value)
+
+
+V1 Client usage (deprecated)
+----------------------------
+
+To create a v1 client instance, two parameters are needed, the API Key and the
+API V1 implementation interface. Your Master API Key can be found in your
+account_ settings, or a feed API key is available in your Data Source details
+screen. To create a client instance just do::
+
+    >>> from m2x.client import M2XClient
+    >>> from m2x.v1.api import APIVersion1
+    >>> client = M2XClient(key='your api key here', api=APIVersion1)
 
 The client provides an interface to access your Blueprints_, Batches_,
 DataSources_, Feeds_, Keys_.
@@ -518,8 +838,8 @@ DataSources_, Feeds_, Keys_.
   that value.
 
 
-Lets build a RandomNumberGenerator Data Source
-----------------------------------------------
+Lets build a V1 RandomNumberGenerator Data Source
+-------------------------------------------------
 
 Lets build a python random number generator data source using the API
 described above.
@@ -572,7 +892,6 @@ Lets print the values::
     ...    print '{0} - {1}'.format(val.at.strftime('%Y-%m-%d %H:%M:%S'),
     ...                             val.value)
 
-
 License
 =======
 
@@ -596,11 +915,16 @@ This library is released under the MIT license. See ``LICENSE`` for the terms.
 .. _DataSource: https://github.com/citrusbyte/m2x-python/blob/master/m2x/datasources.py#L4
 .. _Feeds: https://m2x.att.com/developer/documentation/feed
 .. _Feed: https://github.com/citrusbyte/m2x-python/blob/master/m2x/feeds.py#L21
-.. _Keys: https://m2x.att.com/developer/documentation/keys
-.. _Key: https://github.com/citrusbyte/m2x-python/blob/master/m2x/keys.py#L4
 .. _Collection: https://github.com/citrusbyte/m2x-python/blob/master/m2x/resource.py#L91
 .. _Collections: https://github.com/citrusbyte/m2x-python/blob/master/m2x/resource.py#L91
 .. _Item: https://github.com/citrusbyte/m2x-python/blob/master/m2x/resource.py#L81
 .. _Value: https://github.com/citrusbyte/m2x-python/blob/master/m2x/values.py#L8
 .. _Feeds Search section: http://m2x.att.citrusbyte.com/developer/documentation/feed#List-Search-Feeds
 .. _Python-setuptools: https://pypi.python.org/pypi/setuptools#installation-instructions
+.. _Devices: https://m2x.att.com/developer/documentation/v2/device
+.. _Device: https://m2x.att.com/developer/documentation/v2/device
+.. _Catalog: https://m2x.att.com/developer/documentation/v2/device#List-Search-Public-Devices-Catalog
+.. _Keys: https://m2x.att.com/developer/documentation/v2/keys
+.. _Key: https://m2x.att.com/developer/documentation/v2/keys
+.. _Distributions: https://m2x.att.com/developer/documentation/v2/distribution
+.. _Distribution: https://m2x.att.com/developer/documentation/v2/distribution
