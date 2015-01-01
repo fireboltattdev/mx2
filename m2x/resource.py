@@ -89,6 +89,7 @@ class Collection(Resource, list):
         criteria['limit'] = self.DEFAULT_LIMIT if limit is None else int(limit)
 
         if query:
+            criteria['q'] = query
             criteria['query'] = query
 
         if tags:
