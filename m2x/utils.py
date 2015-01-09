@@ -20,14 +20,14 @@ def pmemoize(func):
     return property(memoize(func))
 
 
-def process_values(values):
-    return list(map(process_value, values))
+def process_values(values, timestamp_name='at'):
+    return list(map(lambda v: process_values(v, timestamp_name), values))
 
 
-def process_value(value):
+def process_value(value, timestamp_name='at'):
     if isinstance(value, tuple):
         if len(value) == 2:
-            value = {'at': value[0], 'value': value[1]}
+            value = {timestamp_name: value[0], 'value': value[1]}
         elif len(value) == 1:
             value = {'value': value[0]}
     elif not isinstance(value, dict):
@@ -37,7 +37,8 @@ def process_value(value):
     # datetime if no value is passed anyway, but since the server
     # doesn't return the value created, there's no way to get it unless
     # all the values are requested again
-    value['at'] = to_iso(value.get('at') or datetime.now())
+    value[timestamp_name] = \
+        to_iso(value.get(timestamp_name) or datetime.now())
     return value
 
 

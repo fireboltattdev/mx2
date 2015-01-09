@@ -12,11 +12,11 @@ class Values(Collection):
     PATH = 'devices/{device_id}/streams/{stream_name}/values'
     ITEMS_KEY = 'values'
     ITEM_CLASS = Value
-    SORT_KEY = 'at'
+    SORT_KEY = 'timestamp'
 
-    def add_value(self, value, at=None):
-        at = datetime.now() if at is None else at
-        values = self.add_values({'value': value, 'at': at})
+    def add_value(self, value, timestamp=None):
+        timestamp = datetime.now() if timestamp is None else timestamp
+        values = self.add_values({'value': value, 'timestamp': timestamp})
         return values[0] if values else None
 
     def add_values(self, *values):
@@ -24,7 +24,7 @@ class Values(Collection):
         self.api.post(self.path(), data={'values': values})
         values = [self.item(val) for val in values]
         self.extend(values)
-        self.order()
+        self.sort(key=self.sort_key)
         return values
 
     def by_date(self, start=None, end=None, limit=None):
@@ -39,8 +39,9 @@ class Values(Collection):
 
     def process_values(self, *values):
         # Supported format for values:
-        #   [ (at, value),
+        #   [ (timestamp, value),
         #     value,
         #     {'value': value}
-        #     {'at': at, 'value': value} ]
-        return [process_value(value) for value in values]
+        #     {'timestamp': timestamp, 'value': value} ]
+        return [process_value(value, timestamp_name='timestamp')
+                    for value in values]
