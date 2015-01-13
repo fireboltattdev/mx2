@@ -72,7 +72,9 @@ class V2CollectionTestCase(object):
 
     @property
     def collection(self):
-        return getattr(self.client, self.CLIENT_PROPERTY)
+        collection = getattr(self.client, self.CLIENT_PROPERTY)
+        collection.load()
+        return collection
 
     @property
     def id_key(self):

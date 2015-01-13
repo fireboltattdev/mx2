@@ -50,16 +50,16 @@ class Collection(Resource, list):
     ID_KEY = 'id'
     DEFAULT_LIMIT = 256
 
-    def __init__(self, api, **data):
-        self.last_response = None
-        super(Collection, self).__init__(api, **data)
-        self.load()
-
     def reload(self):
         self[:] = []
+        self._loaded = False
         self.load()
 
     def load(self):
+        if getattr(self, '_loaded', False):
+            return
+
+        self._loaded = True
         response = self.api.get(self.path())
         self[:] = self.itemize(response)
 
@@ -113,3 +113,127 @@ class Collection(Resource, list):
 
     def item_path(self, **params):
         return self.ITEM_CLASS.PATH.format(**params)
+
+    def __add__(self, *args, **kwargs):
+        self.load()
+        return list.__add__(self, *args, **kwargs)
+
+    def __contains__(self, *args, **kwargs):
+        self.load()
+        return list.__contains__(self, *args, **kwargs)
+
+    def __delitem__(self, *args, **kwargs):
+        self.load()
+        return list.__delitem__(self, *args, **kwargs)
+
+    def __delslice__(self, *args, **kwargs):
+        self.load()
+        return list.__delslice__(self, *args, **kwargs)
+
+    def __eq__(self, *args, **kwargs):
+        self.load()
+        return list.__eq__(self, *args, **kwargs)
+
+    def __format__(self, *args, **kwargs):
+        self.load()
+        return list.__format__(self, *args, **kwargs)
+
+    def __ge__(self, *args, **kwargs):
+        self.load()
+        return list.__ge__(self, *args, **kwargs)
+
+    def __getitem__(self, *args, **kwargs):
+        self.load()
+        return list.__getitem__(self, *args, **kwargs)
+
+    def __getslice__(self, *args, **kwargs):
+        self.load()
+        return list.__getslice__(self, *args, **kwargs)
+
+    def __gt__(self, *args, **kwargs):
+        self.load()
+        return list.__gt__(self, *args, **kwargs)
+
+    def __hash__(self, *args, **kwargs):
+        self.load()
+        return list.__hash__(self, *args, **kwargs)
+
+    def __iadd__(self, *args, **kwargs):
+        self.load()
+        return list.__iadd__(self, *args, **kwargs)
+
+    def __imul__(self, *args, **kwargs):
+        self.load()
+        return list.__imul__(self, *args, **kwargs)
+
+    def __iter__(self, *args, **kwargs):
+        self.load()
+        return list.__iter__(self, *args, **kwargs)
+
+    def __le__(self, *args, **kwargs):
+        self.load()
+        return list.__le__(self, *args, **kwargs)
+
+    def __len__(self, *args, **kwargs):
+        self.load()
+        return list.__len__(self, *args, **kwargs)
+
+    def __lt__(self, *args, **kwargs):
+        self.load()
+        return list.__lt__(self, *args, **kwargs)
+
+    def __mul__(self, *args, **kwargs):
+        self.load()
+        return list.__mul__(self, *args, **kwargs)
+
+    def __ne__(self, *args, **kwargs):
+        self.load()
+        return list.__ne__(self, *args, **kwargs)
+
+    def __reduce__(self, *args, **kwargs):
+        self.load()
+        return list.__reduce__(self, *args, **kwargs)
+
+    def __reduce_ex__(self, *args, **kwargs):
+        self.load()
+        return list.__reduce_ex__(self, *args, **kwargs)
+
+    def __reversed__(self, *args, **kwargs):
+        self.load()
+        return list.__reversed__(self, *args, **kwargs)
+
+    def __rmul__(self, *args, **kwargs):
+        self.load()
+        return list.__rmul__(self, *args, **kwargs)
+
+    def __setitem__(self, *args, **kwargs):
+        self.load()
+        return list.__setitem__(self, *args, **kwargs)
+
+    def __setslice__(self, *args, **kwargs):
+        self.load()
+        return list.__setslice__(self, *args, **kwargs)
+
+    def count(self, *args, **kwargs):
+        self.load()
+        return list.count(self, *args, **kwargs)
+
+    def index(self, *args, **kwargs):
+        self.load()
+        return list.index(self, *args, **kwargs)
+
+    def insert(self, *args, **kwargs):
+        self.load()
+        return list.insert(self, *args, **kwargs)
+
+    def pop(self, *args, **kwargs):
+        self.load()
+        return list.pop(self, *args, **kwargs)
+
+    def remove(self, *args, **kwargs):
+        self.load()
+        return list.remove(self, *args, **kwargs)
+
+    def reverse(self, *args, **kwargs):
+        self.load()
+        return list.reverse(self, *args, **kwargs)
