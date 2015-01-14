@@ -99,7 +99,7 @@ This `client` an interface to your data in M2X
   ```
 
 Refer to the [IMPLEMENTATION DETAILS](IMPLEMENTATION_DETAILS.md) and
-[API](API.md) for more examples.
+[USAGE](USAGE.md) for more examples.
 
 
 ## Example
