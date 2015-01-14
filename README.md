@@ -88,13 +88,13 @@ This `client` an interface to your data in M2X
 
 - [Devices](m2x/v2/devices.py)
   ```python
-  device = client.device('<DEVICE-ID>')
+  device = client.devices.get('<DEVICE-ID>')
   devices = client.devices
   ```
 
 - [Key](m2x/v2/keys.py)
   ```python
-  key = client.key('<KEY-TOKEN>')
+  key = client.keys.get('<KEY-TOKEN>')
   keys = client.keys
   ```
 
