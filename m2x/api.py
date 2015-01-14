@@ -1,4 +1,6 @@
+import sys
 import json
+import platform
 
 from requests import session
 
@@ -6,7 +8,17 @@ from m2x import version
 from m2x.errors import APIError, InactiveAccountError
 
 
-USERAGENT = 'python-m2x/{0}'.format(version)
+PYTHON_VERSION = '{major}.{minor}.{micro}'.format(
+    major=sys.version_info.major,
+    minor=sys.version_info.minor,
+    micro=sys.version_info.micro
+)
+
+USERAGENT = 'M2X-Python/{version} python/{python_version} ({platform})'.format(
+    version=version,
+    python_version=PYTHON_VERSION,
+    platform=platform.platform()
+)
 
 
 class APIBase(object):
