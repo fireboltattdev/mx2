@@ -34,13 +34,14 @@ The library provides an interface to navigate and register your data source
 values with the [AT&T's M2X service](https://m2x.att.com/), while supporting
 Python 2 and 3.
 
-There are only a few dependencies:
+
+## Dependencies
 
 * [requests](http://www.python-requests.org)
 * [iso8601](https://pypi.python.org/pypi/iso8601)
 
 To use Python on your local machine, you'll need to first install
-Python-setuptools_.
+`Python-setuptools`.
 
 
 ## Installation
