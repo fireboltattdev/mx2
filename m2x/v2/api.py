@@ -1,10 +1,10 @@
-from m2x.api import APIBase
+from m2x.api import HTTPAPIBase, MQTTAPIBase
 from m2x.v2.devices import Device
 from m2x.v2.distributions import Distribution
 from m2x.v2.keys import Key
 
 
-class APIVersion2(APIBase):
+class V2Mixin(object):
     PATH = '/v2'
 
     def status(self):
@@ -42,3 +42,11 @@ class APIVersion2(APIBase):
 
     def keys(self, **params):
         return Key.list(self, **params)
+
+
+class APIVersion2(V2Mixin, HTTPAPIBase):
+    pass
+
+
+class MQTTAPIVersion2(V2Mixin, MQTTAPIBase):
+    pass
