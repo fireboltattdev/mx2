@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from m2x.utils import process_value, to_iso
-from m2x.resource import Collection, Item
+from m2x.v1.resource import Collection, Item
 
 
 class Value(Item):
