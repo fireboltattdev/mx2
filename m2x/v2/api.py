@@ -22,6 +22,9 @@ class APIVersion2(APIBase):
     def device_catalog(self, **params):
         return Device.catalog(self, **params)
 
+    def device_groups(self, **params):
+        return Device.groups(self, **params)
+
     def distribution(self, id):
         return Distribution.get(self, id)
 
