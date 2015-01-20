@@ -8,7 +8,7 @@ instance just do:
 
 ```python
 >>> from m2x.client import M2XClient
->>> client = M2XClient(key='your api key here')
+>>> client = M2XClient(key='YOUR API KEY HERE')
 ```
 
 The client provides an interface to access your Devices (and Catalog),
@@ -23,14 +23,14 @@ Distributions and Keys.
   - Iteration:
 
     ```python
-    >>> for device in client.devices:
+    >>> for device in client.devices():
     >>>    ...
     ```
 
   - Creation:
 
     ```python
-    >>> device = client.devices.create(
+    >>> device = client.create_device(
     ...     name='Devices',
     ...     description='Device description',
     ...     visibility='public'
@@ -41,7 +41,7 @@ Distributions and Keys.
   - Search:
 
     ```python
-    >>> devices = client.devices.search(...)
+    >>> devices = client.devices(q=...)
     ```
 
   - Update (following the previous code):
@@ -68,9 +68,7 @@ Distributions and Keys.
   - Single item retrieval:
 
     ```python
-    >>> device = client.devices.get(
-    ...     '188a0afb3adc379706e780a4eafbd153'
-    ... )
+    >>> device = client.device('188a0afb3adc379706e780a4eafbd153')
     <m2x.v2.devices.Device at 0x1652fd0>
     ```
 
@@ -79,37 +77,37 @@ Distributions and Keys.
   - Devices groups:
 
     ```python
-    >>> client.devices.groups()
-    {"groups": [{"group #1": 2}, {"group #2": 3}]}
+    >>> client.device_groups()
+    [{"group #1": 2}, {"group #2": 3}]
     ```
 
   - Device streams:
 
     ```python
-    >>> device = client.devices.get('188a0afb3adc379706e780a4eafbd153')
+    >>> device = client.device('188a0afb3adc379706e780a4eafbd153')
     <m2x.v2.devices.Device at 0x1652fd0>
-    >>> device.streams
+    >>> device.streams()
     [<m2x.v2.streams.Stream at 0x7f6791d12290>]
     ```
 
   - Device location:
 
     ```python
-    >>> device = client.devices.get('188a0afb3adc379706e780a4eafbd153')
+    >>> device = client.device('188a0afb3adc379706e780a4eafbd153')
     <m2x.v2.devices.Device at 0x1652fd0>
-    >>> device.location
+    >>> device.location()
     <m2x.v2.devices.Location at 0x7f6791d60e50>
     ```
 
   - Device triggers:
 
     ```python
-    >>> device = client.devices.get('188a0afb3adc379706e780a4eafbd153')
+    >>> device = client.device('188a0afb3adc379706e780a4eafbd153')
     <m2x.v2.devices.Device at 0x1652fd0>
-    >>> device.triggers
+    >>> device.triggers()
     [<m2x.v2.triggers.Trigger at 0x7f6791d4d690>]
 
-    >>> trigger = device.triggers[0]
+    >>> trigger = device.triggers()[0]
     <m2x.v2.triggers.Trigger at 0x7f6791d4d690>
     >>> trigger.test()
     ```
@@ -117,9 +115,9 @@ Distributions and Keys.
   - Device updates (post several values to the device in a single request):
 
     ```python
-    >>> device = client.devices.get('188a0afb3adc379706e780a4eafbd153')
+    >>> device = client.device('188a0afb3adc379706e780a4eafbd153')
     <m2x.v2.devices.Device at 0x1652fd0>
-    >>> device.updates({'stream1': [value1, value2]})
+    >>> device.updates(values={'stream1': [value1, value2]})
     ```
 
 * Catalog
@@ -128,7 +126,7 @@ Distributions and Keys.
   access it, just use the `catalog` property:
 
     ```python
-    >>> for device in client.catalog:
+    >>> for device in client.device_catalog():
     >>>    ...
     ```
 
@@ -140,14 +138,14 @@ Distributions and Keys.
   - Iteration:
 
     ```python
-    >>> for key in client.keys
+    >>> for key in client.keys():
     >>>    ...
     ```
 
   - Creation:
 
     ```python
-    >>> key = client.keys.create(
+    >>> key = client.create_key(
     ...     name='Key',
     ...     permissions=['DELETE', 'GET', 'POST', 'PUT']
     ... )
@@ -177,20 +175,6 @@ Distributions and Keys.
     >>> key.remove()
     ```
 
-  - Single item retrieval:
-
-    ```python
-    >>> key = client.keys.details(
-    ...     '61179472a42583cffc889478010a092a'
-    ... )
-    <m2x.v2.keys.Key at 0x1652fd0>
-    ```
-
-    The parameter to `.details()` is the Key `key`.
-
-  Feed keys are documented below.
-
-
 * Streams
 
   `Streams` can be seen as collection of values, M2X provides some useful
@@ -199,40 +183,40 @@ Distributions and Keys.
   - Iteration:
 
     ```python
-    >>> device = client.devices.get('188a0afb3adc379706e780a4eafbd153')
+    >>> device = client.device('188a0afb3adc379706e780a4eafbd153')
     <m2x.v2.devices.Device at 0x1652fd0>
-    >>> for stream in device.streams:
+    >>> for stream in device.streams():
             ...
     ```
 
   - Values:
 
     ```python
-    >>> device = client.devices.get('188a0afb3adc379706e780a4eafbd153')
+    >>> device = client.device('188a0afb3adc379706e780a4eafbd153')
     <m2x.v2.devices.Device at 0x1652fd0>
-    >>> stream = device.streams[0]
+    >>> stream = device.streams()[0]
     <m2x.v2.streams.Stream at 0x7f6791d12290>
-    >>> stream.values
+    >>> stream.values()
     [<m2x.v2.values.Value at 0x7f6791d123d0>, <m2x.v2.values.Value at 0x7f6791250890>, ...]
     ```
 
   - Sampling:
 
     ```python
-    >>> device = client.devices.get('188a0afb3adc379706e780a4eafbd153')
+    >>> device = client.device('188a0afb3adc379706e780a4eafbd153')
     <m2x.v2.devices.Device at 0x1652fd0>
     >>> stream = device.streams[0]
     <m2x.v2.streams.Stream at 0x7f6791d12290>
-    >>> stream.sampling
+    >>> stream.sampling(interval=1)
     [<m2x.v2.values.Value at 0x7f6791d123d0>, <m2x.v2.values.Value at 0x7f6791250890>, ...]
     ```
 
   - Stats:
 
     ```python
-    >>> device = client.devices.get('188a0afb3adc379706e780a4eafbd153')
+    >>> device = client.device('188a0afb3adc379706e780a4eafbd153')
     <m2x.v2.devices.Device at 0x1652fd0>
-    >>> stream = device.streams[0]
+    >>> stream = device.stream()[0]
     <m2x.v2.streams.Stream at 0x7f6791d12290>
     >>> stream.stats()
     {
@@ -257,14 +241,14 @@ Distributions and Keys.
   - Iteration:
 
     ```python
-    >>> for distribution in client.distributions:
+    >>> for distribution in client.distributions():
     >>>    ...
     ```
 
   - Creation:
 
     ```python
-    >>> device = client.distributions.create(
+    >>> device = client.create_distribution(
     ...     name='Distribution',
     ...     description='Distribution description',
     ...     visibility='public'
@@ -275,7 +259,7 @@ Distributions and Keys.
   - Search:
 
     ```python
-    >>> distributions = client.distributions.search(...)
+    >>> distributions = client.distributions(q=...)
     ```
 
   - Update (following the previous code):
@@ -298,36 +282,11 @@ Distributions and Keys.
     >>> distribution.remove()
     ```
 
-  - Single item retrieval:
-
-    ```python
-    >>> distribution = client.distributions.get(
-    ...     '188a0afb3adc379706e780a4eafbd153'
-    ... )
-    <m2x.v2.distributions.Distribution at 0x1652fd0>
-    ```
-
-    The parameter to `.get()` is the Distribution ID.
-
   - Devices (following previous code):
 
     ```python
-    >>> distribution.devices
+    >>> distribution.devices()
     [<m2x.v2.devices.Device at 0x7f6791d60f90>, <m2x.v2.devices.Device at 0x7f6791d60410>]
-    ```
-
-  - Strems (following previous code):
-
-    ```python
-    >>> distribution.streams
-    [<m2x.v2.streams.Stream at 0x7f6791d12290>]
-    ```
-
-  - Triggers (following previous code):
-
-    ```python
-    >>> distribution.triggers
-    [<m2x.v2.triggers.Trigger at 0x7f6791d4d690>]
     ```
 
 ### Lets build a V2 RandomNumberGenerator Data Source
@@ -344,26 +303,18 @@ from m2x.client import M2XClient
 client = M2XClient(key='288b375565d3402a8b6bd8c343e9fcad')
 
 # Now create a device for the values:
-device = client.devices.create(
+device = client.create_device(
     name='RNG Device Example',
     description='Device for RandomNumberGenerator example',
     visibility='public'
 )
 
 # Create a data stream in the feed:
-stream = device.streams.create(name='values')
+stream = device.create_stream(name='values')
 
 # And now it's time to register some values in the stream:
 for x in range(10):
-    stream.values.add_value(random.randint(0, 100))
-
-# Lets add some more values:
-stream.values.add_values(*[random.randint(0, 100) for _ in range(10)])
-
-# Lest add even more values:
-device.updates({
-    'values': [{'value': random.randint(0, 100)} for _ in range(10)]
-})
+    stream.add_value(random.randint(0, 100))
 
 # Lets print the values:
 for val in stream.values:

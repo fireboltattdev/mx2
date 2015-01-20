@@ -82,24 +82,23 @@ This `client` an interface to your data in M2X
 
 - [Distributions](m2x/v2/distributions.py)
   ```python
-  distribution = client.distributions.get('<DISTRIBUTION-ID>')
-  distributions = client.distributions
+  distribution = client.distribution('<DISTRIBUTION-ID>')
+  distributions = client.distributions()
   ```
 
 - [Devices](m2x/v2/devices.py)
   ```python
-  device = client.devices.get('<DEVICE-ID>')
-  devices = client.devices
+  device = client.device('<DEVICE-ID>')
+  devices = client.devices()
   ```
 
 - [Key](m2x/v2/keys.py)
   ```python
-  key = client.keys.get('<KEY-TOKEN>')
-  keys = client.keys
+  key = client.key('<KEY-TOKEN>')
+  keys = client.keys()
   ```
 
-Refer to the [IMPLEMENTATION DETAILS](IMPLEMENTATION_DETAILS.md) and
-[USAGE](USAGE.md) for more examples.
+Refer to the [USAGE](USAGE.md) doc for more examples.
 
 
 ## Example
@@ -118,18 +117,18 @@ from m2x.client import M2XClient
 client = M2XClient(key=os.environ['API_KEY'])
 
 # Create a device
-device = client.devices.create(
+device = client.create_device(
     name='Current Time Example',
     description='Store current time every 10 seconds',
     visibility='public'
 )
 
 # Create a data stream
-stream = device.streams.create(name='current_time')
+stream = device.create_stream('current_time')
 
 # And now register the current time every 10 seconds (hit ctrl-c to kill)
 while True:
-    stream.values.add_value(int(time.time()))
+    stream.add_value(int(time.time()))
     time.sleep(10)
 ```
 
