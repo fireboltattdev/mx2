@@ -26,7 +26,7 @@ USER_AGENT = 'M2X-Python/{version} python/{python_version} ({platform})'\
 class APIBase(object):
     PATH = '/'
 
-    def __init__(self, key, client):
+    def __init__(self, key, client, **kwargs):
         self.apikey = key
         self.client = client
         self._locals = threading.local()
@@ -161,6 +161,10 @@ class HTTPAPIBase(APIBase):
 
 
 class MQTTAPIBase(APIBase):
+    def __init__(self, key, client, timeout=600, **kwargs):
+        self.timeout = timeout
+        super(MQTTAPIBase, self).__init__(key, client, **kwargs)
+
     @property
     def mqtt(self):
         if not hasattr(self, '_mqtt_client'):
@@ -189,7 +193,9 @@ class MQTTAPIBase(APIBase):
         return '/{0}'.format('/'.join(map(lambda p: p.strip('/'),
                                           filter(None, parts))))
 
-    def wait_for_response(self, msg_id, timeout=None):
+    def wait_for_response(self, msg_id):
+        timeout = self.timeout
+
         while msg_id not in self.responses:
             time.sleep(.1)
             if timeout is not None:
@@ -216,4 +222,4 @@ class MQTTAPIBase(APIBase):
             apikey=apikey or self.apikey
         ), payload=msg)
         if status == MQTT_ERR_SUCCESS:
-            return self.wait_for_response(msg_id, timeout=3000)
+            return self.wait_for_response(msg_id)
