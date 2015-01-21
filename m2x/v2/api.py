@@ -1,25 +1,52 @@
-from m2x.utils import pmemoize
-from m2x.api import APIBase
-from m2x.v2.devices import Devices, Catalog
-from m2x.v2.distributions import Distributions
-from m2x.v2.keys import Keys
+from m2x.api import HTTPAPIBase, MQTTAPIBase
+from m2x.v2.devices import Device
+from m2x.v2.distributions import Distribution
+from m2x.v2.keys import Key
 
 
-class APIVersion2(APIBase):
+class V2Mixin(object):
     PATH = '/v2'
 
-    @pmemoize
-    def devices(self):
-        return Devices(self)
+    def status(self):
+        return self.get('/status')
 
-    @pmemoize
-    def catalog(self):
-        return Catalog(self)
+    def device(self, id):
+        return Device.get(self, id)
 
-    @pmemoize
-    def distributions(self):
-        return Distributions(self)
+    def create_device(self, **params):
+        return Device.create(self, **params)
 
-    @pmemoize
-    def keys(self):
-        return Keys(self)
+    def devices(self, **params):
+        return Device.list(self, **params)
+
+    def device_catalog(self, **params):
+        return Device.catalog(self, **params)
+
+    def device_groups(self, **params):
+        return Device.groups(self, **params)
+
+    def distribution(self, id):
+        return Distribution.get(self, id)
+
+    def create_distribution(self, **params):
+        return Distribution.create(self, **params)
+
+    def distributions(self, **params):
+        return Distribution.list(self, **params)
+
+    def key(self, key):
+        return Key.get(self, key)
+
+    def create_key(self, **params):
+        return Key.create(self, **params)
+
+    def keys(self, **params):
+        return Key.list(self, **params)
+
+
+class APIVersion2(V2Mixin, HTTPAPIBase):
+    pass
+
+
+class MQTTAPIVersion2(V2Mixin, MQTTAPIBase):
+    pass

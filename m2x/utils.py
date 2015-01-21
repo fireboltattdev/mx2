@@ -69,6 +69,8 @@ def from_server(name, value):
 def to_server(name, value):
     if name == 'tags':
         value = tags_to_server(value)
+    elif isinstance(value, (datetime, date)):
+        value = to_iso(value)
     return value
 
 

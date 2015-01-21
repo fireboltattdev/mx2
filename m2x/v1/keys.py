@@ -1,4 +1,4 @@
-from m2x.resource import Collection, Item
+from m2x.v1.resource import Collection, Item
 
 
 class Key(Item):

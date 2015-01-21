@@ -1,44 +1,71 @@
-from m2x.utils import pmemoize
-from m2x.resource import Collection, Item
-from m2x.v2.values import Values
+from m2x.v2.resource import Resource
 
 
-class Sampling(Values):
-    PATH = 'devices/{device_id}/streams/{stream_name}/sampling'
-
-
-class Stream(Item):
-    PATH = 'devices/{device_id}/streams/{name}'
-
-    @pmemoize
-    def values(self):
-        return Values(self.api, device_id=self.device_id,
-                      stream_name=self.name)
-
-    @pmemoize
-    def sampling(self):
-        return Sampling(self.api, device_id=self.device_id,
-                        stream_name=self.name)
-
-    def stats(self, **attrs):
-        return self.api.get(self.path(self.PATH + '/stats'), data=attrs)
-
-
-class Streams(Collection):
-    PATH = 'devices/{device_id}/streams'
+class Stream(Resource):
+    ITEM_PATH = 'devices/{device_id}/streams/{name}'
+    COLLECTION_PATH = 'devices/{device_id}/streams'
     ITEMS_KEY = 'streams'
-    ITEM_CLASS = Stream
     ID_KEY = 'name'
 
-    def create(self, name, **attrs):
-        stream = self.ITEM_CLASS(self.api, name=name, **self.data)
-        stream.update(**attrs)
-        self.append(stream)
-        return stream
+    def __init__(self, api, device, **data):
+        self.device = device
+        super(Stream, self).__init__(api, **data)
 
-    def item(self, entry):
-        return self.ITEM_CLASS(self.api, device_id=self.device_id, **entry)
+    def values(self, **params):
+        return self.api.get(self.subpath('/values'), params=params)
 
-    def item_path(self, **params):
-        return super(Streams, self).item_path(device_id=self.device_id,
-                                              **params)
+    def sampling(self, interval, **params):
+        params['interval'] = interval
+        return self.api.get(self.subpath('/sampling'), params=params)
+
+    def stats(self, **attrs):
+        return self.api.get(self.subpath('/stats'), data=attrs)
+
+    def add_value(self, value, timestamp=None):
+        data = {'value': value}
+        if timestamp:
+            data['timestamp'] = timestamp
+        return self.api.put(self.subpath('/value'), data=data)
+
+    update_value = add_value
+
+    def post_values(self, values):
+        return self.api.post(self.subpath('/values'), data={
+            'values': values
+        })
+
+    def delete_values(self, start, stop):
+        return self.api.delete(self.subpath('/values'), data=self.to_server({
+            'from': start,
+            'end': stop
+        }))
+
+    def subpath(self, path):
+        return self.item_path(self.name, device_id=self.device.id) + path
+
+    @classmethod
+    def list(cls, api, device, **params):
+        # Search parameters: query, tags, page, limit
+        path = cls.collection_path(device_id=device.id)
+        return super(cls, cls).list(api, path=path, itemize_options={
+            'device': device
+        }, **params)
+
+    @classmethod
+    def create(cls, api, device, name, **attrs):
+        response = cls.item_update(api, device, name, **attrs)
+        return cls.item(api, response, device=device)
+
+    @classmethod
+    def get(cls, api, device, id, **params):
+        path = cls.item_path(id, device_id=device.id)
+        return super(cls, cls).get(api, id, path=path, itemize_options={
+            'device': device
+        }, **params)
+
+    fetch = get
+
+    @classmethod
+    def item_update(cls, api, device, id, **params):
+        path = cls.item_path(id, device_id=device.id)
+        return super(cls, cls).item_update(api, id, path=path, **params)
