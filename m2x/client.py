@@ -16,9 +16,5 @@ class M2XClient(object):
         return '/'.join([part.strip('/') for part in (self.endpoint,) + parts
                             if part])
 
-    @property
-    def last_response(self):
-        return self.api.last_response()
-
     def __getattr__(self, name):
         return getattr(self.api, name)

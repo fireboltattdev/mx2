@@ -9,7 +9,6 @@ from requests import session
 from paho.mqtt.client import MQTT_ERR_SUCCESS, Client as MQTTClient
 
 from m2x import version
-from m2x.errors import APIError, InactiveAccountError
 
 
 PYTHON_VERSION = '{major}.{minor}.{micro}'.format(
@@ -57,17 +56,70 @@ class APIBase(object):
     def options(self, path, **kwargs):
         return self.request(path, method='OPTIONS', **kwargs)
 
+    @property
     def last_response(self):
         return getattr(self._locals, 'last_response', None)
 
-    def set_last_response(self, response):
-        self._locals.last_response = response
+    @last_response.setter
+    def last_response(self, value):
+        self._locals.last_response = value
 
     def client_endpoint(self):
         raise NotImplementedError('Implement in subclass')
 
     def request(self, path, apikey=None, method='GET', **kwargs):
         raise NotImplementedError('Implement in subclass')
+
+
+class Response(object):
+    def __init__(self, response, raw, status, headers, json):
+        self.response = response
+        self.raw = raw
+        self.status = status
+        self.headers = headers
+        self.json = json
+
+    @property
+    def success(self):
+        return self.status >= 200 and self.status < 300
+
+    @property
+    def client_error(self):
+        return self.status >= 400 and self.status < 500
+
+    @property
+    def server_error(self):
+        return self.status >= 500
+
+    @property
+    def error(self):
+        return self.client_error or self.server_error
+
+
+class HTTPResponse(Response):
+    def __init__(self, response):
+        try:
+            json = response.json()
+        except ValueError:
+            json = None
+        super(HTTPResponse, self).__init__(
+            response=response,
+            raw=response.content,
+            status=response.status_code,
+            headers=response.headers,
+            json=json
+        )
+
+
+class MQTTResponse(Response):
+    def __init__(self, response):
+        super(MQTTResponse, self).__init__(
+            response=response,
+            raw=response,
+            status=response['status'],
+            headers={},
+            json=response
+        )
 
 
 class HTTPAPIBase(APIBase):
@@ -96,13 +148,9 @@ class HTTPAPIBase(APIBase):
             kwargs['data'] = json.dumps(kwargs['data'])
 
         resp = self.session.request(method, url, **kwargs)
-        self.set_last_response(resp)
+        self.last_response = HTTPResponse(resp)
 
-        if resp.status_code == 422:
-            raise APIError(resp)
-        elif resp.status_code == 403:
-            raise InactiveAccountError(resp)
-        elif resp.status_code == 204:
+        if resp.status_code == 204:
             return None
         else:
             resp.raise_for_status()
@@ -151,7 +199,7 @@ class MQTTAPIBase(APIBase):
                     break
         if msg_id in self.responses:
             response = self.responses.pop(msg_id)
-            self.set_last_response(response)
+            self.last_response = MQTTResponse(response)
             if 'body' in response:
                 response = response['body']
             return response
@@ -168,4 +216,4 @@ class MQTTAPIBase(APIBase):
             apikey=apikey or self.apikey
         ), payload=msg)
         if status == MQTT_ERR_SUCCESS:
-            return self.wait_for_response(msg_id, timeout=50)
+            return self.wait_for_response(msg_id, timeout=3000)
