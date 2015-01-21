@@ -169,13 +169,18 @@ class MQTTAPIBase(APIBase):
     def mqtt(self):
         if not hasattr(self, '_mqtt_client'):
             self.responses = {}
+            self.ready = False
             client = MQTTClient()
             client.username_pw_set(self.apikey)
             client.on_connect = self._on_connect
             client.on_message = self._on_message
+            client.on_subscribe = self._on_subscribe
             client.connect(self.client_endpoint().replace('mqtt://', ''))
             self._mqtt_client = client
+            # Start the loop and wait for the connection to be ready
             self._mqtt_client.loop_start()
+            while not self.ready:
+                time.sleep(.1)
         return self._mqtt_client
 
     def _on_connect(self, client, userdata, flags, rc):
@@ -184,6 +189,9 @@ class MQTTAPIBase(APIBase):
     def _on_message(self, client, userdata, msg):
         msg = json.loads(msg.payload)
         self.responses[msg['id']] = msg
+
+    def _on_subscribe(self, client, userdata, mid, granted_qos):
+        self.ready = True
 
     def client_endpoint(self):
         return self.client.mqtt_endpoint
