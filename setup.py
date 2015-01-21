@@ -24,7 +24,6 @@ setup(
         'm2x.v2',
         'm2x.tests',
         'm2x.tests.v1',
-        'm2x.tests.v2'
     ],
     long_description=LONG_DESCRIPTION,
     install_requires=[
