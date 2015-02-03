@@ -113,9 +113,29 @@ Distributions and Keys.
   - Device updates (post several values to the device in a single request):
 
     ```python
+    >>> from datetime import datetime
     >>> device = client.device('188a0afb3adc379706e780a4eafbd153')
     <m2x.v2.devices.Device at 0x1652fd0>
-    >>> device.updates(values={'stream1': [value1, value2]})
+    >>> device.post_updates(values={
+        'stream1': [
+            {
+                'timestamp': datetime.now(),
+                'value': 100
+            }, {
+                'timestamp': datetime.now(),
+                'value': 200
+            }
+        ],
+        'stream2': [
+            {
+                'timestamp': datetime.now(),
+                'value': 300
+            }, {
+                'timestamp': '2015-02-03T00:33:43.422440Z'
+                'value': 400
+            }
+        ]
+    })
     ```
 
 * Catalog
@@ -196,6 +216,15 @@ Distributions and Keys.
     <m2x.v2.streams.Stream at 0x7f6791d12290>
     >>> stream.values()
     [<m2x.v2.values.Value at 0x7f6791d123d0>, <m2x.v2.values.Value at 0x7f6791250890>, ...]
+    # Add a value without timestamp (server will set current date as timestamp)
+    >>> stream.add_value(1234)
+    # Add a with timestamp
+    >>> stream.add_value(1234, datetime.datetime.now())
+    # Post several values
+    >>> stream.post_values([
+        {'timestamp': datetime.datetime.now(), 'value': 100},
+        {'timestamp': datetime.datetime.now(), 'value': 200}
+    ])
     ```
 
   - Sampling:

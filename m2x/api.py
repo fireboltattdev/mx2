@@ -9,6 +9,7 @@ from requests import session
 from paho.mqtt.client import MQTT_ERR_SUCCESS, Client as MQTTClient
 
 from m2x import version
+from m2x.utils import DateTimeJSONEncoder
 
 
 PYTHON_VERSION = '{major}.{minor}.{micro}'.format(
@@ -63,6 +64,9 @@ class APIBase(object):
     @last_response.setter
     def last_response(self, value):
         self._locals.last_response = value
+
+    def to_json(self, value):
+        return json.dumps(value, cls=DateTimeJSONEncoder)
 
     def client_endpoint(self):
         raise NotImplementedError('Implement in subclass')
@@ -145,7 +149,7 @@ class HTTPAPIBase(APIBase):
             kwargs['headers']['X-M2X-KEY'] = apikey
 
         if method in ('PUT', 'POST', 'DELETE', 'PATCH') and kwargs.get('data'):
-            kwargs['data'] = json.dumps(kwargs['data'])
+            kwargs['data'] = self.to_json(kwargs['data'])
 
         resp = self.session.request(method, url, **kwargs)
         self.last_response = HTTPResponse(resp)
@@ -220,7 +224,7 @@ class MQTTAPIBase(APIBase):
 
     def request(self, path, apikey=None, method='GET', **kwargs):
         msg_id = uuid.uuid4().hex
-        msg = json.dumps({
+        msg = self.to_json({
             'id': msg_id,
             'method': method,
             'resource': self.url(path),

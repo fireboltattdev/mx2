@@ -1,7 +1,16 @@
 from functools import wraps
 from datetime import date, datetime
+from json import JSONEncoder
 
 from iso8601 import iso8601
+
+
+class DateTimeJSONEncoder(JSONEncoder):
+    def default(self, value):
+        if isinstance(value, (datetime, date)):
+            return to_iso(value)
+        else:
+            return super(DateTimeJSONEncoder, self).default(value)
 
 
 def memoize(func):
