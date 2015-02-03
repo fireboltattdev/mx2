@@ -12,311 +12,312 @@ instance just do:
 The client provides an interface to access your Devices (and Catalog),
 Distributions and Keys.
 
-* Devices
 
-  `Devices` is accessible by the `devices` property in a `M2XClient`
-  instance. The property is an iterable type where each entry is a Device
-  instance.
+## Devices
 
-  - Iteration:
+`Devices` is accessible by the `devices` property in a `M2XClient`
+instance. The property is an iterable type where each entry is a Device
+instance.
 
-    ```python
-    >>> for device in client.devices():
-    >>>    ...
-    ```
+#### Iteration:
 
-  - Creation:
+```python
+>>> for device in client.devices():
+>>>    ...
+```
 
-    ```python
-    >>> device = client.create_device(
-    ...     name='Devices',
-    ...     description='Device description',
-    ...     visibility='public'
-    ... )
-    <m2x.v2.devices.Device at 0x365c590>
-    ```
+#### Creation:
 
-  - Search:
+```python
+>>> device = client.create_device(
+...     name='Devices',
+...     description='Device description',
+...     visibility='public'
+... )
+<m2x.v2.devices.Device at 0x365c590>
+```
 
-    ```python
-    >>> devices = client.devices(q=...)
-    ```
+#### Search:
 
-  - Update (following the previous code):
+```python
+>>> devices = client.devices(q=...)
+```
 
-    ```python
-    >>> device.update(
-    ...     name='Device2',
-    ...     description='Device2 description',
-    ...     visibility='private',
-    ...     status='enabled'
-    ... )
-    ```
+#### Update (following the previous code):
 
-    The parameters `name`, `visibility` **must** be provided, otherwise
-    a validation error is returned by the service (response status code
-    `422`).
+```python
+>>> device.update(
+...     name='Device2',
+...     description='Device2 description',
+...     visibility='private',
+...     status='enabled'
+... )
+```
 
-  - Removal (following the previous code):
+The parameters `name`, `visibility` **must** be provided, otherwise
+a validation error is returned by the service (response status code
+`422`).
 
-    ```python
-    >>> device.remove()
-    ```
+#### Removal (following the previous code):
 
-  - Single item retrieval:
+```python
+>>> device.remove()
+```
 
-    ```python
-    >>> device = client.device('188a0afb3adc379706e780a4eafbd153')
-    <m2x.v2.devices.Device at 0x1652fd0>
-    ```
+#### Single item retrieval:
 
-    The parameter to `.get()` is the Device ID.
+```python
+>>> device = client.device('188a0afb3adc379706e780a4eafbd153')
+<m2x.v2.devices.Device at 0x1652fd0>
+```
 
-  - Devices groups:
+The parameter to `.get()` is the Device ID.
 
-    ```python
-    >>> client.device_groups()
-    [{"group #1": 2}, {"group #2": 3}]
-    ```
+#### Devices groups:
 
-  - Device streams:
+```python
+>>> client.device_groups()
+[{"group #1": 2}, {"group #2": 3}]
+```
 
-    ```python
-    >>> device = client.device('188a0afb3adc379706e780a4eafbd153')
-    <m2x.v2.devices.Device at 0x1652fd0>
-    >>> device.streams()
-    [<m2x.v2.streams.Stream at 0x7f6791d12290>]
-    ```
+#### Device streams:
 
-  - Device location:
+```python
+>>> device = client.device('188a0afb3adc379706e780a4eafbd153')
+<m2x.v2.devices.Device at 0x1652fd0>
+>>> device.streams()
+[<m2x.v2.streams.Stream at 0x7f6791d12290>]
+```
 
-    ```python
-    >>> device = client.device('188a0afb3adc379706e780a4eafbd153')
-    <m2x.v2.devices.Device at 0x1652fd0>
-    >>> device.location()
-    <m2x.v2.devices.Location at 0x7f6791d60e50>
-    ```
+#### Device location:
 
-  - Device triggers:
+```python
+>>> device = client.device('188a0afb3adc379706e780a4eafbd153')
+<m2x.v2.devices.Device at 0x1652fd0>
+>>> device.location()
+<m2x.v2.devices.Location at 0x7f6791d60e50>
+```
 
-    ```python
-    >>> device = client.device('188a0afb3adc379706e780a4eafbd153')
-    <m2x.v2.devices.Device at 0x1652fd0>
-    >>> device.triggers()
-    [<m2x.v2.triggers.Trigger at 0x7f6791d4d690>]
+#### Device triggers:
 
-    >>> trigger = device.triggers()[0]
-    <m2x.v2.triggers.Trigger at 0x7f6791d4d690>
-    >>> trigger.test()
-    ```
+```python
+>>> device = client.device('188a0afb3adc379706e780a4eafbd153')
+<m2x.v2.devices.Device at 0x1652fd0>
+>>> device.triggers()
+[<m2x.v2.triggers.Trigger at 0x7f6791d4d690>]
 
-  - Device updates (post several values to the device in a single request):
+>>> trigger = device.triggers()[0]
+<m2x.v2.triggers.Trigger at 0x7f6791d4d690>
+>>> trigger.test()
+```
 
-    ```python
-    >>> from datetime import datetime
-    >>> device = client.device('188a0afb3adc379706e780a4eafbd153')
-    <m2x.v2.devices.Device at 0x1652fd0>
-    >>> device.post_updates(values={
-        'stream1': [
-            {
-                'timestamp': datetime.now(),
-                'value': 100
-            }, {
-                'timestamp': datetime.now(),
-                'value': 200
-            }
-        ],
-        'stream2': [
-            {
-                'timestamp': datetime.now(),
-                'value': 300
-            }, {
-                'timestamp': '2015-02-03T00:33:43.422440Z'
-                'value': 400
-            }
-        ]
-    })
-    ```
+#### Device updates (post several values to the device in a single request):
 
-* Catalog
-
-  The catalog is just a list of public devices accessible to everybody. To
-  access it, just use the `catalog` property:
-
-    ```python
-    >>> for device in client.device_catalog():
-    >>>    ...
-    ```
-
-* Keys
-
-  `Keys` is accessible by the `keys` property in a `M2XClient` instance.
-  The property is an iterable type where each entry is a Key instance.
-
-  - Iteration:
-
-    ```python
-    >>> for key in client.keys():
-    >>>    ...
-    ```
-
-  - Creation:
-
-    ```python
-    >>> key = client.create_key(
-    ...     name='Key',
-    ...     permissions=['DELETE', 'GET', 'POST', 'PUT']
-    ... )
-    <m2x.v2.keys.Key at 0x365c500>
-    ```
-
-  - Search:
-
-    Keys don't support searching, but the method is left implemented in
-    case it's supported in the future. Calling search will return all the keys.
-
-  - Update (following the previous code):
-
-    ```python
-    >>> key.update(
-    ...     name='Key2',
-    ...     permissions=['GET', 'POST', 'PUT']
-    ... )
-    ```
-
-    The parameters `name` and `permissions` **must** be provided, otherwise
-    a validation error is returned by the service (response status code `422`).
-
-  - Removal (following the previous code):
-
-    ```python
-    >>> key.remove()
-    ```
-
-* Streams
-
-  `Streams` can be seen as collection of values, M2X provides some useful
-  methods for streams.
-
-  - Iteration:
-
-    ```python
-    >>> device = client.device('188a0afb3adc379706e780a4eafbd153')
-    <m2x.v2.devices.Device at 0x1652fd0>
-    >>> for stream in device.streams():
-            ...
-    ```
-
-  - Values:
-
-    ```python
-    >>> device = client.device('188a0afb3adc379706e780a4eafbd153')
-    <m2x.v2.devices.Device at 0x1652fd0>
-    >>> stream = device.streams()[0]
-    <m2x.v2.streams.Stream at 0x7f6791d12290>
-    >>> stream.values()
-    [<m2x.v2.values.Value at 0x7f6791d123d0>, <m2x.v2.values.Value at 0x7f6791250890>, ...]
-    # Add a value without timestamp (server will set current date as timestamp)
-    >>> stream.add_value(1234)
-    # Add a with timestamp
-    >>> stream.add_value(1234, datetime.datetime.now())
-    # Post several values
-    >>> stream.post_values([
-        {'timestamp': datetime.datetime.now(), 'value': 100},
-        {'timestamp': datetime.datetime.now(), 'value': 200}
-    ])
-    ```
-
-  - Sampling:
-
-    ```python
-    >>> device = client.device('188a0afb3adc379706e780a4eafbd153')
-    <m2x.v2.devices.Device at 0x1652fd0>
-    >>> stream = device.streams[0]
-    <m2x.v2.streams.Stream at 0x7f6791d12290>
-    >>> stream.sampling(interval=1)
-    [<m2x.v2.values.Value at 0x7f6791d123d0>, <m2x.v2.values.Value at 0x7f6791250890>, ...]
-    ```
-
-  - Stats:
-
-    ```python
-    >>> device = client.device('188a0afb3adc379706e780a4eafbd153')
-    <m2x.v2.devices.Device at 0x1652fd0>
-    >>> stream = device.stream()[0]
-    <m2x.v2.streams.Stream at 0x7f6791d12290>
-    >>> stream.stats()
-    {
-        u'end': u'2015-01-01T22:44:37.890Z',
-        u'stats': {
-            u'avg': u'0.40545455E2',
-            u'count': 11.0,
-            u'max': 82.0,
-            u'min': 8.0,
-            u'stddev': 21.266122
+```python
+>>> from datetime import datetime
+>>> device = client.device('188a0afb3adc379706e780a4eafbd153')
+<m2x.v2.devices.Device at 0x1652fd0>
+>>> device.post_updates(values={
+    'stream1': [
+        {
+            'timestamp': datetime.now(),
+            'value': 100
+        }, {
+            'timestamp': datetime.now(),
+            'value': 200
         }
+    ],
+    'stream2': [
+        {
+            'timestamp': datetime.now(),
+            'value': 300
+        }, {
+            'timestamp': '2015-02-03T00:33:43.422440Z'
+            'value': 400
+        }
+    ]
+})
+```
+
+## Catalog
+
+The catalog is just a list of public devices accessible to everybody. To
+access it, just use the `catalog` property:
+
+```python
+>>> for device in client.device_catalog():
+>>>    ...
+```
+
+## Keys
+
+`Keys` is accessible by the `keys` property in a `M2XClient` instance.
+The property is an iterable type where each entry is a Key instance.
+
+#### Iteration:
+
+```python
+>>> for key in client.keys():
+>>>    ...
+```
+
+#### Creation:
+
+```python
+>>> key = client.create_key(
+...     name='Key',
+...     permissions=['DELETE', 'GET', 'POST', 'PUT']
+... )
+<m2x.v2.keys.Key at 0x365c500>
+```
+
+#### Search:
+
+Keys don't support searching, but the method is left implemented in
+case it's supported in the future. Calling search will return all the keys.
+
+#### Update (following the previous code):
+
+```python
+>>> key.update(
+...     name='Key2',
+...     permissions=['GET', 'POST', 'PUT']
+... )
+```
+
+The parameters `name` and `permissions` **must** be provided, otherwise
+a validation error is returned by the service (response status code `422`).
+
+#### Removal (following the previous code):
+
+```python
+>>> key.remove()
+```
+
+## Streams
+
+`Streams` can be seen as collection of values, M2X provides some useful
+methods for streams.
+
+#### Iteration:
+
+```python
+>>> device = client.device('188a0afb3adc379706e780a4eafbd153')
+<m2x.v2.devices.Device at 0x1652fd0>
+>>> for stream in device.streams():
+        ...
+```
+
+#### Values:
+
+```python
+>>> device = client.device('188a0afb3adc379706e780a4eafbd153')
+<m2x.v2.devices.Device at 0x1652fd0>
+>>> stream = device.streams()[0]
+<m2x.v2.streams.Stream at 0x7f6791d12290>
+>>> stream.values()
+[<m2x.v2.values.Value at 0x7f6791d123d0>, <m2x.v2.values.Value at 0x7f6791250890>, ...]
+# Add a value without timestamp (server will set current date as timestamp)
+>>> stream.add_value(1234)
+# Add a with timestamp
+>>> stream.add_value(1234, datetime.datetime.now())
+# Post several values
+>>> stream.post_values([
+    {'timestamp': datetime.datetime.now(), 'value': 100},
+    {'timestamp': datetime.datetime.now(), 'value': 200}
+])
+```
+
+#### Sampling:
+
+```python
+>>> device = client.device('188a0afb3adc379706e780a4eafbd153')
+<m2x.v2.devices.Device at 0x1652fd0>
+>>> stream = device.streams[0]
+<m2x.v2.streams.Stream at 0x7f6791d12290>
+>>> stream.sampling(interval=1)
+[<m2x.v2.values.Value at 0x7f6791d123d0>, <m2x.v2.values.Value at 0x7f6791250890>, ...]
+```
+
+#### Stats:
+
+```python
+>>> device = client.device('188a0afb3adc379706e780a4eafbd153')
+<m2x.v2.devices.Device at 0x1652fd0>
+>>> stream = device.stream()[0]
+<m2x.v2.streams.Stream at 0x7f6791d12290>
+>>> stream.stats()
+{
+    u'end': u'2015-01-01T22:44:37.890Z',
+    u'stats': {
+        u'avg': u'0.40545455E2',
+        u'count': 11.0,
+        u'max': 82.0,
+        u'min': 8.0,
+        u'stddev': 21.266122
     }
-    ```
+}
+```
 
 
-* Distributions
+## Distributions
 
-  `Distributions` are accessible by the `distributions` property in
-  a `M2XClient` instance. The property is an iterable type where each entry
-  is a Distribution instance.
+`Distributions` are accessible by the `distributions` property in
+a `M2XClient` instance. The property is an iterable type where each entry
+is a Distribution instance.
 
-  - Iteration:
+#### Iteration:
 
-    ```python
-    >>> for distribution in client.distributions():
-    >>>    ...
-    ```
+```python
+>>> for distribution in client.distributions():
+>>>    ...
+```
 
-  - Creation:
+#### Creation:
 
-    ```python
-    >>> device = client.create_distribution(
-    ...     name='Distribution',
-    ...     description='Distribution description',
-    ...     visibility='public'
-    ... )
-    <m2x.v2.distributions.Distribution at 0x365c590>
-    ```
+```python
+>>> device = client.create_distribution(
+...     name='Distribution',
+...     description='Distribution description',
+...     visibility='public'
+... )
+<m2x.v2.distributions.Distribution at 0x365c590>
+```
 
-  - Search:
+#### Search:
 
-    ```python
-    >>> distributions = client.distributions(q=...)
-    ```
+```python
+>>> distributions = client.distributions(q=...)
+```
 
-  - Update (following the previous code):
+#### Update (following the previous code):
 
-    ```python
-    >>> distribution.update(
-    ...     name='Distribution2',
-    ...     description='Distribution2 description',
-    ...     visibility='private'
-    ... )
-    ```
+```python
+>>> distribution.update(
+...     name='Distribution2',
+...     description='Distribution2 description',
+...     visibility='private'
+... )
+```
 
-    The parameters `name`, `visibility` **must** be provided, otherwise
-    a validation error is returned by the service (response status code
-    `422`).
+The parameters `name`, `visibility` **must** be provided, otherwise
+a validation error is returned by the service (response status code
+`422`).
 
-  - Removal (following the previous code):
+#### Removal (following the previous code):
 
-    ```python
-    >>> distribution.remove()
-    ```
+```python
+>>> distribution.remove()
+```
 
-  - Devices (following previous code):
+#### Devices (following previous code):
 
-    ```python
-    >>> distribution.devices()
-    [<m2x.v2.devices.Device at 0x7f6791d60f90>, <m2x.v2.devices.Device at 0x7f6791d60410>]
-    ```
+```python
+>>> distribution.devices()
+[<m2x.v2.devices.Device at 0x7f6791d60f90>, <m2x.v2.devices.Device at 0x7f6791d60410>]
+```
 
-### Lets build a V2 RandomNumberGenerator Data Source
+## Lets build a V2 RandomNumberGenerator Data Source
 
 Lets build a python random number generator data source using the API
 described above.
@@ -344,7 +345,7 @@ for x in range(10):
     stream.add_value(random.randint(0, 100))
 
 # Lets print the values:
-for val in stream.values:
+for val in stream.values():
     print '{0} - {1}'.format(val.at.strftime('%Y-%m-%d %H:%M:%S'),
                              val.value)
 ```
