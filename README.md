@@ -1,15 +1,8 @@
 # AT&T's M2X Python Client
 
-[AT&T’s M2X](https://m2x.att.com/) is a cloud-based fully managed data storage
-service for network connected machine-to-machine (M2M) devices. From trucks and
-turbines to vending machines and freight containers, M2X enables the devices
-that power your business to connect and share valuable data.
+[AT&T M2X](http://m2x.att.com) is a cloud-based fully managed time-series data storage service for network connected machine-to-machine (M2M) devices and the Internet of Things (IoT). 
 
-This library aims to provide a simple wrapper to interact with [AT&T M2X
-API](https://m2x.att.com/developer/documentation/overview). Refer to the
-[Glossary of Terms](https://m2x.att.com/developer/documentation/glossary) to
-understand the nomenclature used through this documentation.
-
+The [AT&T M2X API](https://m2x.att.com/developer/documentation/overview) provides all the needed operations and methods to connect your devices to AT&T's M2X service. This library aims to provide a simple wrapper to interact with the AT&T M2X API for [Python](https://www.python.org). Refer to the [Glossary of Terms](https://m2x.att.com/developer/documentation/glossary) to understand the nomenclature used throughout this documentation.
 
 Getting Started
 ===============
@@ -25,12 +18,7 @@ Getting Started
 
 ## Description
 
-The AT&T [M2X API](https://m2x.att.com/developer/documentation/v2/overview)
-provides all the needed operations to connect your devices to [AT&T's M2X
-service](https://m2x.att.com/). This client provides an easy to use interface
-for your favorite language, [Python](https://www.python.org).
-
-The library provides an interface to navigate and register your data source
+This library provides an interface to navigate and register your data source
 values with the [AT&T's M2X service](https://m2x.att.com/), while supporting
 Python 2 and 3.
 
