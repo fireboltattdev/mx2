@@ -1,5 +1,7 @@
-from functools import wraps
+import time
+
 from datetime import date, datetime
+from functools import wraps
 from json import JSONEncoder
 
 from iso8601 import iso8601
@@ -46,16 +48,24 @@ def process_value(value, timestamp_name='at'):
     # datetime if no value is passed anyway, but since the server
     # doesn't return the value created, there's no way to get it unless
     # all the values are requested again
-    value[timestamp_name] = \
-        to_iso(value.get(timestamp_name) or datetime.now())
+    value[timestamp_name] = to_iso(value.get(timestamp_name) or
+                                   to_utc(datetime.now()))
     return value
+
+
+def to_utc(dtime):
+    timestamp = time.mktime(dtime.timetuple())
+    dtime_utc = datetime.utcfromtimestamp(timestamp)
+    dtime_utc = dtime_utc.replace(tzinfo=iso8601.UTC,
+                                  microsecond=dtime.microsecond)
+    return dtime_utc
 
 
 def to_iso(dtime):
     if not isinstance(dtime, (date, datetime)):
         dtime = iso8601.parse_date(dtime)
-    return dtime.replace(tzinfo=iso8601.UTC)\
-                .strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+    dtime = to_utc(dtime)
+    return dtime.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
 
 
 def tags_to_server(tags):
