@@ -27,7 +27,6 @@ Python 2 and 3.
 
 * [requests](http://www.python-requests.org)
 * [iso8601](https://pypi.python.org/pypi/iso8601)
-* [paho-mqtt](https://pypi.python.org/pypi/paho-mqtt)
 
 To use Python on your local machine, you'll need to first install
 `Python-setuptools`.
@@ -86,23 +85,6 @@ This `client` an interface to your data in M2X
   key = client.key('<KEY-TOKEN>')
   keys = client.keys()
   ```
-
-### MQTT
-
-AT&T M2X supports the [MQTT](http://mqtt.org/) connectivity protocol which is
-also supported by this client if it's specified:
-
-```python
-from m2x.client import M2XClient
-from m2x.v2.api import MQTTAPIVersion2
-
-client = M2XClient(key='<API-KEY>', api=MQTTAPIVersion2)
-```
-
-Then proceed the use the client as usual.
-
-Refer to the [USAGE](USAGE.md) doc for more examples.
-
 
 ## Example
 

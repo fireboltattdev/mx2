@@ -26,7 +26,6 @@ setup(
     install_requires=[
         'requests==2.0.1',
         'iso8601==0.1.8',
-        'paho-mqtt==1.0'
     ],
     classifiers=[
         'Development Status :: 4 - Beta',

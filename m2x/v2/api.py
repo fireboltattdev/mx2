@@ -1,4 +1,4 @@
-from m2x.api import HTTPAPIBase, MQTTAPIBase
+from m2x.api import HTTPAPIBase
 from m2x.v2.devices import Device
 from m2x.v2.distributions import Distribution
 from m2x.v2.keys import Key
@@ -45,8 +45,4 @@ class V2Mixin(object):
 
 
 class APIVersion2(V2Mixin, HTTPAPIBase):
-    pass
-
-
-class MQTTAPIVersion2(V2Mixin, MQTTAPIBase):
     pass
