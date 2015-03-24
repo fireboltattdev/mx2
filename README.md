@@ -54,7 +54,11 @@ $ cd m2x-python
 $ python setup.py install
 ```
 
-Note: If you are installing from behind a proxy, `setup.py` may have trouble connecting to the PyPI server to download dependencies. In this case, you'll need to set the following environment variables to let the setup script know how to navigate your proxy:
+Note: If you are installing from behind a proxy, `setup.py` may have trouble
+connecting to the PyPI server to download dependencies. In this case, you'll
+need to set the following environment variables to let the setup script know
+how to navigate your proxy:
+
 ```bash
 HTTP_PROXY=http://proxyserver:port/
 HTTPS_PROXY=https://proxyserver:ssl_port/
