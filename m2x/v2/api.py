@@ -22,8 +22,8 @@ class V2Mixin(object):
     def device_catalog(self, **params):
         return Device.catalog(self, **params)
 
-    def device_groups(self, **params):
-        return Device.groups(self, **params)
+    def device_tags(self, **params):
+        return Device.by_tags(self, **params)
 
     def distribution(self, id):
         return Distribution.get(self, id)

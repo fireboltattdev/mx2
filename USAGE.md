@@ -73,11 +73,11 @@ a validation error is returned by the service (response status code
 
 The parameter to `.get()` is the Device ID.
 
-#### Devices groups:
+#### Devices by tags:
 
 ```python
->>> client.device_groups()
-[{"group #1": 2}, {"group #2": 3}]
+>>> client.device_tags()
+[{"tag #1": 2}, {"tag #2": 3}]
 ```
 
 #### Device streams:

@@ -50,9 +50,9 @@ class Device(Resource):
         return self.api.post(self.subpath('/updates'), data=values)
 
     @classmethod
-    def groups(cls, api):
-        response = api.get('devices/groups') or {}
-        return response.get('groups') or []
+    def by_tags(cls, api):
+        response = api.get('devices/tags') or {}
+        return response.get('tags') or []
 
     @classmethod
     def catalog(cls, api, **params):
