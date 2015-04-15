@@ -16,9 +16,9 @@ PYTHON_VERSION = '{major}.{minor}.{micro}'.format(
 )
 
 USER_AGENT = 'M2X-Python/{version} python/{python_version} ({platform})'\
-                .format(version=version,
-                        python_version=PYTHON_VERSION,
-                        platform=platform.platform())
+    .format(version=version,
+            python_version=PYTHON_VERSION,
+            platform=platform.platform())
 
 
 class APIBase(object):

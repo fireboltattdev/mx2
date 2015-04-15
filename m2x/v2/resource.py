@@ -60,7 +60,7 @@ class Resource(object):
     def itemize(cls, api, entries, **options):
         if cls.ITEMS_KEY and cls.ITEMS_KEY in entries:
             entries = [cls.item(api, entry, **options)
-                        for entry in entries[cls.ITEMS_KEY]]
+                       for entry in entries[cls.ITEMS_KEY]]
         return entries
 
     @classmethod

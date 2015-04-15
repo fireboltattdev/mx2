@@ -57,9 +57,9 @@ def to_server(name, value):
 
 def attrs_from_server(attrs):
     return dict((name, from_server(name, value))
-                    for name, value in attrs.items())
+                for name, value in attrs.items())
 
 
 def attrs_to_server(attrs):
     return dict((name, to_server(name, value))
-                    for name, value in attrs.items())
+                for name, value in attrs.items())

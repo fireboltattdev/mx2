@@ -10,7 +10,7 @@ class M2XClient(object):
 
     def url(self, *parts):
         return '/'.join([part.strip('/') for part in (self.endpoint,) + parts
-                            if part])
+                         if part])
 
     def __getattr__(self, name):
         return getattr(self.api, name)
