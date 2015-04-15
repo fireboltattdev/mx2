@@ -32,7 +32,7 @@ def to_iso(dtime):
 def tags_to_server(tags):
     if not isinstance(tags, (list, tuple)):
         tags = [tags]
-    return ','.join(tags)
+    return ','.join(filter(None, tags))
 
 
 def from_server(name, value):
