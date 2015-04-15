@@ -1,0 +1,6 @@
+httpretty==0.6.5
+coverage>=3.6
+nose>=1.2.1
+requests>=2.0.1
+iso8601>=0.1.8
+pytest
