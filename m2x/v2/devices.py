@@ -28,11 +28,8 @@ class Device(Resource):
         return Key.create(self.api, device=self.id, **params)
 
     def location(self, **location):
-        location = self.data.get('location')
-        if not location:
-            data = self.api.get(self.subpath('/location')) or {}
-            location = data.get('location')
-        return location
+        return self.data.get('location') or \
+            self.api.get(self.subpath('/location')) or {}
 
     def update_location(self, **params):
         return self.api.put(self.subpath('/location'), data=params)
