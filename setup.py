@@ -20,7 +20,9 @@ setup(
     url='https://github.com/attm2x/m2x-python',
     packages=[
         'm2x',
-        'm2x.v2'
+        'm2x.v2',
+        'm2x.tests',
+        'm2x.tests.v2'
     ],
     long_description=LONG_DESCRIPTION,
     install_requires=[
