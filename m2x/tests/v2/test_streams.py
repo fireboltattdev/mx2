@@ -4,7 +4,6 @@ import httpretty
 
 from m2x.client import M2XClient
 from m2x.v2.api import APIVersion2
-from m2x.v2.devices import Device
 from m2x.tests.v2.base import BaseTestCase
 
 
@@ -14,13 +13,13 @@ class TestStreams(BaseTestCase):
         device = self.DATA['streams']['device']
         stream = self.DATA['streams']['stream']
         httpretty.register_uri(
-            'GET',
+            httpretty.GET,
             device['url'],
             body=json.dumps(device['response']),
             content_type='application/json'
         )
         httpretty.register_uri(
-            'GET',
+            httpretty.GET,
             stream['url'],
             body=json.dumps(stream['response']),
             content_type='application/json'
@@ -41,7 +40,7 @@ class TestStreams(BaseTestCase):
         assert len(out['values']) == 1
 
     @BaseTestCase.request_case
-    def test_sampling(self, params, **kwargs):
+    def test_sampling(self, params=None, **kwargs):
         out = self.stream.sampling(*params)
         assert 'values' in out
         assert 'interval' in out
@@ -63,11 +62,11 @@ class TestStreams(BaseTestCase):
         assert out['status'] == 'accepted'
 
     @BaseTestCase.request_case
-    def test_post_values(self, params, **kwargs):
+    def test_post_values(self, params=None, **kwargs):
         out = self.stream.post_values(params)
         assert out['status'] == 'accepted'
 
     @BaseTestCase.request_case
-    def test_delete_values(self, params, **kwargs):
+    def test_delete_values(self, params=None, **kwargs):
         self.stream.delete_values(**params)
         assert self.client.last_response.status == 204

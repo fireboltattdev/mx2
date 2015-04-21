@@ -12,7 +12,7 @@ class TestDistributions(BaseTestCase):
     def setup_class(self):
         data = self.DATA['distributions']['distribution']
         httpretty.register_uri(
-            'GET',
+            httpretty.GET,
             data['url'],
             body=json.dumps(data['response']),
             content_type='application/json'
@@ -31,6 +31,6 @@ class TestDistributions(BaseTestCase):
         assert out[0].id == 'device1'
 
     @BaseTestCase.request_case
-    def test_add_device(self, params, **kwargs):
+    def test_add_device(self, params=None, **kwargs):
         out = self.distribution.add_device(**params)
         assert out.name == 'device3'

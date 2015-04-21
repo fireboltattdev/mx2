@@ -10,9 +10,9 @@ from m2x.utils import DateTimeJSONEncoder
 
 
 PYTHON_VERSION = '{major}.{minor}.{micro}'.format(
-    major=sys.version_info.major,
-    minor=sys.version_info.minor,
-    micro=sys.version_info.micro
+    major=sys.version_info[0],
+    minor=sys.version_info[1],
+    micro=sys.version_info[2]
 )
 
 USER_AGENT = 'M2X-Python/{version} python/{python_version} ({platform})'\

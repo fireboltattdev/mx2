@@ -23,7 +23,7 @@ class TestAPIVersion2(BaseTestCase):
         assert response['triggers'] == 'OK'
 
     @BaseTestCase.request_case
-    def test_device(self, params, **kwargs):
+    def test_device(self, params=None, **kwargs):
         out = self.api.device(*params)
         assert out.id == 'device1'
         assert out.status == 'enabled'
@@ -40,7 +40,7 @@ class TestAPIVersion2(BaseTestCase):
         assert isinstance(out.updated, datetime.datetime)
 
     @BaseTestCase.request_case
-    def test_create_device(self, params, **kwargs):
+    def test_create_device(self, params=None, **kwargs):
         out = self.api.create_device(**params)
         assert out.id == 'device2'
         assert out.status == 'enabled'
@@ -73,7 +73,7 @@ class TestAPIVersion2(BaseTestCase):
         assert 'foo' in out
 
     @BaseTestCase.request_case
-    def test_distribution(self, params, **kwargs):
+    def test_distribution(self, params=None, **kwargs):
         out = self.api.distribution(*params)
         assert out.id == 'distribution1'
         assert out.url.endswith('distribution1')
@@ -83,7 +83,7 @@ class TestAPIVersion2(BaseTestCase):
         assert isinstance(out.updated, datetime.datetime)
 
     @BaseTestCase.request_case
-    def test_create_distribution(self, params, **kwargs):
+    def test_create_distribution(self, params=None, **kwargs):
         out = self.api.create_distribution(**params)
         assert out.id == 'distribution1'
         assert out.name == 'Distribution test'
@@ -102,7 +102,7 @@ class TestAPIVersion2(BaseTestCase):
         ]) == set([d.id for d in out])
 
     @BaseTestCase.request_case
-    def test_key(self, params, **kwargs):
+    def test_key(self, params=None, **kwargs):
         out = self.api.key(*params)
         assert out.name == 'Key1'
         assert out.key == 'foobar'
@@ -110,7 +110,7 @@ class TestAPIVersion2(BaseTestCase):
         assert out.master is True
 
     @BaseTestCase.request_case
-    def test_create_key(self, params, **kwargs):
+    def test_create_key(self, params=None, **kwargs):
         out = self.api.create_key(**params)
         assert out.name == 'Key2'
         assert out.key == 'abcdefg'

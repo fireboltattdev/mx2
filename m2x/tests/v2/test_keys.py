@@ -11,7 +11,7 @@ class TestKeys(BaseTestCase):
     def setup_class(self):
         data = self.DATA['keys']['key']
         httpretty.register_uri(
-            'GET',
+            httpretty.GET,
             data['url'],
             body=json.dumps(data['response']),
             content_type='application/json'

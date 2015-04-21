@@ -32,7 +32,7 @@ class BaseTestCase(object):
                 'DELETE': httpretty.DELETE
             }
             httpretty.register_uri(
-                methods[values.get('method') or 'GET'],
+                methods.get(values.get('method')) or httpretty.GET,
                 values['url'],
                 body=json.dumps(values['response']),
                 content_type='application/json',

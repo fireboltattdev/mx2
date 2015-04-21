@@ -12,7 +12,7 @@ class TestDevices(BaseTestCase):
     @httpretty.activate
     def setup_class(self):
         httpretty.register_uri(
-            'GET',
+            httpretty.GET,
             self.DATA['devices']['device']['url'],
             body=json.dumps(self.DATA['devices']['device']['response']),
             content_type='application/json'
@@ -32,13 +32,13 @@ class TestDevices(BaseTestCase):
         assert out[0].url.endswith('device1/streams/foobar')
 
     @BaseTestCase.request_case
-    def test_create_stream(self, params, **kwargs):
+    def test_create_stream(self, params=None, **kwargs):
         out = self.device.create_stream('stream1')
         assert out.name == 'stream1'
         assert out.url.endswith('device1/streams/stream1')
 
     @BaseTestCase.request_case
-    def test_update_stream(self, params, **kwargs):
+    def test_update_stream(self, params=None, **kwargs):
         out = self.device.update_stream('stream1', **params)
         assert out['unit']['label'] == 'Celsius'
         assert out['unit']['symbol'] == 'C'
@@ -54,7 +54,7 @@ class TestDevices(BaseTestCase):
         assert 'DELETE' in out[0].permissions
 
     @BaseTestCase.request_case
-    def test_create_key(self, params, **kwargs):
+    def test_create_key(self, params=None, **kwargs):
         out = self.device.create_key(**params)
         assert out.device_access == "public"
         assert out.device.endswith(self.device.id)
@@ -67,7 +67,7 @@ class TestDevices(BaseTestCase):
         assert out['longitude'] == '-56.1819'
 
     @BaseTestCase.request_case
-    def test_update_location(self, params, **kwargs):
+    def test_update_location(self, params=None, **kwargs):
         out = self.device.update_location(**params)
         assert out['status'] == 'accepted'
 
@@ -82,7 +82,7 @@ class TestDevices(BaseTestCase):
         assert len(out) == 1
 
     @BaseTestCase.request_case
-    def test_create_trigger(self, params, **kwargs):
+    def test_create_trigger(self, params=None, **kwargs):
         out = self.device.create_trigger(**params)
         assert out.name == 'trigger1'
         assert out.stream == 'stream1'
@@ -90,7 +90,7 @@ class TestDevices(BaseTestCase):
         assert out.callback_url == 'http://example.com/cb'
 
     @BaseTestCase.request_case
-    def test_post_updates(self, params, **kwargs):
+    def test_post_updates(self, params=None, **kwargs):
         out = self.device.post_updates(**params)
         assert out['status'] == 'accepted'
 
