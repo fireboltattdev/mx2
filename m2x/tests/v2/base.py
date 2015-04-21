@@ -13,6 +13,7 @@ DATA_FILE = os.path.join(
 
 
 class BaseTestCase(object):
+    TEST_KEY = 'foobar'
     DATA = json.loads(open(DATA_FILE, 'r').read())
 
     @classmethod
@@ -34,7 +35,8 @@ class BaseTestCase(object):
                 methods[values.get('method') or 'GET'],
                 values['url'],
                 body=json.dumps(values['response']),
-                content_type='application/json'
+                content_type='application/json',
+                status=values.get('status', 200)
             )
             func(self, **values)
         return wrapper

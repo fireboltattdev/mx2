@@ -9,8 +9,6 @@ from m2x.tests.v2.base import BaseTestCase
 
 
 class TestDevices(BaseTestCase):
-    TEST_KEY = 'foobar'
-
     @httpretty.activate
     def setup_class(self):
         httpretty.register_uri(
@@ -28,16 +26,16 @@ class TestDevices(BaseTestCase):
 
     @BaseTestCase.request_case
     def test_streams(self, **kwargs):
-        streams = self.device.streams()
-        assert len(streams) == 1
-        assert streams[0].name == 'foobar'
-        assert streams[0].url.endswith('device1/streams/foobar')
+        out = self.device.streams()
+        assert len(out) == 1
+        assert out[0].name == 'foobar'
+        assert out[0].url.endswith('device1/streams/foobar')
 
     @BaseTestCase.request_case
     def test_create_stream(self, params, **kwargs):
-        stream = self.device.create_stream('stream1')
-        assert stream.name == 'stream1'
-        assert stream.url.endswith('device1/streams/stream1')
+        out = self.device.create_stream('stream1')
+        assert out.name == 'stream1'
+        assert out.url.endswith('device1/streams/stream1')
 
     @BaseTestCase.request_case
     def test_update_stream(self, params, **kwargs):

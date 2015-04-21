@@ -11,7 +11,9 @@ class Trigger(Resource):
         super(Trigger, self).__init__(api, **data)
 
     def test(self):
-        return self.api.post(self.item_path() + '/test')
+        return self.api.post(
+            self.item_path(device_id=self.device.id, id=self.id) + '/test'
+        )
 
     @classmethod
     def list(cls, api, device, **params):

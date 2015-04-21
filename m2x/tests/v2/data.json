@@ -246,7 +246,7 @@
                     "registered": 1,
                     "total": 1
                 },
-                "key": "5ea097400140f22952139e1e9645be48",
+                "key": "key1",
                 "serial": null,
                 "id": "distribution1",
                 "name": "Distribution1"
@@ -649,6 +649,247 @@
                     "description": null
                 }]
             }
+        }
+    },
+
+    "distributions": {
+        "distribution": {
+            "url": "https://api-m2x.att.com/v2/distributions/distribution1",
+            "response": {
+                "status": "enabled",
+                "updated": "2014-09-25T03:30:36.629Z",
+                "description": "Distribution1",
+                "tags": [],
+                "url": "http://api-m2x.att.com/v2/distributions/distribution1",
+                "created": "2014-09-25T03:30:35.860Z",
+                "visibility": "public",
+                "devices": {
+                    "unregistered": 0,
+                    "registered": 1,
+                    "total": 1
+                },
+                "key": "key1",
+                "serial": null,
+                "id": "distribution1",
+                "name": "Distribution1"
+            }
+        },
+
+        "devices": {
+            "url": "https://api-m2x.att.com/v2/distributions/distribution1/devices",
+            "response": {
+                "total": 1,
+                "limit": 10,
+                "pages": 1,
+                "current_page": 1,
+                "devices": [{
+                    "created": "2014-09-25T03:30:48.597Z",
+                    "description": "Device1",
+                    "distribution": "http://api-m2x.att.com/v2/distributions/distribution1",
+                    "distribution_name": "Distribution1",
+                    "id": "device1",
+                    "last_activity": "2015-02-04T19:15:02.375Z",
+                    "location": {},
+                    "name": "Device1",
+                    "serial": null,
+                    "status": "enabled",
+                    "streams": {
+                        "count": 2,
+                        "url": "http://api-m2x.att.com/v2/devices/device1/streams"
+                    },
+                    "tags": null,
+                    "updated": "2015-02-03T02:23:42.005Z",
+                    "url": "http://api-m2x.att.com/v2/devices/device1",
+                    "visibility": "public"
+                }]
+            }
+        },
+
+        "add_device": {
+            "url": "https://api-m2x.att.com/v2/distributions/distribution1/devices",
+            "method": "POST",
+            "params": {
+                "serial": "serial1"
+            },
+            "response": {
+                "status": "enabled",
+                "triggers": {
+                    "count": 0,
+                    "url": "http://api-m2x.att.com/v2/devices/device3/triggers"
+                },
+                "updated": "2015-04-21T04:41:39.028Z",
+                "name": "device3",
+                "tags": [],
+                "url": "http://api-m2x.att.com/v2/devices/device3",
+                "created": "2015-04-21T04:41:39.028Z",
+                "distribution": "http://api-m2x.att.com/v2/distributions/distribution1",
+                "visibility": "public",
+                "distribution_name": "Device3",
+                "last_activity": "2015-04-21T04:41:39.028Z",
+                "streams": {
+                    "count": 0,
+                    "url": "http://api-m2x.att.com/v2/devices/device3/streams"
+                },
+                "location": {},
+                "key": "key1",
+                "serial": "serial1",
+                "id": "device3",
+                "description": "Device 3"
+            }
+        }
+    },
+
+    "keys": {
+        "key": {
+            "url": "https://api-m2x.att.com/v2/keys/key1",
+            "response": {
+                "origin": null,
+                "device_access": "private",
+                "name": "key1",
+                "stream": null,
+                "expires_at": null,
+                "master": true,
+                "key": "key1",
+                "expired": false,
+                "permissions": ["DELETE", "GET", "POST", "PUT"]
+            }
+        },
+
+        "regenerate": {
+            "url": "https://api-m2x.att.com/v2/keys/key1/regenerate",
+            "method": "POST",
+            "response": {
+                "origin": null,
+                "device_access": "public",
+                "name": "key1",
+                "stream": null,
+                "expires_at": null,
+                "master": true,
+                "key": "key1-regenerated",
+                "expired": false,
+                "permissions": ["GET", "POST", "PUT", "DELETE"]
+            }
+        }
+    },
+
+    "streams": {
+        "device": {
+            "url": "https://api-m2x.att.com/v2/devices/device1",
+            "params": ["device1"],
+            "response": {
+                "created": "2014-09-25T03:30:48.597Z",
+                "description": "Device1",
+                "distribution": "http://api-m2x.att.com/v2/distributions/distribution1",
+                "distribution_name": "Distribution1",
+                "id": "device1",
+                "last_activity": "2015-02-04T19:15:02.375Z",
+                "location": {},
+                "name": "Device1",
+                "serial": null,
+                "status": "enabled",
+                "streams": {
+                    "count": 2,
+                    "url": "http://api-m2x.att.com/v2/devices/device1/streams"
+                },
+                "tags": null,
+                "updated": "2015-02-03T02:23:42.005Z",
+                "url": "http://api-m2x.att.com/v2/devices/device1",
+                "visibility": "public"
+            }
+        },
+
+        "stream": {
+            "url": "https://api-m2x.att.com/v2/devices/device1/streams/stream1",
+            "response": {
+                "updated": "2015-04-21T03:21:30.012Z",
+                "display_name": null,
+                "name": "stream1",
+                "created": "2015-04-21T03:21:30.012Z",
+                "url": "http://api-m2x.att.com/v2/devices/device1/streams/stream1",
+                "value": 3,
+                "latest_value_at": "2015-04-21T03:36:42.347Z",
+                "type": "numeric",
+                "unit": {
+                    "symbol": null,
+                    "label": null
+                }
+            }
+        },
+
+        "values": {
+            "url": "https://api-m2x.att.com/v2/devices/device1/streams/stream1/values",
+            "response": {
+                "values": [{
+                    "timestamp": "2015-04-21T03:36:42.347Z",
+                    "value": 3.0
+                }],
+                "end": "2015-04-21T05:40:20.869Z",
+                "limit": 100
+            }
+        },
+
+        "sampling": {
+            "url": "https://api-m2x.att.com/v2/devices/device1/streams/stream1/sampling",
+            "params": {
+                "interval": 10
+            },
+            "response": {
+                "values": [{
+                    "timestamp": "2015-04-21T03:36:40.000Z",
+                    "value": 3.0
+                }],
+                "start": "2015-04-21T02:59:17.219Z",
+                "interval": 10,
+                "end": "2015-04-21T05:45:57.219Z"
+            }
+        },
+
+        "stats": {
+            "url": "https://api-m2x.att.com/v2/devices/device1/streams/stream1/stats",
+            "response": {
+                "stats": {
+                    "count": 1.0,
+                    "max": 3.0,
+                    "avg": 3.0,
+                    "stddev": 0.0,
+                    "min": 3.0
+                },
+                "end": "2015-04-21T05:47:52.144Z"
+            }
+        },
+
+        "add_value": {
+            "url": "https://api-m2x.att.com/v2/devices/device1/streams/stream1/value",
+            "method": "PUT",
+            "response": {
+                "status": "accepted"
+            }
+        },
+
+        "post_values": {
+            "url": "https://api-m2x.att.com/v2/devices/device1/streams/stream1/values",
+            "method": "POST",
+            "params": [{
+                "timestamp": "2015-04-21T05:52:57.349018Z",
+                "value": 1
+            }, {
+                "timestamp": "2015-04-21T05:52:57.349018Z",
+                "value": 2
+            }],
+            "response": {
+                "status": "accepted"
+            }
+        },
+
+        "delete_values": {
+            "url": "https://api-m2x.att.com/v2/devices/device1/streams/stream1/values",
+            "method": "DELETE",
+            "params": {
+                "start": "2015-04-21T06:36:42.347000Z",
+                "stop": "2015-04-21T08:52:57.349000Z"
+            },
+            "response": "",
+            "status": 204
         }
     }
 }
