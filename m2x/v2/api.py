@@ -43,6 +43,18 @@ class V2Mixin(object):
     def keys(self, **params):
         return Key.list(self, **params)
 
+    def time(self):
+        return self.get('/time')
+
+    def time_seconds(self):
+        return self.get('/time/seconds')
+
+    def time_millis(self):
+        return self.get('/time/millis')
+
+    def time_iso8601(self):
+        return self.get('/time/iso8601').content
+
 
 class APIVersion2(V2Mixin, HTTPAPIBase):
     pass

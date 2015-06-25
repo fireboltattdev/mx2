@@ -317,6 +317,24 @@ a validation error is returned by the service (response status code
 [<m2x.v2.devices.Device at 0x7f6791d60f90>, <m2x.v2.devices.Device at 0x7f6791d60410>]
 ```
 
+## Time
+
+For devices that do not have a Real Time Clock, M2X provides a set of endpoints
+that returns the server' times.
+
+```
+>>> client.time()
+{u'iso8601': u'2015-06-25T21:06:54.841Z',
+ u'millis': 1435266414841,
+ u'seconds': 1435266414}
+>>> client.time_seconds()
+1435266437
+>>> client.time_millis()
+1435266445736
+>>> client.time_iso8601()
+'2015-06-25T21:07:31.328Z'
+```
+
 ## Lets build a V2 RandomNumberGenerator Data Source
 
 Lets build a python random number generator data source using the API
