@@ -67,8 +67,9 @@ HTTPS_PROXY=https://proxyserver:ssl_port/
 ## Usage
 
 In order to communicate with the M2X API, you need an instance of
-[M2XClient](m2x/client.py). You need to pass your API key in the
-constructor to access your data.
+[M2XClient](m2x/client.py). You need to pass your Master API key in the
+constructor to access your data. Your Master API Key can be found in your
+account settings.
 
 ```python
 from m2x.client import M2XClient

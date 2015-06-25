@@ -1,7 +1,7 @@
 # AT&T's M2X Python Client - Usage
 
-To create a client instance only a single parameter, the API Key, is needed.
-Your API Keys can be found in your account settings. To create a client
+To create a client instance only a single parameter, the Master API Key, is
+needed. Your API Keys can be found in your account settings. To create a client
 instance just do:
 
 ```python
