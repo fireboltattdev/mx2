@@ -99,7 +99,7 @@ This `client` an interface to your data in M2X
 
 - [Charts](m2x/v2/charts.py)
   ```python
-  chart = client.chart('<CHART-TOKEN>')
+  chart = client.chart('<CHART-ID>')
   charts = client.charts()
   ```
 
