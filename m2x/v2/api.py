@@ -2,6 +2,7 @@ from m2x.api import HTTPAPIBase
 from m2x.v2.devices import Device
 from m2x.v2.distributions import Distribution
 from m2x.v2.keys import Key
+from m2x.v2.charts import Chart
 
 
 class V2Mixin(object):
@@ -54,6 +55,15 @@ class V2Mixin(object):
 
     def time_iso8601(self):
         return self.get('/time/iso8601').content
+
+    def chart(self, id):
+        return Chart.get(self, id)
+
+    def create_chart(self, **params):
+        return Chart.create(self, **params)
+
+    def charts(self, **params):
+        return Chart.list(self, **params)
 
 
 class APIVersion2(V2Mixin, HTTPAPIBase):
