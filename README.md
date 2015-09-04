@@ -97,6 +97,12 @@ This `client` an interface to your data in M2X
   keys = client.keys()
   ```
 
+- [Charts](m2x/v2/charts.py)
+  ```python
+  chart = client.chart('<CHART-TOKEN>')
+  charts = client.charts()
+  ```
+
 ## Example
 
 Here's an example of a simple application that will load the current time to
